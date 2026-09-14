@@ -1,0 +1,8 @@
+{
+  "name": "Amani Junior Academy and JSS",
+  "description": "Official school website and secure digital academic management platform for Amani Junior Academy and JSS in Mazeras, Kenya. Strive to Achieve.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
