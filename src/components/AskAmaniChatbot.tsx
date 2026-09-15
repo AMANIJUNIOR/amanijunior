@@ -96,7 +96,7 @@ export const AskAmaniChatbot: React.FC = () => {
       const fallbackMsg: ChatItem = {
         id: `bot-${Date.now()}`,
         sender: 'bot',
-        text: `I'm sorry, I don't have that information at the moment. Would you like to speak directly with the school? Director Constance Mwaka Pole is available at 0718540922, and Headteacher Nadhiri Chacha Salim at 0114623408.`,
+        text: `I'm sorry, I don't have that information at the moment. Would you like to speak directly with the school leadership? Deputy Headteacher Vitalice Odhiambo is available at 0746529712, Director Constance Mwaka Pole at 0718540922, and Headteacher Nadhiri Chacha Salim at 0114623408.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         canEscalate: true,
       };
@@ -179,15 +179,15 @@ export const AskAmaniChatbot: React.FC = () => {
 
           {/* Quick Leadership Alert Bar */}
           <div className="bg-amber-50 px-3 py-1.5 text-[11px] text-amber-900 border-b border-amber-200 flex items-center justify-between">
-            <span className="flex items-center gap-1 font-semibold">
-              <PhoneCall className="w-3.5 h-3.5 text-amber-700" />
-              <span>Director: 0718540922 | HT: 0114623408</span>
+            <span className="flex items-center gap-1 font-semibold truncate mr-2">
+              <PhoneCall className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+              <span className="truncate">Deputy: 0746529712 | Dir: 0718540922</span>
             </span>
             <button
-              onClick={() => openEscalationModal('Chatbot Inquiry')}
-              className="font-bold underline hover:text-amber-950 text-[10px]"
+              onClick={() => openEscalationModal('Chatbot Direct Call')}
+              className="font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-2 py-0.5 rounded text-[10px] shrink-0 transition"
             >
-              Request Call
+              Talk to Amani
             </button>
           </div>
 

@@ -193,6 +193,17 @@ export const Footer: React.FC = () => {
               <div className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
+                  <div className="font-bold text-white">Deputy Headteacher:</div>
+                  <div className="text-slate-200 font-semibold">Teacher Vitalice Odhiambo</div>
+                  <a href="tel:0746529712" className="text-amber-400 font-mono hover:underline">
+                    0746529712
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
                   <div className="font-bold text-white">Headteacher:</div>
                   <div className="text-slate-200 font-semibold">{settings.headteacherName}</div>
                   <a href={`tel:${settings.headteacherPhone}`} className="text-amber-400 font-mono hover:underline">

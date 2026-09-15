@@ -19,6 +19,8 @@ import {
   Phone,
   Mail,
   BookOpen,
+  Edit3,
+  Trash2,
 } from 'lucide-react';
 
 interface Props {
@@ -53,6 +55,19 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
   } | null>(null);
   const [copied, setCopied] = useState(false);
 
+  // Modal: Edit Teacher Credentials & Details
+  const [editingTeacher, setEditingTeacher] = useState<any | null>(null);
+  const [editFullName, setEditFullName] = useState('');
+  const [editUsername, setEditUsername] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editDepartment, setEditDepartment] = useState('');
+  const [editSubjectSpecialization, setEditSubjectSpecialization] = useState('');
+  const [editSelectedClasses, setEditSelectedClasses] = useState<string[]>([]);
+  const [editNewPassword, setEditNewPassword] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
+
   const fetchTeachers = async () => {
     setIsLoading(true);
     try {
@@ -68,6 +83,61 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
   useEffect(() => {
     fetchTeachers();
   }, []);
+
+  const handleOpenEditModal = (teacher: any) => {
+    setEditingTeacher(teacher);
+    setEditFullName(teacher.fullName || '');
+    setEditUsername(teacher.username || '');
+    setEditPhone(teacher.phone || '');
+    setEditEmail(teacher.email || '');
+    setEditDepartment(teacher.department || 'Junior Secondary School (JSS)');
+    setEditSubjectSpecialization(teacher.subjectSpecialization || 'Mathematics');
+    setEditSelectedClasses(teacher.assignedClasses || []);
+    setEditNewPassword('');
+    setEditError(null);
+  };
+
+  const handleUpdateTeacher = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingTeacher) return;
+
+    if (!editFullName.trim() || !editUsername.trim() || !editPhone.trim()) {
+      setEditError('Full name, username, and mobile phone are required.');
+      return;
+    }
+
+    setIsUpdating(true);
+    setEditError(null);
+
+    try {
+      await api.updateTeacherCredentials(editingTeacher.id, {
+        fullName: editFullName.trim(),
+        username: editUsername.trim(),
+        phone: editPhone.trim(),
+        email: editEmail.trim() || undefined,
+        department: editDepartment,
+        subjectSpecialization: editSubjectSpecialization,
+        assignedClasses: editSelectedClasses,
+        newPassword: editNewPassword.trim() ? editNewPassword.trim() : undefined,
+      });
+
+      setEditingTeacher(null);
+      await fetchTeachers();
+    } catch (err: any) {
+      setEditError(err.message || 'Failed to update teacher credentials.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteTeacher = async (teacher: any) => {
+    try {
+      await api.deleteAdminTeacher(teacher.id);
+      await fetchTeachers();
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
 
   const handleOpenCreateModal = () => {
     setFullName('');
@@ -130,25 +200,15 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
 
   const handleToggleStatus = async (teacher: any) => {
     const newStatus = teacher.accountStatus === 'ACTIVE' ? 'DISABLED' : 'ACTIVE';
-    const confirmAction = window.confirm(
-      `Are you sure you want to set ${teacher.fullName}'s account to ${newStatus}? Historical marks and audit trails will remain intact.`
-    );
-    if (!confirmAction) return;
-
     try {
       await api.updateTeacherStatus(teacher.id, newStatus);
       await fetchTeachers();
     } catch (err: any) {
-      alert(err.message || 'Failed to update account status.');
+      console.error(err);
     }
   };
 
   const handleResetPassword = async (teacher: any) => {
-    const confirmReset = window.confirm(
-      `Reset password for ${teacher.fullName}? A secure temporary password will be generated, and the teacher will be prompted to set a new password upon login.`
-    );
-    if (!confirmReset) return;
-
     try {
       const res = await api.resetTeacherPassword(teacher.id);
       await fetchTeachers();
@@ -161,7 +221,7 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
       });
       setCopied(false);
     } catch (err: any) {
-      alert(err.message || 'Failed to reset password.');
+      console.error(err);
     }
   };
 
@@ -308,6 +368,13 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-1">
                         <button
+                          onClick={() => handleOpenEditModal(teacher)}
+                          title="Edit Credentials & Assigned Cohorts"
+                          className="p-1.5 text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
                           onClick={() => handleResetPassword(teacher)}
                           title="Generate New Temporary Password"
                           className="p-1.5 text-slate-600 hover:text-amber-700 hover:bg-amber-50 rounded-lg transition"
@@ -328,6 +395,13 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
                           ) : (
                             <UserCheck className="w-4 h-4" />
                           )}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteTeacher(teacher)}
+                          title="Delete Faculty Account"
+                          className="p-1.5 text-slate-400 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition"
+                        >
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -581,6 +655,186 @@ export const TeacherManagementTab: React.FC<Props> = ({ classes, subjects }) => 
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Edit Teacher Details & Credentials */}
+      {editingTeacher && (
+        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <Edit3 className="w-5 h-5 text-blue-600" />
+                <h3 className="text-base font-bold text-[#0F1E36] font-['Cinzel',serif]">
+                  Edit Faculty Profile &amp; Credentials
+                </h3>
+              </div>
+              <button
+                onClick={() => setEditingTeacher(null)}
+                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {editError && (
+              <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl border border-red-200 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{editError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleUpdateTeacher} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Teacher Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editFullName}
+                    onChange={(e) => setEditFullName(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Staff Portal Username *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editUsername}
+                    onChange={(e) => setEditUsername(e.target.value.toLowerCase().replace(/\s+/g, ''))}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 font-mono text-slate-800"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Mobile Phone *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={editPhone}
+                    onChange={(e) => setEditPhone(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={editEmail}
+                    onChange={(e) => setEditEmail(e.target.value)}
+                    placeholder="Optional staff email"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Department
+                  </label>
+                  <select
+                    value={editDepartment}
+                    onChange={(e) => setEditDepartment(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl bg-white focus:outline-none focus:border-amber-500 text-slate-800"
+                  >
+                    <option value="Daycare & Playgroup">Daycare &amp; Playgroup</option>
+                    <option value="Early Years Education (PP1 - PP2)">Early Years (PP1 - PP2)</option>
+                    <option value="Lower Primary (Grade 1 - 3)">Lower Primary (Grade 1 - 3)</option>
+                    <option value="Upper Primary (Grade 4 - 6)">Upper Primary (Grade 4 - 6)</option>
+                    <option value="Junior Secondary School (JSS)">Junior Secondary School (JSS)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Subject Specialization
+                  </label>
+                  <input
+                    type="text"
+                    value={editSubjectSpecialization}
+                    onChange={(e) => setEditSubjectSpecialization(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Reset Password (Optional Override)
+                  </label>
+                  <input
+                    type="password"
+                    value={editNewPassword}
+                    onChange={(e) => setEditNewPassword(e.target.value)}
+                    placeholder="Leave blank to keep current password"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                  <span className="text-[10px] text-slate-500">
+                    If set, will immediately update the teacher's portal password.
+                  </span>
+                </div>
+              </div>
+
+              {/* Assigned Classes */}
+              <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                <label className="block text-xs font-bold text-slate-700">
+                  Assigned Classes / Cohorts
+                </label>
+                <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200">
+                  {classes.map((cls) => {
+                    const isSelected = editSelectedClasses.includes(cls.name);
+                    return (
+                      <button
+                        key={cls.id}
+                        type="button"
+                        onClick={() => {
+                          setEditSelectedClasses((prev) =>
+                            prev.includes(cls.name)
+                              ? prev.filter((c) => c !== cls.name)
+                              : [...prev, cls.name]
+                          );
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${
+                          isSelected
+                            ? 'bg-[#0F1E36] text-amber-300 font-bold shadow-sm'
+                            : 'bg-white text-slate-700 border border-slate-200 hover:border-amber-400'
+                        }`}
+                      >
+                        {cls.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="pt-3 flex justify-end gap-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setEditingTeacher(null)}
+                  className="px-4 py-2 border border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUpdating}
+                  className="px-5 py-2 bg-[#0F1E36] hover:bg-amber-600 disabled:opacity-50 text-white font-bold rounded-xl transition flex items-center gap-2 shadow-sm"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-amber-400" />
+                  <span>{isUpdating ? 'Saving Updates...' : 'Save Teacher Changes'}</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

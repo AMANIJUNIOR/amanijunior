@@ -66,7 +66,7 @@ interface AppContextType {
   // Authentication
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
-  logout: () => void;
+  logout: (redirectRoute?: AppRoute) => void;
 
   // Modals & Chatbot
   isChatbotOpen: boolean;
@@ -191,11 +191,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsMobileMenuOpen(false);
   };
 
-  const logout = () => {
+  const logout = (redirectRoute?: AppRoute) => {
     setCurrentUser(null);
-    localStorage.removeItem('amani_user');
-    localStorage.removeItem('amani_token');
-    navigate('home');
+    try {
+      localStorage.removeItem('amani_user');
+      localStorage.removeItem('amani_token');
+      sessionStorage.removeItem('amani_user');
+      sessionStorage.removeItem('amani_token');
+    } catch (e) {
+      console.warn('Storage cleanup notice on logout:', e);
+    }
+
+    if (redirectRoute) {
+      navigate(redirectRoute);
+    } else if (
+      currentRoute === 'admin-portal' ||
+      currentRoute === 'teacher-portal' ||
+      currentRoute === 'portal-login'
+    ) {
+      navigate('portal-login');
+    } else {
+      navigate('home');
+    }
   };
 
   const unreadNotifsCount = notifications.filter((n) => !n.isRead).length;

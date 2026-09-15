@@ -23,6 +23,20 @@ export const AdmissionsPage: React.FC = () => {
 
   const feeStructure = [
     {
+      level: 'Daycare (Tender Care - Below 3 Years)',
+      tuition: 'KES 7,000',
+      activity: 'KES 1,000',
+      lunch: 'KES 3,500 (Optional)',
+      total: 'KES 8,000',
+    },
+    {
+      level: 'Playgroup (Early Exploration - Above 3 Years)',
+      tuition: 'KES 7,500',
+      activity: 'KES 1,000',
+      lunch: 'KES 3,500 (Optional)',
+      total: 'KES 8,500',
+    },
+    {
       level: 'Early Years (PP1 & PP2)',
       tuition: 'KES 8,500',
       activity: 'KES 1,500',
@@ -184,9 +198,34 @@ export const AdmissionsPage: React.FC = () => {
         )}
 
         {activeTab === 'requirements' && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="bg-white p-6 rounded-2xl border-2 border-emerald-500 space-y-3 shadow-sm">
+              <div className="text-xs font-bold text-emerald-800 uppercase bg-emerald-100 px-2 py-1 rounded inline-block">
+                Daycare & Playgroup
+              </div>
+              <h4 className="text-base font-bold text-[#0F1E36]">Early Childhood Care</h4>
+              <ul className="text-xs text-slate-600 space-y-2">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Daycare:</strong> Welcoming children below 3 years of age in a safe, nurturing environment.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Playgroup:</strong> Tailored for children above 3 years of age for sensory play & socialization.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>Child Health & Immunization card photocopy.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>Parent/Guardian emergency contact & birth document.</span>
+                </li>
+              </ul>
+            </div>
+
             <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-3 shadow-sm">
-              <div className="text-xs font-bold text-emerald-700 uppercase bg-emerald-50 px-2 py-1 rounded inline-block">
+              <div className="text-xs font-bold text-teal-700 uppercase bg-teal-50 px-2 py-1 rounded inline-block">
                 Early Years (PP1 & PP2)
               </div>
               <h4 className="text-base font-bold text-[#0F1E36]">Foundational Entry</h4>

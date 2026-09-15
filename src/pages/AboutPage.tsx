@@ -45,7 +45,7 @@ export const AboutPage: React.FC = () => {
     {
       role: 'Deputy Headteacher / ICT Teacher',
       name: 'VITALICE ODHIAMBO',
-      phone: '0700000001',
+      phone: '0746529712',
       email: 'vitalice@amanijunioracademy.ac.ke',
       qualifications: 'B.Sc Computer Science & Education, Certified CBC Digital Educator',
       biography:

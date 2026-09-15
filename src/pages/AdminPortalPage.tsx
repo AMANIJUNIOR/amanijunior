@@ -20,6 +20,7 @@ import {
   Send,
   MessageSquare,
   Lock,
+  LogOut,
 } from 'lucide-react';
 
 // Admin Modular Tabs
@@ -31,7 +32,7 @@ import { SchoolSettingsTab } from '../components/admin/SchoolSettingsTab';
 import { AuditLogsTab } from '../components/admin/AuditLogsTab';
 
 export const AdminPortalPage: React.FC = () => {
-  const { currentUser, navigate, settings, setSettings, classes, subjects } = useApp();
+  const { currentUser, navigate, settings, setSettings, classes, subjects, logout } = useApp();
   const [activeTab, setActiveTab] = useState<
     'students' | 'teachers' | 'results' | 'reports' | 'settings' | 'enquiries' | 'audit'
   >('students');
@@ -123,11 +124,20 @@ export const AdminPortalPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 relative z-10 shrink-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 relative z-10 shrink-0">
           <div className="text-right hidden sm:block text-xs text-slate-300">
             <div>Director: Constance Mwaka Pole</div>
             <div>Headteacher: Nadhiri Chacha Salim</div>
           </div>
+          <button
+            id="btn-admin-portal-logout"
+            onClick={() => logout('portal-login')}
+            className="flex items-center gap-2 px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-sm transition border border-rose-400/30 active:scale-95 cursor-pointer"
+            title="Sign out of Chief Admin Portal"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Log Out</span>
+          </button>
           <SchoolLogoBadge size="md" className="bg-white/10 p-1 rounded-2xl" />
         </div>
       </div>

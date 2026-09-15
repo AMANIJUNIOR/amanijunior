@@ -201,6 +201,8 @@ export const AdmissionModal: React.FC = () => {
                     onChange={(e) => setTargetGrade(e.target.value)}
                     className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-amber-500 text-slate-800 bg-white"
                   >
+                    <option value="Daycare (Children below 3 years)">Daycare (Below 3 Years)</option>
+                    <option value="Playgroup (Children above 3 years)">Playgroup (Above 3 Years)</option>
                     <option value="Pre-Primary 1 (PP1)">Pre-Primary 1 (PP1)</option>
                     <option value="Pre-Primary 2 (PP2)">Pre-Primary 2 (PP2)</option>
                     <option value="Grade 1 Primary">Grade 1 Primary</option>

@@ -382,7 +382,50 @@ export const HomePage: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Level 0: Daycare & Playgroup */}
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:border-amber-500 transition group flex flex-col">
+            <div className="h-36 overflow-hidden relative">
+              <img
+                src="/images/preschool_early_years_1789375141935.jpg"
+                alt="Daycare and Playgroup at Amani"
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+              />
+              <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-teal-700 text-white px-2.5 py-0.5 rounded shadow">
+                Infants & Toddlers
+              </span>
+            </div>
+            <div className="bg-teal-800 text-white p-4 text-center space-y-0.5">
+              <h3 className="text-base font-bold font-['Cinzel',serif]">Daycare & Playgroup</h3>
+              <p className="text-xs text-teal-100">Daycare (&lt;3 Yrs) • Playgroup (&gt;3 Yrs)</p>
+            </div>
+            <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Tender nurturing care for infants and toddlers below 3 years in Daycare, and cheerful social play & cognitive foundation for children above 3 in Playgroup.
+              </p>
+              <ul className="space-y-1.5 text-xs text-slate-700">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>Gentle daycare for under 3 years</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>Sensory playgroup for 3+ years</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>Secure, hygienic resting suites</span>
+                </li>
+              </ul>
+              <button
+                onClick={() => openAdmissionModal('Daycare (Below 3 years)')}
+                className="w-full py-2 bg-teal-50 hover:bg-teal-100 text-teal-900 font-bold text-xs rounded-lg transition mt-2"
+              >
+                Enquire Daycare &amp; Playgroup
+              </button>
+            </div>
+          </div>
+
           {/* Level 1 */}
           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:border-amber-500 transition group flex flex-col">
             <div className="h-36 overflow-hidden relative">
@@ -838,6 +881,10 @@ export const HomePage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-emerald-600" />
                   <span>Headteacher: {settings.headteacherPhone}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-emerald-600" />
+                  <span>Deputy Headteacher: {settings.deputyHeadteacherPhone || '0746529712'}</span>
                 </div>
               </div>
             </div>

@@ -8,6 +8,8 @@
     "directorPhone": "0718540922",
     "headteacherName": "NADHIRI CHACHA SALIM",
     "headteacherPhone": "0114623408",
+    "deputyHeadteacherName": "VITALICE ODHIAMBO",
+    "deputyHeadteacherPhone": "0746529712",
     "ictTeacherName": "VITALICE ODHIAMBO",
     "email": "info@amanijunioracademy.ac.ke",
     "officeHours": "Monday – Friday: 7:00 AM – 5:00 PM | Saturday: 8:00 AM – 1:00 PM",
@@ -24,7 +26,8 @@
       "active": true,
       "notifyPhoneNumbers": [
         "0718540922",
-        "0114623408"
+        "0114623408",
+        "0746529712"
       ]
     },
     "preferredLoginMethod": "USERNAME",
@@ -102,7 +105,7 @@
       "role": "CHIEF_ADMIN",
       "title": "Deputy Headteacher / ICT / Chief Admin",
       "email": "vitalice@amanijunioracademy.ac.ke",
-      "phone": "0700000001",
+      "phone": "0746529712",
       "username": "vitalice",
       "staffId": "AMANI-ICT-003",
       "department": "STEM, Information & Communications Technology",
@@ -202,6 +205,179 @@
         "sub-math",
         "sub-re"
       ]
+    },
+    {
+      "id": "usr-tch-raheli",
+      "name": "Madam Raheli Wali",
+      "role": "TEACHER",
+      "title": "Teacher - Playgroup & Daycare",
+      "email": "raheli.wali@amanijunioracademy.ac.ke",
+      "phone": "0711000001",
+      "username": "raheli.wali",
+      "staffId": "AMANI-TCH-001",
+      "department": "Early Childhood Development (ECDE)",
+      "subjectSpecialization": "Playgroup & Daycare Early Activities",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T08:00:00Z",
+      "assignedClassIds": [
+        "cls-playgroup",
+        "cls-daycare"
+      ]
+    },
+    {
+      "id": "usr-tch-tatu",
+      "name": "Madam Tatu",
+      "role": "TEACHER",
+      "title": "Teacher - Playgroup",
+      "email": "madam.tatu@amanijunioracademy.ac.ke",
+      "phone": "0711000002",
+      "username": "madam.tatu",
+      "staffId": "AMANI-TCH-002",
+      "department": "Early Childhood Development (ECDE)",
+      "subjectSpecialization": "Playgroup Activities & Psychomotor Development",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T08:30:00Z",
+      "assignedClassIds": [
+        "cls-playgroup"
+      ]
+    },
+    {
+      "id": "usr-tch-periz",
+      "name": "Madam Periz Inyangala",
+      "role": "TEACHER",
+      "title": "Teacher - PP1 (Pre-Primary 1)",
+      "email": "periz.inyangala@amanijunioracademy.ac.ke",
+      "phone": "0711000003",
+      "username": "periz.inyangala",
+      "staffId": "AMANI-TCH-003",
+      "department": "Pre-Primary Education",
+      "subjectSpecialization": "PP1 Language & Mathematical Activities",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T09:00:00Z",
+      "assignedClassIds": [
+        "cls-pp-1"
+      ]
+    },
+    {
+      "id": "usr-tch-halima",
+      "name": "Madam Halima",
+      "role": "TEACHER",
+      "title": "Teacher - Grade 1",
+      "email": "halima@amanijunioracademy.ac.ke",
+      "phone": "0711000007",
+      "username": "teacher.halima",
+      "staffId": "AMANI-TCH-007",
+      "department": "Lower Primary",
+      "subjectSpecialization": "Grade 1 Kiswahili & Environmental Activities",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T11:00:00Z",
+      "assignedClassIds": [
+        "cls-pri-1"
+      ]
+    },
+    {
+      "id": "usr-tch-elias",
+      "name": "Mr. Elias",
+      "role": "TEACHER",
+      "title": "Teacher - Grade 2",
+      "email": "elias@amanijunioracademy.ac.ke",
+      "phone": "0711000008",
+      "username": "teacher.elias",
+      "staffId": "AMANI-TCH-008",
+      "department": "Lower Primary",
+      "subjectSpecialization": "Grade 2 Mathematics & Science Activities",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T11:30:00Z",
+      "assignedClassIds": [
+        "cls-pri-2"
+      ]
+    },
+    {
+      "id": "usr-tch-jessicah",
+      "name": "Madam Jessicah Chizi",
+      "role": "TEACHER",
+      "title": "Teacher - Grade 3",
+      "email": "jessicah.chizi@amanijunioracademy.ac.ke",
+      "phone": "0711000009",
+      "username": "jessicah.chizi",
+      "staffId": "AMANI-TCH-009",
+      "department": "Lower Primary",
+      "subjectSpecialization": "Grade 3 Languages & Creative Arts",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T12:00:00Z",
+      "assignedClassIds": [
+        "cls-pri-3"
+      ]
+    },
+    {
+      "id": "usr-tch-nancy",
+      "name": "Madam Nancy",
+      "role": "TEACHER",
+      "title": "Teacher - Grade 4",
+      "email": "nancy@amanijunioracademy.ac.ke",
+      "phone": "0711000010",
+      "username": "teacher.nancy",
+      "staffId": "AMANI-TCH-010",
+      "department": "Upper Primary",
+      "subjectSpecialization": "Grade 4 Social Studies, CRE & Agriculture",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T12:30:00Z",
+      "assignedClassIds": [
+        "cls-pri-4"
+      ]
+    },
+    {
+      "id": "usr-tch-josephat",
+      "name": "Mr. Josephat Kobe",
+      "role": "TEACHER",
+      "title": "Teacher - Grade 5",
+      "email": "josephat.kobe@amanijunioracademy.ac.ke",
+      "phone": "0711000011",
+      "username": "josephat.kobe",
+      "staffId": "AMANI-TCH-011",
+      "department": "Upper Primary",
+      "subjectSpecialization": "Grade 5 Mathematics & Integrated Science",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T13:00:00Z",
+      "assignedClassIds": [
+        "cls-pri-5"
+      ]
+    },
+    {
+      "id": "usr-tch-rhoda",
+      "name": "Madam Rhoda Sikuku",
+      "role": "TEACHER",
+      "title": "Teacher - Grade 7 (Junior Secondary)",
+      "email": "rhoda.sikuku@amanijunioracademy.ac.ke",
+      "phone": "0711000013",
+      "username": "rhoda.sikuku",
+      "staffId": "AMANI-TCH-012",
+      "department": "Junior Secondary School (JSS)",
+      "subjectSpecialization": "Junior Secondary English, Literature & Humanities",
+      "isActive": true,
+      "mustChangePassword": true,
+      "requiresSecuritySetup": true,
+      "createdAt": "2026-01-06T13:30:00Z",
+      "assignedClassIds": [
+        "cls-jss-7a",
+        "cls-jss-7b"
+      ]
     }
   ],
   "credentials": {
@@ -216,6 +392,54 @@
     "usr-ict-1": {
       "hash": "87412c625863a195c54e81536b8a8d6bb7f9e73fb525ecf21cc2dd1b99427b461e05bc310999cb43a4a7f7e79e855aa2eb2d2902a85600d55c9bc5171d74d3d2",
       "salt": "aa19effa884c7482e3db39316adc9d6b"
+    },
+    "usr-tch-raheli": {
+      "hash": "850264dc91e7989ad326b228f21f3354c7c0ecb8a44996c3f9edf0acd373fa41d6aa74138b701f094baf00b84867872a30c56e90f3780364bdf231ddd57a4673",
+      "salt": "47f0203d6a0e9515ada3b54857a71313"
+    },
+    "usr-tch-tatu": {
+      "hash": "923ba19aa57542a428973d07632006b084e2868e7d12728628bc3896412f5de0c0d08f6c19d2537efa79a06d999bba4182a7c15d6b6682b3f3f9249136394ff4",
+      "salt": "49dee9bd39088af5deebe9f7e1cb2001"
+    },
+    "usr-tch-periz": {
+      "hash": "3f708307fc0b253c8b7b04f9325971d2c0c993958b16de9fb8ad4a0b78313bd7e304fd61dbc09c93437183ed48f7e32a8ca4b5321399bd8f60cdf555b4bb85b8",
+      "salt": "784b0ff743108ba0bb7ec9c39b91c249"
+    },
+    "usr-tch-gladys": {
+      "hash": "015cb0c1066db9b62c1277f975e69e41202471a0381a2487e5318dd58346f94b60f2d52ffe714e3ce3ee1c599fb80d4ceafe3c16d9c074bb881a17697c04c717",
+      "salt": "aac4b53275970e368a359601430847d7"
+    },
+    "usr-tch-emily": {
+      "hash": "e7558a1d60f00e827535dae7a4be9ab26a3d99abd322622280f0e8bcb36703060d19265852089e468b10dda82d1c3a850e9fc8a3f98c9e8c6832bf02a61d8eaa",
+      "salt": "e5c7f2b416824b1f4aafd53a528f4a1f"
+    },
+    "usr-tch-florence": {
+      "hash": "0d46dc2fba2b581c6f300594f97684794bed0546fc220c61faf06a85ffc7ba1d3632d6bc1a3a7223a4067c919a4da0e8133d63ae036a54aca2c24e6e6dfc1777",
+      "salt": "2e27ae320d41b8bb0231c5600e37ca7c"
+    },
+    "usr-tch-halima": {
+      "hash": "bef7b0c255566134c99ce6ba2e33f47f26ce79052481bacbc2208c6b942701901a958439a09b680c148cbe1241b3c6fdada08117350a8d2e85b33c2022f6714e",
+      "salt": "d23755816b6575f69d6332e014160c49"
+    },
+    "usr-tch-elias": {
+      "hash": "206dfae0df4f5da745381480d3773ee0ea5b74bf3a6dca24670c074dae436e678f53850cbcdaa11cba5066b22567c600ca739e0bea2b7dcfd223dd6aa021c44d",
+      "salt": "664f6ae84b95226760f0b041d280c26a"
+    },
+    "usr-tch-jessicah": {
+      "hash": "28ba5c39a37c1b11cf225ecdd97d8643b379876faae2169f05f4fe7ad286851be786401e4429b8f38748da74657329adb8f362816192e30a9006a2fce87f27c9",
+      "salt": "7e0f86c4d5b3f2a45286c78a14e4adee"
+    },
+    "usr-tch-nancy": {
+      "hash": "9b1c5c10606d3433b2ee8bda88f3997a28d26df7d4b7a37926f410b919fbb56ca7e157f9be7ccb83c43eb6448892c2ae35cb9314203a704645a74952d1c8dd7a",
+      "salt": "6cc2b8f46a021493813a4d336acb918d"
+    },
+    "usr-tch-josephat": {
+      "hash": "f0f8fad0a734961b60274033a9ac1f982c4689519a2a6489bf796a9fea5fc636b1f7b8def36bece9900828de8d49188e329488b24b89d33fb7136765265e8f1b",
+      "salt": "f0fd3cb3b6bb14b05682e7d162a7501f"
+    },
+    "usr-tch-rhoda": {
+      "hash": "76a505205f136e2618b2e11c494d91cf4a07d92a784f192fe85288d9df445028477aa7e9cb045741824eab879317cb693b65333810f1dd5200e8c6505c3771dd",
+      "salt": "99f8eaa5807646bae1d0c3ab47a76775"
     },
     "usr-tch-1": {
       "hash": "fb788a1a8d0bd4653d636d7eb1b53649c75fdaa74aecc61710d3977e2f70af54748f7714186344e94d428df08d6738dab7c63357f9c566682c6cd4f86b75cda3",
@@ -290,7 +514,7 @@
       "position": "Deputy Headteacher / ICT / Chief Admin",
       "department": "STEM, Information & Communications Technology",
       "email": "vitalice@amanijunioracademy.ac.ke",
-      "phone": "0700000001",
+      "phone": "0746529712",
       "qualifications": "B.Sc Computer Science & Education, Certified CBC Digital Educator",
       "specialization": "Computer Studies, Pre-Technical Studies & Digital Systems",
       "additionalSpecializations": [
@@ -383,6 +607,233 @@
       "assignedSubjects": [
         "Mathematics",
         "Christian Religious Education (CRE)"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-raheli",
+      "userId": "usr-tch-raheli",
+      "fullName": "Madam Raheli Wali",
+      "staffId": "AMANI-TCH-001",
+      "position": "Teacher - Playgroup & Daycare",
+      "department": "Early Childhood Development (ECDE)",
+      "email": "raheli.wali@amanijunioracademy.ac.ke",
+      "phone": "0711000001",
+      "qualifications": "Cert. Early Childhood Development Education (ECDE)",
+      "specialization": "Daycare & Playgroup Nurturing, Socialization & Sensory Play",
+      "additionalSpecializations": [
+        "Early Child Health",
+        "Creative Movement"
+      ],
+      "biography": "Madam Raheli Wali provides compassionate, specialized early childhood care and stimulating playgroup learning for toddlers and young learners embarking on their educational journey.",
+      "assignedClasses": [
+        "Playgroup (Budding Stars)",
+        "Daycare (Tender Hearts)"
+      ],
+      "assignedSubjects": [
+        "Creative Activities",
+        "Language & Social Skills"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-tatu",
+      "userId": "usr-tch-tatu",
+      "fullName": "Madam Tatu",
+      "staffId": "AMANI-TCH-002",
+      "position": "Teacher - Playgroup",
+      "department": "Early Childhood Development (ECDE)",
+      "email": "madam.tatu@amanijunioracademy.ac.ke",
+      "phone": "0711000002",
+      "qualifications": "Dip. ECDE & Child Psychology",
+      "specialization": "Playgroup Activities, Fine Motor Skills & Pre-Literacy",
+      "additionalSpecializations": [
+        "Puppetry & Storytelling",
+        "Music & Rhymes"
+      ],
+      "biography": "Madam Tatu guides playgroup children through engaging sensory exploration, phonics games, and social play, fostering joy and curiosity in early learning.",
+      "assignedClasses": [
+        "Playgroup (Budding Stars)"
+      ],
+      "assignedSubjects": [
+        "Psychomotor Activities",
+        "Sensory Play & Songs"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-periz",
+      "userId": "usr-tch-periz",
+      "fullName": "Madam Periz Inyangala",
+      "staffId": "AMANI-TCH-003",
+      "position": "Teacher - PP1 (Pre-Primary 1)",
+      "department": "Pre-Primary Education",
+      "email": "periz.inyangala@amanijunioracademy.ac.ke",
+      "phone": "0711000003",
+      "qualifications": "Dip. Early Childhood Education (KICD CBC Certified)",
+      "specialization": "PP1 Language Activities & Pre-Mathematical Concepts",
+      "additionalSpecializations": [
+        "Child Counseling",
+        "Art Therapy"
+      ],
+      "biography": "Madam Periz Inyangala fosters foundational reading, numeracy, and cooperative learning among PP1 pupils through hands-on learning corners.",
+      "assignedClasses": [
+        "Pre-Primary 1 (PP1)"
+      ],
+      "assignedSubjects": [
+        "Language Activities",
+        "Mathematical Activities"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-halima",
+      "userId": "usr-tch-halima",
+      "fullName": "Madam Halima",
+      "staffId": "AMANI-TCH-007",
+      "position": "Teacher - Grade 1",
+      "department": "Lower Primary",
+      "email": "halima@amanijunioracademy.ac.ke",
+      "phone": "0711000007",
+      "qualifications": "Dip. Primary Education (Languages & Humanities)",
+      "specialization": "Grade 1 Kiswahili Activities & Environmental Studies",
+      "additionalSpecializations": [
+        "Cultural Heritage Club",
+        "Traditional Storytelling"
+      ],
+      "biography": "Madam Halima brings Kiswahili language and environmental awareness to life with interactive cultural activities and nature walks.",
+      "assignedClasses": [
+        "Grade 1 Explorers"
+      ],
+      "assignedSubjects": [
+        "Kiswahili Activities",
+        "Environmental Studies"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-elias",
+      "userId": "usr-tch-elias",
+      "fullName": "Mr. Elias",
+      "staffId": "AMANI-TCH-008",
+      "position": "Teacher - Grade 2",
+      "department": "Lower Primary",
+      "email": "elias@amanijunioracademy.ac.ke",
+      "phone": "0711000008",
+      "qualifications": "B.Ed (Primary Education), Certified CBC Instructor",
+      "specialization": "Grade 2 Mathematics Activities & Science Concepts",
+      "additionalSpecializations": [
+        "Mental Math Club",
+        "Junior Scouts Patron"
+      ],
+      "biography": "Mr. Elias fosters mathematical problem-solving, teamwork, and scientific inquisitiveness among Grade 2 Achievers.",
+      "assignedClasses": [
+        "Grade 2 Achievers"
+      ],
+      "assignedSubjects": [
+        "Mathematics Activities",
+        "Science & Hygiene"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-jessicah",
+      "userId": "usr-tch-jessicah",
+      "fullName": "Madam Jessicah Chizi",
+      "staffId": "AMANI-TCH-009",
+      "position": "Teacher - Grade 3",
+      "department": "Lower Primary",
+      "email": "jessicah.chizi@amanijunioracademy.ac.ke",
+      "phone": "0711000009",
+      "qualifications": "Dip. Education (English & Creative Arts)",
+      "specialization": "Grade 3 English, Creative Arts & Music",
+      "additionalSpecializations": [
+        "Choir Director",
+        "Drama & Elocution"
+      ],
+      "biography": "Madam Jessicah Chizi mentors Grade 3 Pioneers in expressive communication, vocal music, drama, and CBC formative assessment projects.",
+      "assignedClasses": [
+        "Grade 3 Pioneers"
+      ],
+      "assignedSubjects": [
+        "English Language Activities",
+        "Creative Arts & Music"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-nancy",
+      "userId": "usr-tch-nancy",
+      "fullName": "Madam Nancy",
+      "staffId": "AMANI-TCH-010",
+      "position": "Teacher - Grade 4",
+      "department": "Upper Primary",
+      "email": "nancy@amanijunioracademy.ac.ke",
+      "phone": "0711000010",
+      "qualifications": "B.Ed (Arts - Social Studies & CRE)",
+      "specialization": "Grade 4 Social Studies, Christian Religious Education & Agriculture",
+      "additionalSpecializations": [
+        "4-K Club Coordinator",
+        "Environmental Conservation"
+      ],
+      "biography": "Madam Nancy guides Grade 4 Champions through moral leadership, civic responsibility, and hands-on agricultural projects.",
+      "assignedClasses": [
+        "Grade 4 Champions"
+      ],
+      "assignedSubjects": [
+        "Social Studies & CRE",
+        "Agriculture & Nutrition"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-josephat",
+      "userId": "usr-tch-josephat",
+      "fullName": "Mr. Josephat Kobe",
+      "staffId": "AMANI-TCH-011",
+      "position": "Teacher - Grade 5",
+      "department": "Upper Primary",
+      "email": "josephat.kobe@amanijunioracademy.ac.ke",
+      "phone": "0711000011",
+      "qualifications": "B.Ed Science (Mathematics & Physical Education)",
+      "specialization": "Grade 5 Mathematics & Physical Health Education",
+      "additionalSpecializations": [
+        "Football Coach",
+        "Track & Field Master"
+      ],
+      "biography": "Mr. Josephat Kobe champions analytical mathematical rigor and vibrant athletic discipline among Grade 5 Victors.",
+      "assignedClasses": [
+        "Grade 5 Victors"
+      ],
+      "assignedSubjects": [
+        "Mathematics",
+        "Physical & Health Education"
+      ],
+      "accountStatus": "ACTIVE"
+    },
+    {
+      "id": "tch-rhoda",
+      "userId": "usr-tch-rhoda",
+      "fullName": "Madam Rhoda Sikuku",
+      "staffId": "AMANI-TCH-012",
+      "position": "Teacher - Grade 7 (Junior Secondary)",
+      "department": "Junior Secondary School (JSS)",
+      "email": "rhoda.sikuku@amanijunioracademy.ac.ke",
+      "phone": "0711000013",
+      "qualifications": "B.Ed (Arts - English Literature & Social Sciences), First Class Honours",
+      "specialization": "Grade 7 Junior Secondary English, Literature & Humanities",
+      "additionalSpecializations": [
+        "Debate & Model UN Patron",
+        "JSS Academic Counseling"
+      ],
+      "biography": "Madam Rhoda Sikuku leads Junior Secondary Grade 7 learners in critical literary analysis, debate, and CBC national competency assessment preparation.",
+      "assignedClasses": [
+        "Grade 7A (JSS)",
+        "Grade 7B (JSS)"
+      ],
+      "assignedSubjects": [
+        "English Language",
+        "Social Studies & Life Skills"
       ],
       "accountStatus": "ACTIVE"
     }
@@ -483,6 +934,22 @@
       "capacity": 40,
       "enrolledCount": 34,
       "classTeacherName": "Mr. Peter Juma Mwangi"
+    },
+    {
+      "id": "cls-daycare",
+      "name": "Daycare (Tender Hearts - Below 3 Years)",
+      "level": "Pre-Primary",
+      "capacity": 25,
+      "enrolledCount": 18,
+      "classTeacherName": "Madam Raheli Wali"
+    },
+    {
+      "id": "cls-playgroup",
+      "name": "Playgroup (Budding Stars - Above 3 Years)",
+      "level": "Pre-Primary",
+      "capacity": 30,
+      "enrolledCount": 24,
+      "classTeacherName": "Madam Tatu & Madam Raheli Wali"
     }
   ],
   "subjects": [
@@ -1015,9 +1482,28 @@
       "status": "DELIVERED",
       "sentAt": "2026-09-09T15:41:00Z",
       "provider": "AfricasTalking Kenya Gateway"
+    },
+    {
+      "id": "sms-otp-1789460444331",
+      "recipientPhone": "0746529712",
+      "recipientName": "Vitalice Odhiambo",
+      "message": "Your Amani Junior Academy password reset code is: 944493. Valid for 15 minutes. Never disclose this code to anyone.",
+      "purpose": "OTP",
+      "status": "DELIVERED",
+      "sentAt": "2026-09-15T08:20:44.331Z",
+      "provider": "AfricasTalking Simulator"
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1789460444332-948",
+      "userId": "usr-sys",
+      "userName": "Vitalice Odhiambo",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Password Reset OTP Requested",
+      "details": "OTP requested for vitalice. Reset code sent to 0746529712.",
+      "timestamp": "2026-09-15T08:20:44.332Z"
+    },
     {
       "id": "log-1789373804394-27",
       "userId": "usr-sys",
@@ -1057,7 +1543,7 @@
   ],
   "analytics": {
     "totalVisitors": 1420,
-    "totalPageViews": 4126,
+    "totalPageViews": 4130,
     "totalChatbotQueries": 280,
     "pageViewsByPath": {
       "/": 1650,

@@ -12,6 +12,7 @@ import {
   BookOpen,
   UserCheck,
   Lock,
+  LogOut,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -85,6 +86,10 @@ export const Navbar: React.FC = () => {
             <span className="flex items-center gap-1.5 text-slate-300">
               <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span>Headteacher: <strong className="text-white">0114623408</strong></span>
+            </span>
+            <span className="flex items-center gap-1.5 text-slate-300">
+              <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>Deputy: <strong className="text-white">0746529712</strong></span>
             </span>
           </div>
 
@@ -186,11 +191,13 @@ export const Navbar: React.FC = () => {
                   <span className="max-w-[110px] truncate">{currentUser.name.split(' ')[0]}</span>
                 </button>
                 <button
-                  onClick={logout}
+                  id="btn-nav-logout"
+                  onClick={() => logout()}
                   title="Sign out of Management Portal"
-                  className="p-1.5 text-slate-400 hover:text-red-600 rounded-md transition"
+                  className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-rose-600 hover:text-white hover:bg-rose-600 rounded-md border border-rose-200 transition font-bold cursor-pointer"
                 >
-                  <LogIn className="w-4 h-4 rotate-180" />
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden xl:inline">Log Out</span>
                 </button>
               </div>
             ) : (
@@ -244,26 +251,38 @@ export const Navbar: React.FC = () => {
             </div>
 
             <div className="pt-3 border-t border-slate-100 space-y-2">
-              <button
-                onClick={handleStaffPortalClick}
-                className="w-full p-2.5 bg-slate-900 text-white rounded-lg text-xs font-bold text-left flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-amber-400" />
-                  <span>{currentUser ? `Portal (${currentUser.name})` : 'Staff Management Portal (Staff Only)'}</span>
-                </div>
-                {currentUser && (
+              {currentUser ? (
+                <div className="space-y-2">
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      logout();
-                    }}
-                    className="text-xs text-red-400 hover:text-red-300 font-normal underline"
+                    onClick={handleStaffPortalClick}
+                    className="w-full p-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold text-left flex items-center justify-between transition"
                   >
-                    Logout
+                    <div className="flex items-center gap-2">
+                      <Lock className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span className="truncate">Staff Console ({currentUser.name})</span>
+                    </div>
+                    <span className="text-[10px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-extrabold uppercase shrink-0">
+                      {currentUser.role === 'TEACHER' ? 'Teacher' : 'Admin'}
+                    </span>
                   </button>
-                )}
-              </button>
+                  <button
+                    id="btn-mobile-nav-logout"
+                    onClick={() => logout()}
+                    className="w-full py-2 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer"
+                  >
+                    <LogOut className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Sign Out of Staff Account</span>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleStaffPortalClick}
+                  className="w-full p-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold text-left flex items-center gap-2 transition"
+                >
+                  <Lock className="w-4 h-4 text-amber-400" />
+                  <span>Staff Management Portal (Faculty Only)</span>
+                </button>
+              )}
 
               <div className="pt-2 flex gap-2">
                 <button
@@ -285,6 +304,7 @@ export const Navbar: React.FC = () => {
               <div className="pt-3 mt-3 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
                 <div>Director: Constance Mwaka Pole (0718540922)</div>
                 <div>Headteacher: Nadhiri Chacha Salim (0114623408)</div>
+                <div>Deputy Headteacher: Vitalice Odhiambo (0746529712)</div>
                 <div>Location: P.O. Box 93-80114, Mazeras, Kenya</div>
               </div>
             </div>

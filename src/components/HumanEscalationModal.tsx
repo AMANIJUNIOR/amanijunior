@@ -112,7 +112,8 @@ export const HumanEscalationModal: React.FC = () => {
               </h4>
               <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
                 Thank you, <strong>{fullName}</strong>. An instant SMS alert has been dispatched to School Director{' '}
-                <strong>{settings.directorName}</strong> ({settings.directorPhone}) and Headteacher{' '}
+                <strong>{settings.directorName}</strong> ({settings.directorPhone}), Deputy Headteacher{' '}
+                <strong>Teacher Vitalice Odhiambo</strong> (0746529712), and Headteacher{' '}
                 <strong>{settings.headteacherName}</strong> ({settings.headteacherPhone}).
               </p>
               <div className="inline-block px-4 py-2 bg-amber-50 border border-amber-300 rounded-lg text-xs font-mono font-bold text-amber-900">
@@ -129,11 +130,30 @@ export const HumanEscalationModal: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                <div>
-                  <strong>Official Handoff Channel:</strong> Your request directly alerts Director Constance Mwaka
-                  Pole (0718540922) and Headteacher Nadhiri Chacha Salim (0114623408) for prompt telephone contact.
+              <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-900 space-y-1.5">
+                <div className="flex items-start gap-2">
+                  <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                  <div>
+                    <strong>Official Handoff Channel:</strong> Alerts Director Constance Mwaka Pole (0718540922), Headteacher Nadhiri Chacha Salim (0114623408), and Deputy Headteacher Vitalice Odhiambo (0746529712).
+                  </div>
+                </div>
+                {/* Instant Call Badges */}
+                <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-amber-200/60">
+                  <span className="text-[10px] font-bold text-amber-800 uppercase tracking-wider">Direct Call:</span>
+                  <a
+                    href="tel:0746529712"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-mono font-bold text-[11px] shadow-sm transition"
+                  >
+                    <PhoneCall className="w-3 h-3" />
+                    <span>Deputy Vitalice: 0746529712</span>
+                  </a>
+                  <a
+                    href="tel:0718540922"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#0F1E36] hover:bg-slate-800 text-amber-400 rounded font-mono font-bold text-[11px] shadow-sm transition"
+                  >
+                    <PhoneCall className="w-3 h-3" />
+                    <span>Director: 0718540922</span>
+                  </a>
                 </div>
               </div>
 
@@ -224,6 +244,8 @@ export const HumanEscalationModal: React.FC = () => {
                     onChange={(e) => setStudentGradeInterest(e.target.value)}
                     className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-amber-500 text-slate-800 bg-white"
                   >
+                    <option value="Daycare (Below 3 years)">Daycare (Below 3 Years)</option>
+                    <option value="Playgroup (Above 3 years)">Playgroup (Above 3 Years)</option>
                     <option value="Pre-Primary (PP1/PP2)">Pre-Primary (PP1 / PP2)</option>
                     <option value="Primary (Grade 1-3)">Lower Primary (Grade 1 - 3)</option>
                     <option value="Primary (Grade 4-6)">Upper Primary (Grade 4 - 6)</option>

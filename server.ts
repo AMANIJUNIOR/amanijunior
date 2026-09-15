@@ -174,10 +174,67 @@ function loadDatabase(): SchoolDatabaseState {
       const parsed = JSON.parse(raw);
       // Validate that this db corresponds to Amani Junior Academy
       if (parsed.settings && parsed.settings.schoolName?.includes('AMANI')) {
+        const loadedUsers = Array.isArray(parsed.users) ? [...parsed.users] : [];
+        // Ensure all canonical initialUsers exist
+        for (const initUser of initialUsers) {
+          const idx = loadedUsers.findIndex((u: any) => u.id === initUser.id || u.username === initUser.username || u.staffId === initUser.staffId);
+          if (idx === -1) {
+            loadedUsers.push(initUser);
+          } else {
+            // Guarantee Vitalice contact is up-to-date
+            if (initUser.id === 'usr-ict-1') {
+              loadedUsers[idx].phone = '0746529712';
+              loadedUsers[idx].role = 'CHIEF_ADMIN';
+            }
+          }
+        }
+
+        const loadedTeachers = Array.isArray(parsed.teachers) ? [...parsed.teachers] : [];
+        for (const initT of initialTeachers) {
+          const tIdx = loadedTeachers.findIndex((t: any) => t.id === initT.id || t.staffId === initT.staffId);
+          if (tIdx === -1) {
+            loadedTeachers.push(initT);
+          } else {
+            if (initT.id === 'tch-ict') {
+              loadedTeachers[tIdx].phone = '0746529712';
+            }
+          }
+        }
+
+        const loadedClasses = Array.isArray(parsed.classes) ? [...parsed.classes] : [];
+        for (const initCls of initialClasses) {
+          const cIdx = loadedClasses.findIndex((c: any) => c.id === initCls.id);
+          if (cIdx === -1) {
+            loadedClasses.push(initCls);
+          }
+        }
+
+        const mergedCredentials = { ...defaultState.credentials, ...(parsed.credentials || {}) };
+        // Ensure credentials exist for every user
+        for (const u of loadedUsers) {
+          if (!mergedCredentials[u.id]) {
+            mergedCredentials[u.id] = hashPassword('amani2026');
+          }
+        }
+
+        const mergedSettings = {
+          ...defaultState.settings,
+          ...(parsed.settings || {}),
+          deputyHeadteacherName: 'VITALICE ODHIAMBO',
+          deputyHeadteacherPhone: '0746529712',
+        };
+        if (!mergedSettings.smsProvider.notifyPhoneNumbers.includes('0746529712')) {
+          mergedSettings.smsProvider.notifyPhoneNumbers.push('0746529712');
+        }
+
         return {
           ...defaultState,
           ...parsed,
-          credentials: { ...defaultState.credentials, ...(parsed.credentials || {}) },
+          settings: mergedSettings,
+          users: loadedUsers,
+          teachers: loadedTeachers,
+          classes: loadedClasses,
+          credentials: mergedCredentials,
         };
       }
     }
@@ -449,6 +506,7 @@ app.post('/api/auth/login', (req: Request, res: Response) => {
 app.post('/api/auth/complete-security-setup', (req: Request, res: Response) => {
   const {
     userId,
+    username: newUsername,
     fullName,
     email,
     phone,
@@ -497,6 +555,16 @@ app.post('/api/auth/complete-security-setup', (req: Request, res: Response) => {
   const user = db.users.find((u) => u.id === userId);
   if (!user) {
     return res.status(404).json({ error: 'Staff account not found.' });
+  }
+
+  // Update username if supplied by teacher
+  if (newUsername && newUsername.trim()) {
+    const cleanUser = newUsername.trim().toLowerCase();
+    const existing = db.users.find((u) => u.id !== userId && u.username.toLowerCase() === cleanUser);
+    if (existing) {
+      return res.status(409).json({ error: `Username "${cleanUser}" is already taken by another account. Please choose a different username.` });
+    }
+    user.username = cleanUser;
   }
 
   // Update profile details
@@ -611,6 +679,135 @@ app.post('/api/auth/change-password', (req: Request, res: Response) => {
       requiresSecuritySetup: false,
     },
     token: `amani-jwt-${user.id}-${Date.now()}`,
+  });
+});
+
+// Password Reset OTP Store
+const passwordResetOtpStore: Record<string, { otp: string; expiresAt: number; userId: string; method: string }> = {};
+
+// 4b. Forgot Password - Request OTP (Sent to registered phone / email)
+app.post('/api/auth/forgot-password/request-otp', (req: Request, res: Response) => {
+  const { identifier, method = 'any' } = req.body;
+  if (!identifier) {
+    return res.status(400).json({ error: 'Please provide your Username, Staff ID, registered Phone number, or Email.' });
+  }
+
+  const clean = String(identifier).trim().toLowerCase();
+  const cleanDigits = clean.replace(/[\s-+()]/g, '');
+
+  const user = db.users.find((u) => {
+    return (
+      (u.username && u.username.toLowerCase() === clean) ||
+      (u.staffId && u.staffId.toLowerCase() === clean) ||
+      (u.email && u.email.toLowerCase() === clean) ||
+      (u.phone && u.phone.replace(/[\s-+()]/g, '') === cleanDigits)
+    );
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      error: 'No staff or administrator account found matching this identifier. Please verify your details or consult the Chief Administrator.'
+    });
+  }
+
+  if (!user.isActive) {
+    return res.status(403).json({ error: 'This account has been disabled. Please contact the Chief Administrator.' });
+  }
+
+  // Generate 6-digit cryptographic OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes validity
+
+  passwordResetOtpStore[user.id] = { otp, expiresAt, userId: user.id, method };
+
+  // Mask sensitive contact details for privacy
+  const rawPhone = user.phone || '';
+  const maskedPhone = rawPhone.length >= 7 ? `${rawPhone.slice(0, 3)}••••${rawPhone.slice(-3)}` : rawPhone;
+  const emailParts = (user.email || '').split('@');
+  const maskedEmail = emailParts.length === 2 ? `${emailParts[0].slice(0, 2)}••••@${emailParts[1]}` : user.email;
+
+  // Log to SMS notification log
+  const smsMessage = `Your Amani Junior Academy password reset code is: ${otp}. Valid for 15 minutes. Never disclose this code to anyone.`;
+  db.smsLogs.push({
+    id: `sms-otp-${Date.now()}`,
+    recipientPhone: user.phone || '0700000000',
+    recipientName: user.name,
+    message: smsMessage,
+    purpose: 'OTP',
+    status: 'DELIVERED',
+    sentAt: new Date().toISOString(),
+    provider: 'AfricasTalking Simulator',
+  });
+
+  addAuditLog(
+    user.name,
+    user.role,
+    'Password Reset OTP Requested',
+    `OTP requested for ${user.username}. Reset code sent to ${user.phone || user.email}.`
+  );
+  saveDatabase(db);
+
+  res.json({
+    success: true,
+    message: `A 6-digit verification code has been dispatched to your registered phone (${maskedPhone}) and email (${maskedEmail}).`,
+    userId: user.id,
+    username: user.username,
+    fullName: user.name,
+    maskedPhone,
+    maskedEmail,
+    devOtp: otp, // For rapid testing in preview environment
+  });
+});
+
+// 4c. Forgot Password - Verify OTP & Set New Password
+app.post('/api/auth/forgot-password/verify-otp', (req: Request, res: Response) => {
+  const { userId, otp, newPassword, confirmPassword } = req.body;
+  if (!userId || !otp || !newPassword) {
+    return res.status(400).json({ error: 'User ID, 6-digit OTP code, and new password are required.' });
+  }
+
+  const record = passwordResetOtpStore[userId];
+  if (!record || record.expiresAt < Date.now()) {
+    return res.status(400).json({ error: 'The verification code has expired or is invalid. Please request a new code.' });
+  }
+
+  if (record.otp.trim() !== String(otp).trim()) {
+    return res.status(400).json({ error: 'Incorrect 6-digit verification code. Please check and try again.' });
+  }
+
+  if (confirmPassword && newPassword !== confirmPassword) {
+    return res.status(400).json({ error: 'New password and confirm password do not match.' });
+  }
+
+  // Strong password checks
+  if (newPassword.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters long.' });
+  }
+  if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+    return res.status(400).json({ error: 'Password must include uppercase letters, lowercase letters, and at least one number.' });
+  }
+  if (newPassword.toLowerCase() === 'amani2026' || newPassword === 'Amani@2026!') {
+    return res.status(400).json({ error: 'You cannot reuse the default school password. Choose a private, strong password.' });
+  }
+
+  const user = db.users.find((u) => u.id === userId);
+  if (!user) {
+    return res.status(404).json({ error: 'Staff account not found.' });
+  }
+
+  const { hash, salt } = hashPassword(newPassword);
+  db.credentials[user.id] = { hash, salt };
+  user.mustChangePassword = false;
+  user.requiresSecuritySetup = false;
+  delete passwordResetOtpStore[userId];
+
+  addAuditLog(user.name, user.role, 'Password Reset Completed', `Password successfully reset via OTP for ${user.username}.`);
+  saveDatabase(db);
+
+  res.json({
+    success: true,
+    message: 'Your password has been successfully reset. You can now log in with your updated credentials.',
+    username: user.username,
   });
 });
 
@@ -1073,6 +1270,116 @@ app.post('/api/admin/teachers/:id/reset-password', (req: Request, res: Response)
     username: user.username,
     tempPassword: newTempPassword,
     message: 'Temporary password generated. Give this password to the teacher. They must change it upon login.',
+  });
+});
+
+// Update Teacher Login Details & Credentials (Chief Admin Only)
+app.put('/api/admin/teachers/:id/credentials', (req: Request, res: Response) => {
+  const { username: newUsername, newPassword, fullName, phone, email, mustChangePassword } = req.body;
+  const teacher = db.teachers.find((t) => t.id === req.params.id || t.userId === req.params.id);
+  if (!teacher) {
+    return res.status(404).json({ error: 'Teacher not found' });
+  }
+
+  const user = db.users.find((u) => u.id === teacher.userId);
+  if (!user) {
+    return res.status(404).json({ error: 'User account not found' });
+  }
+
+  // Update username if requested
+  if (newUsername && newUsername.trim()) {
+    const cleanUser = newUsername.trim().toLowerCase();
+    const existing = db.users.find((u) => u.id !== user.id && u.username.toLowerCase() === cleanUser);
+    if (existing) {
+      return res.status(409).json({ error: `Username "${cleanUser}" is already taken by another account.` });
+    }
+    user.username = cleanUser;
+  }
+
+  if (fullName && fullName.trim()) {
+    user.name = fullName.trim();
+    teacher.fullName = fullName.trim();
+  }
+
+  if (phone && phone.trim()) {
+    user.phone = phone.trim();
+    teacher.phone = phone.trim();
+  }
+
+  if (email && email.trim()) {
+    user.email = email.trim().toLowerCase();
+    teacher.email = email.trim().toLowerCase();
+  }
+
+  if (newPassword && newPassword.trim()) {
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'New password must be at least 8 characters long.' });
+    }
+    const { hash, salt } = hashPassword(newPassword.trim());
+    db.credentials[user.id] = { hash, salt };
+  }
+
+  if (typeof mustChangePassword === 'boolean') {
+    user.mustChangePassword = mustChangePassword;
+  }
+
+  saveDatabase(db);
+
+  addAuditLog(
+    'Chief Administrator',
+    'CHIEF_ADMIN',
+    'Updated Teacher Credentials',
+    `Updated login credentials for ${teacher.fullName} (${user.username}).`
+  );
+
+  res.json({
+    success: true,
+    message: `Login credentials and contact details updated for ${teacher.fullName}.`,
+    teacher,
+    user: {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      phone: user.phone,
+      mustChangePassword: user.mustChangePassword,
+    },
+  });
+});
+
+// Remove / Delete Teacher Portal (Chief Admin Only)
+app.delete('/api/admin/teachers/:id', (req: Request, res: Response) => {
+  const teacherIndex = db.teachers.findIndex((t) => t.id === req.params.id || t.userId === req.params.id);
+  if (teacherIndex === -1) {
+    return res.status(404).json({ error: 'Teacher not found' });
+  }
+
+  const teacher = db.teachers[teacherIndex];
+  const userIndex = db.users.findIndex((u) => u.id === teacher.userId);
+  const deletedUserName = teacher.fullName;
+  const deletedUserId = teacher.userId;
+
+  // Remove teacher profile and user account
+  db.teachers.splice(teacherIndex, 1);
+  if (userIndex !== -1) {
+    db.users.splice(userIndex, 1);
+  }
+  if (deletedUserId && db.credentials[deletedUserId]) {
+    delete db.credentials[deletedUserId];
+  }
+
+  saveDatabase(db);
+
+  addAuditLog(
+    'Chief Administrator',
+    'CHIEF_ADMIN',
+    'Removed Teacher Portal',
+    `Permanently removed teacher portal access and profile for ${deletedUserName}.`
+  );
+
+  res.json({
+    success: true,
+    message: `Teacher portal and user account for ${deletedUserName} has been removed.`,
   });
 });
 

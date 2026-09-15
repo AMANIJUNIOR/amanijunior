@@ -141,13 +141,11 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
   };
 
   const handleDeleteStudent = async (student: Student) => {
-    if (window.confirm(`Are you sure you want to remove ${student.fullName} (${student.studentId}) from the central database? This will also remove any linked marks and attendance.`)) {
-      try {
-        await api.deleteStudent(student.id);
-        fetchStudents();
-      } catch (err: any) {
-        alert(err.message || 'Failed to remove student record.');
-      }
+    try {
+      await api.deleteStudent(student.id);
+      fetchStudents();
+    } catch (err: any) {
+      console.error(err);
     }
   };
 

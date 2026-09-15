@@ -457,6 +457,8 @@ export interface SchoolSettings {
   directorPhone: string;
   headteacherName: string;
   headteacherPhone: string;
+  deputyHeadteacherName?: string;
+  deputyHeadteacherPhone?: string;
   ictTeacherName: string;
   email: string;
   officeHours: string;

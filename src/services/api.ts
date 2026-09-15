@@ -86,6 +86,28 @@ export const api = {
     return data;
   },
 
+  async forgotPasswordRequestOtp(payload: { identifier: string; method?: string }) {
+    const res = await fetch('/api/auth/forgot-password/request-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to request reset OTP');
+    return data;
+  },
+
+  async forgotPasswordVerifyOtp(payload: { userId: string; otp: string; newPassword: string; confirmPassword?: string }) {
+    const res = await fetch('/api/auth/forgot-password/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to verify OTP and reset password');
+    return data;
+  },
+
   async changePassword(payload: { userId: string; newPassword: string; confirmPassword?: string }) {
     const res = await fetch('/api/auth/change-password', {
       method: 'POST',
@@ -99,6 +121,7 @@ export const api = {
 
   async completeSecuritySetup(payload: {
     userId: string;
+    username?: string;
     fullName: string;
     email: string;
     phone: string;
@@ -242,6 +265,37 @@ export const api = {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to reset teacher password');
+    return data;
+  },
+
+  async updateTeacherCredentials(id: string, payload: {
+    username?: string;
+    newPassword?: string;
+    fullName?: string;
+    phone?: string;
+    email?: string;
+    department?: string;
+    subjectSpecialization?: string;
+    assignedClasses?: string[];
+    assignedSubjects?: string[];
+    mustChangePassword?: boolean;
+  }) {
+    const res = await fetch(`/api/admin/teachers/${id}/credentials`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to update teacher credentials');
+    return data;
+  },
+
+  async deleteAdminTeacher(id: string) {
+    const res = await fetch(`/api/admin/teachers/${id}`, {
+      method: 'DELETE',
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to remove teacher portal');
     return data;
   },
 

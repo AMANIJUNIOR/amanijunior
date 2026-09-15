@@ -10,6 +10,7 @@ import {
   GraduationCap,
   Users,
   LogIn,
+  LogOut,
   Shield,
   Layers,
 } from 'lucide-react';
@@ -20,7 +21,7 @@ import { TeacherAssignmentsTab } from '../components/teacher/TeacherAssignmentsT
 import { TeacherStudentRegistrationTab } from '../components/teacher/TeacherStudentRegistrationTab';
 
 export const TeacherPortalPage: React.FC = () => {
-  const { currentUser, navigate, settings, classes, subjects } = useApp();
+  const { currentUser, navigate, settings, classes, subjects, logout } = useApp();
   const [activeTab, setActiveTab] = useState<'learners' | 'marks' | 'attendance' | 'assignments'>('learners');
 
   if (!currentUser) {
@@ -80,7 +81,16 @@ export const TeacherPortalPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 relative z-10 shrink-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 relative z-10 shrink-0">
+          <button
+            id="btn-teacher-portal-logout"
+            onClick={() => logout('portal-login')}
+            className="flex items-center gap-2 px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-sm transition border border-rose-400/30 active:scale-95 cursor-pointer"
+            title="Sign out of Teacher Portal"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Log Out</span>
+          </button>
           <SchoolLogoBadge size="md" className="bg-white/10 p-1 rounded-2xl" />
         </div>
       </div>

@@ -4,7 +4,6 @@ import { api } from '../services/api';
 import { SchoolLogoBadge } from '../components/SchoolLogoBadge';
 import {
   LogIn,
-  Shield,
   Key,
   User as UserIcon,
   AlertCircle,
@@ -16,15 +15,15 @@ import {
   Phone,
   HelpCircle,
   Check,
-  ChevronDown,
-  ChevronUp,
-  Info,
   KeyRound,
   ShieldCheck,
+  LogOut,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 
 export const PortalLoginPage: React.FC = () => {
-  const { setCurrentUser, navigate, settings } = useApp();
+  const { currentUser, setCurrentUser, navigate, settings, logout } = useApp();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +31,7 @@ export const PortalLoginPage: React.FC = () => {
 
   // Mandatory First-Login Security Setup State
   const [pendingResetUser, setPendingResetUser] = useState<any | null>(null);
+  const [newUsername, setNewUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -43,9 +43,20 @@ export const PortalLoginPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resetSuccessMessage, setResetSuccessMessage] = useState<string | null>(null);
   const [isResetting, setIsResetting] = useState(false);
-  const [showCredentialsGuide, setShowCredentialsGuide] = useState(true);
 
-  // Password rules validation
+  // Forgot Password Reset Flow State
+  const [isForgotPasswordMode, setIsForgotPasswordMode] = useState(false);
+  const [forgotIdentifier, setForgotIdentifier] = useState('');
+  const [forgotOtpStep, setForgotOtpStep] = useState(false);
+  const [forgotUserId, setForgotUserId] = useState('');
+  const [forgotOtpCode, setForgotOtpCode] = useState('');
+  const [forgotDevOtp, setForgotDevOtp] = useState<string | null>(null);
+  const [forgotDispatchedTo, setForgotDispatchedTo] = useState<string | null>(null);
+  const [forgotNewPassword, setForgotNewPassword] = useState('');
+  const [forgotConfirmPassword, setForgotConfirmPassword] = useState('');
+  const [isForgotLoading, setIsForgotLoading] = useState(false);
+
+  // Password rules validation for First-Login Setup
   const hasMinLength = newPassword.length >= 8;
   const hasUppercase = /[A-Z]/.test(newPassword);
   const hasLowercase = /[a-z]/.test(newPassword);
@@ -75,6 +86,21 @@ export const PortalLoginPage: React.FC = () => {
     isNotDefault &&
     passwordsMatch;
 
+  // Forgot Password Validation
+  const forgotHasMinLength = forgotNewPassword.length >= 8;
+  const forgotHasUppercase = /[A-Z]/.test(forgotNewPassword);
+  const forgotHasLowercase = /[a-z]/.test(forgotNewPassword);
+  const forgotHasNumber = /[0-9]/.test(forgotNewPassword);
+  const forgotHasSymbol = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(forgotNewPassword);
+  const forgotPasswordsMatch = forgotNewPassword && forgotConfirmPassword && forgotNewPassword === forgotConfirmPassword;
+  const isForgotStrong =
+    forgotHasMinLength &&
+    forgotHasUppercase &&
+    forgotHasLowercase &&
+    forgotHasNumber &&
+    forgotHasSymbol &&
+    forgotPasswordsMatch;
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!identifier.trim() || !password) {
@@ -91,6 +117,7 @@ export const PortalLoginPage: React.FC = () => {
       // Check if mandatory first-login profile & security setup is required
       if (res.mustChangePassword || res.requiresSecuritySetup) {
         setPendingResetUser(res.user);
+        setNewUsername(res.user.username || '');
         setFullName(res.user.name || '');
         setEmail(res.user.email || '');
         setPhone(res.user.phone || '');
@@ -124,6 +151,11 @@ export const PortalLoginPage: React.FC = () => {
   const handleSecuritySetupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!newUsername.trim() || newUsername.trim().length < 3) {
+      setError('Please choose a valid unique portal username (at least 3 characters).');
+      return;
+    }
+
     if (!fullName.trim()) {
       setError('Please verify your official full name.');
       return;
@@ -150,6 +182,7 @@ export const PortalLoginPage: React.FC = () => {
     try {
       const res = await api.completeSecuritySetup({
         userId: pendingResetUser.id,
+        username: newUsername.trim(),
         fullName: fullName.trim(),
         email: email.trim(),
         phone: phone.trim(),
@@ -169,7 +202,9 @@ export const PortalLoginPage: React.FC = () => {
         if (
           res.user.role === 'CHIEF_ADMIN' ||
           res.user.role === 'DIRECTOR' ||
-          res.user.role === 'HEADTEACHER'
+          res.user.role === 'HEADTEACHER' ||
+          res.user.role === 'DEPUTY_HEADTEACHER' ||
+          res.user.role === 'ICT_ADMIN'
         ) {
           navigate('admin-portal');
         } else {
@@ -183,15 +218,74 @@ export const PortalLoginPage: React.FC = () => {
     }
   };
 
-  const handleSelectStaff = (userIdent: string) => {
-    setIdentifier(userIdent);
-    setPassword('Amani@2026!');
+  // Forgot Password Handler: Request OTP
+  const handleRequestForgotOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!forgotIdentifier.trim()) {
+      setError('Please enter your Staff ID, Username, Email, or Phone Number.');
+      return;
+    }
+
+    setIsForgotLoading(true);
     setError(null);
+
+    try {
+      const res = await api.forgotPasswordRequestOtp({ identifier: forgotIdentifier.trim() });
+      setForgotUserId(res.userId);
+      setForgotDevOtp(res.devOtp || null);
+      setForgotDispatchedTo(res.dispatchedTo || null);
+      setForgotOtpStep(true);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message || 'Failed to request reset OTP. Check your identifier.');
+    } finally {
+      setIsForgotLoading(false);
+    }
+  };
+
+  // Forgot Password Handler: Verify OTP & Reset
+  const handleVerifyForgotOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!forgotOtpCode.trim()) {
+      setError('Please enter the 6-digit verification code.');
+      return;
+    }
+
+    if (!isForgotStrong) {
+      setError('Please ensure your new password satisfies all strength requirements.');
+      return;
+    }
+
+    setIsForgotLoading(true);
+    setError(null);
+
+    try {
+      const res = await api.forgotPasswordVerifyOtp({
+        userId: forgotUserId,
+        otp: forgotOtpCode.trim(),
+        newPassword: forgotNewPassword,
+        confirmPassword: forgotConfirmPassword,
+      });
+
+      setResetSuccessMessage(res.message || 'Password successfully updated! You can now log in.');
+      setIdentifier(res.username || forgotIdentifier);
+      setPassword('');
+      setIsForgotPasswordMode(false);
+      setForgotOtpStep(false);
+      setForgotOtpCode('');
+      setForgotNewPassword('');
+      setForgotConfirmPassword('');
+      setForgotDevOtp(null);
+    } catch (err: any) {
+      setError(err.message || 'Verification failed. Please check the code.');
+    } finally {
+      setIsForgotLoading(false);
+    }
   };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 bg-slate-100">
-      <div className="w-full max-w-xl space-y-6">
+      <div className="w-full max-w-2xl space-y-6">
         {/* School Header Badge */}
         <div className="text-center space-y-3">
           <SchoolLogoBadge size="lg" className="justify-center" />
@@ -213,10 +307,65 @@ export const PortalLoginPage: React.FC = () => {
               Institutional Security & Access Firewall Active
             </div>
             <p className="text-amber-800 text-[11px]">
-              Access is strictly restricted to authenticated Teachers and Chief Administrators. Public user registrations are permanently disabled to safeguard learner CBC academic records, national assessment marks, and parent contacts.
+              Access is restricted to authenticated Teachers and Chief Administrators. Public registrations are permanently disabled to safeguard learner CBC academic records and assessment marks.
             </p>
           </div>
         </div>
+
+        {/* Active Logged-In User Banner with Logout Option */}
+        {currentUser && !pendingResetUser && (
+          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 shadow-sm space-y-4 text-emerald-950">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#0F1E36] text-amber-400 flex items-center justify-center font-bold text-sm shrink-0 border border-amber-400/30">
+                {currentUser.name.charAt(0)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-800">
+                  Currently Signed In
+                </div>
+                <div className="text-sm font-extrabold text-slate-900 truncate">
+                  {currentUser.name}
+                </div>
+                <div className="text-xs text-slate-600">
+                  {currentUser.role === 'TEACHER' ? 'Faculty Instructor' : 'Chief Administrator'} • ID: {currentUser.staffId || currentUser.username}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 pt-1">
+              <button
+                onClick={() => {
+                  if (
+                    currentUser.role === 'CHIEF_ADMIN' ||
+                    currentUser.role === 'DIRECTOR' ||
+                    currentUser.role === 'HEADTEACHER' ||
+                    currentUser.role === 'DEPUTY_HEADTEACHER' ||
+                    currentUser.role === 'ICT_ADMIN'
+                  ) {
+                    navigate('admin-portal');
+                  } else {
+                    navigate('teacher-portal');
+                  }
+                }}
+                className="flex-1 py-2.5 px-4 bg-[#0F1E36] hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm"
+              >
+                <span>Go to Staff Console</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                id="btn-login-page-logout"
+                onClick={() => {
+                  setError(null);
+                  setResetSuccessMessage('You have logged out successfully.');
+                  logout();
+                }}
+                className="py-2.5 px-4 bg-white hover:bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <LogOut className="w-4 h-4 text-rose-600" />
+                <span>Log Out</span>
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
           {error && (
@@ -233,27 +382,44 @@ export const PortalLoginPage: React.FC = () => {
             </div>
           )}
 
-          {/* Conditional Screen: First-Login Security Setup vs. Regular Staff Login */}
+          {/* SCREEN 1: Mandatory First-Login Security & Username Setup */}
           {pendingResetUser ? (
             <form onSubmit={handleSecuritySetupSubmit} className="space-y-5">
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl text-xs text-blue-950 space-y-2">
                 <div className="font-bold flex items-center gap-2 text-blue-900 text-sm">
                   <ShieldCheck className="w-4 h-4 text-blue-700" />
-                  <span>Mandatory Account Security Setup</span>
+                  <span>Mandatory First-Time Security & Profile Update</span>
                 </div>
                 <p className="text-[11px] leading-relaxed text-blue-800">
-                  Welcome, <strong>{pendingResetUser.name}</strong> ({pendingResetUser.role}). Because you authenticated using default institutional onboarding credentials, school security protocol requires you to update your direct contact details and create a strong personal password before access is granted.
+                  Welcome, <strong>{pendingResetUser.name}</strong> ({pendingResetUser.role}). Because you authenticated using default initial credentials, school security protocol requires you to update your <strong>username</strong>, <strong>personal contacts</strong>, and <strong>create a strong personal password</strong> before access is granted.
                 </p>
               </div>
 
-              {/* Step 1: Profile & Contact Details */}
+              {/* Step 1: Choose Username & Profile */}
               <div className="space-y-3 pt-1">
                 <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
                   <UserIcon className="w-3.5 h-3.5 text-amber-600" />
-                  <span>1. Verify Your Staff Profile & Contact Information</span>
+                  <span>1. Update Your Unique Username & Contact Details</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Choose Your Preferred Portal Username *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={newUsername}
+                      onChange={(e) => setNewUsername(e.target.value.toLowerCase().replace(/\s+/g, ''))}
+                      placeholder="e.g. raheli.wali, vitalice, or m.tatu"
+                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800 font-mono"
+                    />
+                    <span className="text-[10px] text-slate-500">
+                      This will be your permanent login username across all staff sessions.
+                    </span>
+                  </div>
+
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Official Full Name *
@@ -263,7 +429,7 @@ export const PortalLoginPage: React.FC = () => {
                       required
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="e.g. Constance Mwaka Pole"
+                      placeholder="e.g. Madam Raheli Wali"
                       className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
                     />
                   </div>
@@ -297,11 +463,11 @@ export const PortalLoginPage: React.FC = () => {
                         required
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="e.g. 0718540922"
+                        placeholder="e.g. 0746529712"
                         className="w-full pl-8 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
                       />
                     </div>
-                    <span className="text-[10px] text-slate-500">For SMS recovery & two-step login</span>
+                    <span className="text-[10px] text-slate-500">For SMS OTP recovery & urgent alerts</span>
                   </div>
                 </div>
               </div>
@@ -404,7 +570,6 @@ export const PortalLoginPage: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Progress Bar */}
                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                     <div
                       className={`h-full transition-all duration-300 ${
@@ -452,7 +617,7 @@ export const PortalLoginPage: React.FC = () => {
                   onClick={() => setPendingResetUser(null)}
                   className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
                 >
-                  Cancel & Switch Account
+                  Cancel & Return
                 </button>
                 <button
                   type="submit"
@@ -460,11 +625,172 @@ export const PortalLoginPage: React.FC = () => {
                   className="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>{isResetting ? 'Securing Account...' : 'Complete Security Setup & Enter Portal'}</span>
+                  <span>{isResetting ? 'Securing Account...' : 'Save Details & Enter Portal'}</span>
                 </button>
               </div>
             </form>
+          ) : isForgotPasswordMode ? (
+            /* SCREEN 2: Forgot Password OTP-Based Reset Flow */
+            <div className="space-y-5">
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-950 space-y-1.5">
+                <div className="font-bold flex items-center gap-2 text-amber-900 text-sm">
+                  <KeyRound className="w-4 h-4 text-amber-700" />
+                  <span>Staff & Admin Password Recovery</span>
+                </div>
+                <p className="text-[11px] text-amber-800 leading-relaxed">
+                  Enter your assigned Staff ID, Username, Email, or Mobile Phone. We will dispatch a 6-digit verification code to reset your password securely.
+                </p>
+              </div>
+
+              {!forgotOtpStep ? (
+                <form onSubmit={handleRequestForgotOtp} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Staff ID / Username / Email / Mobile Phone
+                    </label>
+                    <div className="relative">
+                      <UserIcon className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                      <input
+                        type="text"
+                        required
+                        value={forgotIdentifier}
+                        onChange={(e) => setForgotIdentifier(e.target.value)}
+                        placeholder="e.g. vitalice, director, or m.raheli"
+                        className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800 font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsForgotPasswordMode(false);
+                        setError(null);
+                      }}
+                      className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
+                    >
+                      Back to Login
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isForgotLoading}
+                      className="px-5 py-2.5 bg-[#0F1E36] hover:bg-amber-600 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2"
+                    >
+                      <Mail className="w-4 h-4" />
+                      <span>{isForgotLoading ? 'Dispatching Code...' : 'Send Verification Code (OTP)'}</span>
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <form onSubmit={handleVerifyForgotOtp} className="space-y-4">
+                  {forgotDispatchedTo && (
+                    <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-blue-600 shrink-0" />
+                      <span>A 6-digit verification code has been dispatched to <strong>{forgotDispatchedTo}</strong>.</span>
+                    </div>
+                  )}
+
+                  {forgotDevOtp && (
+                    <div className="p-2.5 bg-emerald-50 border border-emerald-300 rounded-xl text-xs text-emerald-900 flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 font-medium">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Sandbox Test Code:</span>
+                        <span className="font-mono font-bold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">{forgotDevOtp}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setForgotOtpCode(forgotDevOtp)}
+                        className="text-[10px] font-bold text-emerald-700 underline hover:text-emerald-900"
+                      >
+                        Auto-Fill
+                      </button>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Enter 6-Digit Verification Code (OTP) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={6}
+                      value={forgotOtpCode}
+                      onChange={(e) => setForgotOtpCode(e.target.value.replace(/\D/g, ''))}
+                      placeholder="e.g. 123456"
+                      className="w-full px-3 py-2 text-center text-base tracking-widest font-mono font-bold border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-900 bg-slate-50"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        New Password *
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+                        <input
+                          type="password"
+                          required
+                          value={forgotNewPassword}
+                          onChange={(e) => setForgotNewPassword(e.target.value)}
+                          placeholder="At least 8 chars"
+                          className="w-full pl-8 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        Confirm New Password *
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+                        <input
+                          type="password"
+                          required
+                          value={forgotConfirmPassword}
+                          onChange={(e) => setForgotConfirmPassword(e.target.value)}
+                          placeholder="Re-enter password"
+                          className="w-full pl-8 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Password Checklist */}
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-[10px] text-slate-600 p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+                    <span className={forgotHasMinLength ? 'text-emerald-600 font-bold' : ''}>• 8+ characters</span>
+                    <span className={forgotHasUppercase ? 'text-emerald-600 font-bold' : ''}>• Uppercase (A-Z)</span>
+                    <span className={forgotHasLowercase ? 'text-emerald-600 font-bold' : ''}>• Lowercase (a-z)</span>
+                    <span className={forgotHasNumber ? 'text-emerald-600 font-bold' : ''}>• Number (0-9)</span>
+                    <span className={forgotHasSymbol ? 'text-emerald-600 font-bold' : ''}>• Symbol (!@#$)</span>
+                    <span className={forgotPasswordsMatch ? 'text-emerald-600 font-bold' : ''}>• Passwords match</span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setForgotOtpStep(false)}
+                      className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition"
+                    >
+                      Resend Code
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isForgotLoading || !isForgotStrong || !forgotOtpCode}
+                      className="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>{isForgotLoading ? 'Updating Password...' : 'Verify Code & Reset Password'}</span>
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           ) : (
+            /* SCREEN 3: Standard Faculty Sign-In */
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
@@ -477,16 +803,30 @@ export const PortalLoginPage: React.FC = () => {
                     required
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    placeholder="e.g. director, headteacher, or teacher_faith"
+                    placeholder="Enter Staff ID, Username, or Registered Phone"
                     className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Secret Staff Password
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-slate-700">
+                    Secret Staff Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsForgotPasswordMode(true);
+                      setForgotIdentifier(identifier);
+                      setForgotOtpStep(false);
+                      setError(null);
+                    }}
+                    className="text-[11px] font-bold text-amber-700 hover:text-amber-800 hover:underline"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
                 <div className="relative">
                   <Key className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                   <input
@@ -509,109 +849,6 @@ export const PortalLoginPage: React.FC = () => {
                 <span>{isLoading ? 'Verifying Authorized Credentials...' : 'Sign In to Portal Station'}</span>
               </button>
             </form>
-          )}
-
-          {/* Official Default Staff Onboarding Directory */}
-          {!pendingResetUser && (
-            <div className="pt-4 border-t border-slate-100 space-y-3">
-              <button
-                type="button"
-                onClick={() => setShowCredentialsGuide(!showCredentialsGuide)}
-                className="w-full flex items-center justify-between text-left text-xs font-bold text-slate-700 hover:text-amber-700 transition"
-              >
-                <div className="flex items-center gap-2">
-                  <Info className="w-4 h-4 text-amber-600" />
-                  <span>Default Staff Onboarding Directory</span>
-                </div>
-                {showCredentialsGuide ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400" />
-                )}
-              </button>
-
-              {showCredentialsGuide && (
-                <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 text-xs">
-                  <div className="text-[11px] text-slate-600 leading-relaxed">
-                    <span className="font-bold text-slate-800">Initial Onboarding Credentials:</span> Use the default assigned username below and initial password <code className="bg-amber-100 px-1.5 py-0.5 rounded text-amber-900 font-mono font-bold">Amani@2026!</code>. Upon first sign-in, you will be intercepted by the mandatory security protocol to configure your personal email, phone, and unique password.
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <div
-                      onClick={() => handleSelectStaff('director')}
-                      className="p-2.5 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl cursor-pointer transition flex flex-col"
-                    >
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>Director (Chief Admin)</span>
-                        <span className="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded font-mono">AMANI-DIR-001</span>
-                      </div>
-                      <span className="text-[11px] text-slate-600">Constance Mwaka Pole</span>
-                      <span className="text-[10px] font-mono text-slate-400">Username: director</span>
-                    </div>
-
-                    <div
-                      onClick={() => handleSelectStaff('headteacher')}
-                      className="p-2.5 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl cursor-pointer transition flex flex-col"
-                    >
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>Headteacher (Chief Admin)</span>
-                        <span className="text-[10px] bg-blue-100 text-blue-900 px-1.5 py-0.2 rounded font-mono">AMANI-HT-002</span>
-                      </div>
-                      <span className="text-[11px] text-slate-600">Nadhiri Chacha Salim</span>
-                      <span className="text-[10px] font-mono text-slate-400">Username: headteacher</span>
-                    </div>
-
-                    <div
-                      onClick={() => handleSelectStaff('vitalice')}
-                      className="p-2.5 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl cursor-pointer transition flex flex-col"
-                    >
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>Deputy / ICT Admin</span>
-                        <span className="text-[10px] bg-emerald-100 text-emerald-900 px-1.5 py-0.2 rounded font-mono">AMANI-ICT-003</span>
-                      </div>
-                      <span className="text-[11px] text-slate-600">Vitalice Odhiambo</span>
-                      <span className="text-[10px] font-mono text-slate-400">Username: vitalice</span>
-                    </div>
-
-                    <div
-                      onClick={() => handleSelectStaff('teacher_faith')}
-                      className="p-2.5 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl cursor-pointer transition flex flex-col"
-                    >
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>Teacher Faith (Languages)</span>
-                        <span className="text-[10px] bg-purple-100 text-purple-900 px-1.5 py-0.2 rounded font-mono">AMANI-TCH-004</span>
-                      </div>
-                      <span className="text-[11px] text-slate-600">Faith Mwende Kilonzo</span>
-                      <span className="text-[10px] font-mono text-slate-400">Username: teacher_faith</span>
-                    </div>
-
-                    <div
-                      onClick={() => handleSelectStaff('teacher_peter')}
-                      className="p-2.5 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl cursor-pointer transition flex flex-col"
-                    >
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>Teacher Peter (Science/Agri)</span>
-                        <span className="text-[10px] bg-emerald-100 text-emerald-900 px-1.5 py-0.2 rounded font-mono">AMANI-TCH-005</span>
-                      </div>
-                      <span className="text-[11px] text-slate-600">Peter Juma Mwangi</span>
-                      <span className="text-[10px] font-mono text-slate-400">Username: teacher_peter</span>
-                    </div>
-
-                    <div
-                      onClick={() => handleSelectStaff('teacher_emmanuel')}
-                      className="p-2.5 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl cursor-pointer transition flex flex-col"
-                    >
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>Teacher Emmanuel (Math/CRE)</span>
-                        <span className="text-[10px] bg-indigo-100 text-indigo-900 px-1.5 py-0.2 rounded font-mono">AMANI-TCH-006</span>
-                      </div>
-                      <span className="text-[11px] text-slate-600">Emmanuel Mwachiro</span>
-                      <span className="text-[10px] font-mono text-slate-400">Username: teacher_emmanuel</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
           )}
         </div>
       </div>

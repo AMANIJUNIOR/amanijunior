@@ -110,6 +110,16 @@ export const ContactPage: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
+                    <div className="font-bold text-white">Deputy Headteacher (Vitalice Odhiambo):</div>
+                    <a href={`tel:${settings.deputyHeadteacherPhone || '0746529712'}`} className="text-amber-400 font-mono text-sm font-bold hover:underline">
+                      {settings.deputyHeadteacherPhone || '0746529712'}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div>
                     <div className="font-bold text-white">Headteacher (Nadhiri Chacha Salim):</div>
                     <a href={`tel:${settings.headteacherPhone}`} className="text-amber-400 font-mono text-sm font-bold hover:underline">
                       {settings.headteacherPhone}
@@ -158,8 +168,8 @@ export const ContactPage: React.FC = () => {
                   Send an Official Enquiry
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Submissions directly trigger notifications to Director Constance Mwaka Pole and Headteacher Nadhiri
-                  Chacha Salim.
+                  Submissions directly trigger notifications to Director Constance Mwaka Pole, Deputy Headteacher
+                  Vitalice Odhiambo, and Headteacher Nadhiri Chacha Salim.
                 </p>
               </div>
 
