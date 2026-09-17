@@ -110,7 +110,8 @@ export const ContactPage: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <div className="font-bold text-white">Deputy Headteacher (Vitalice Odhiambo):</div>
+                    <div className="font-bold text-white">Deputy Headteacher & Head of Academics (Vitalice Odhiambo):</div>
+                    <div className="text-[11px] text-amber-300">Directly in charge of Academics, CBC Curricula & ICT</div>
                     <a href={`tel:${settings.deputyHeadteacherPhone || '0746529712'}`} className="text-amber-400 font-mono text-sm font-bold hover:underline">
                       {settings.deputyHeadteacherPhone || '0746529712'}
                     </a>

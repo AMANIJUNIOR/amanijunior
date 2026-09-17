@@ -37,10 +37,12 @@ export interface TeacherProfile {
   department: string;
   email: string;
   phone: string;
-  qualifications: string;
+  qualifications?: string;
   specialization: string;
   additionalSpecializations?: string[];
   biography: string;
+  commendation?: string;
+  philosophy?: string;
   assignedClasses: string[];
   assignedSubjects: string[];
   accountStatus: 'ACTIVE' | 'DISABLED';

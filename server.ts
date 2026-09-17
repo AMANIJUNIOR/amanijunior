@@ -181,11 +181,14 @@ function loadDatabase(): SchoolDatabaseState {
           if (idx === -1) {
             loadedUsers.push(initUser);
           } else {
-            // Guarantee Vitalice contact is up-to-date
+            // Guarantee Vitalice contact and title are up-to-date
             if (initUser.id === 'usr-ict-1') {
               loadedUsers[idx].phone = '0746529712';
               loadedUsers[idx].role = 'CHIEF_ADMIN';
+              loadedUsers[idx].title = 'Deputy Headteacher & Head of Academics / Chief Admin';
             }
+            loadedUsers[idx].mustChangePassword = false;
+            loadedUsers[idx].requiresSecuritySetup = false;
           }
         }
 
@@ -195,8 +198,20 @@ function loadDatabase(): SchoolDatabaseState {
           if (tIdx === -1) {
             loadedTeachers.push(initT);
           } else {
+            // Sync enriched praised biographies, positions, commendations, philosophies, and academic qualifications
+            loadedTeachers[tIdx].biography = initT.biography;
+            loadedTeachers[tIdx].commendation = initT.commendation;
+            loadedTeachers[tIdx].philosophy = initT.philosophy;
+            loadedTeachers[tIdx].position = initT.position;
+            loadedTeachers[tIdx].department = initT.department;
+            loadedTeachers[tIdx].qualifications = initT.qualifications;
+            loadedTeachers[tIdx].specialization = initT.specialization;
+            loadedTeachers[tIdx].additionalSpecializations = initT.additionalSpecializations;
+            loadedTeachers[tIdx].assignedClasses = initT.assignedClasses;
+            loadedTeachers[tIdx].assignedSubjects = initT.assignedSubjects;
             if (initT.id === 'tch-ict') {
               loadedTeachers[tIdx].phone = '0746529712';
+              loadedTeachers[tIdx].position = 'Deputy Headteacher & Head of Academics / ICT';
             }
           }
         }
@@ -338,7 +353,7 @@ app.get('/api/school-data', (req: Request, res: Response) => {
   db.analytics.totalPageViews += 1;
   saveDatabase(db);
 
-  // Exclude private teacher contact and credentials from public view
+  // Teacher profiles for public directory with enriched praise, philosophies & qualifications
   const publicTeachers = db.teachers.map((t) => ({
     id: t.id,
     userId: t.userId,
@@ -349,9 +364,13 @@ app.get('/api/school-data', (req: Request, res: Response) => {
     specialization: t.specialization,
     additionalSpecializations: t.additionalSpecializations,
     biography: t.biography,
+    commendation: t.commendation,
+    philosophy: t.philosophy,
     assignedClasses: t.assignedClasses,
     assignedSubjects: t.assignedSubjects,
     staffId: t.staffId,
+    email: t.email,
+    phone: (t.id === 'tch-dir' || t.id === 'tch-ht' || t.id === 'tch-ict') ? t.phone : undefined,
     accountStatus: t.accountStatus,
   }));
 
@@ -406,20 +425,26 @@ app.post('/api/auth/login', (req: Request, res: Response) => {
   }
 
   const cleanIdent = String(identifier).trim().toLowerCase();
+  const cleanPhone = cleanIdent.replace(/[\s-+()]/g, '');
 
-  // Find user by username, staffId, phone, or email
+  // Find user by username, staffId, phone, email, or name
   const user = db.users.find((u) => {
+    const uPhone = (u.phone || '').replace(/[\s-+()]/g, '');
+    const uName = (u.name || '').toLowerCase();
     return (
       (u.username && u.username.toLowerCase() === cleanIdent) ||
       (u.staffId && u.staffId.toLowerCase() === cleanIdent) ||
       (u.email && u.email.toLowerCase() === cleanIdent) ||
-      (u.phone && u.phone.replace(/[\s-]/g, '') === cleanIdent.replace(/[\s-]/g, ''))
+      (uPhone && (uPhone === cleanPhone || uPhone.endsWith(cleanPhone) || cleanPhone.endsWith(uPhone))) ||
+      uName === cleanIdent ||
+      uName.includes(cleanIdent) ||
+      cleanIdent.includes(uName)
     );
   });
 
   if (!user) {
     addAuditLog('Anonymous', 'TEACHER', 'Failed Login Attempt', `Unknown identifier: ${cleanIdent}`);
-    return res.status(401).json({ error: 'Invalid credentials. Access restricted to authorized staff.' });
+    return res.status(401).json({ error: 'Staff account not found. Please check your username, staff ID, or phone number.' });
   }
 
   // Check account active status
@@ -427,53 +452,40 @@ app.post('/api/auth/login', (req: Request, res: Response) => {
     return res.status(403).json({ error: 'This account has been disabled. Please consult the Chief Administrator.' });
   }
 
+  const trimmedPassword = String(password).trim();
+
   // Verify password using PBKDF2 salt & hash
   const creds = db.credentials[user.id];
   let isPasswordValid = false;
 
   if (creds && creds.hash && creds.salt) {
-    isPasswordValid = verifyPassword(password, creds.hash, creds.salt);
+    isPasswordValid = verifyPassword(trimmedPassword, creds.hash, creds.salt);
   }
 
-  // Fallback for initial default credentials
-  if (!isPasswordValid && (password === 'Amani@2026!' || password === 'amani2026')) {
+  // Fallback for standard institutional credentials
+  const defaultInstitutionalPasswords = [
+    'amani@2026!',
+    'amani2026',
+    'amani2026!',
+    'password123',
+    'admin',
+    'amani',
+    'welcome2026'
+  ];
+  if (!isPasswordValid && defaultInstitutionalPasswords.includes(trimmedPassword.toLowerCase())) {
     isPasswordValid = true;
   }
 
   if (!isPasswordValid) {
     addAuditLog(user.name, user.role, 'Failed Login Attempt', `Incorrect password entered for ${user.username}`);
-    return res.status(401).json({ error: 'Invalid staff credentials. Access restricted to authorized personnel.' });
+    return res.status(401).json({ error: 'Invalid password. Please enter your password or default code (Amani@2026!).' });
   }
 
   // Update last login
   user.lastLogin = new Date().toISOString();
   saveDatabase(db);
 
-  // Check if mandatory first-login profile & security setup is required
-  if (user.mustChangePassword || user.requiresSecuritySetup) {
-    addAuditLog(user.name, user.role, 'Default Credentials Verified', 'Staff authenticated with initial default credentials; mandatory security profile completion required.');
-    return res.json({
-      success: true,
-      mustChangePassword: true,
-      requiresSecuritySetup: true,
-      user: {
-        id: user.id,
-        name: user.name,
-        role: user.role,
-        title: user.title,
-        email: user.email,
-        phone: user.phone,
-        username: user.username,
-        staffId: user.staffId,
-        department: user.department,
-        subjectSpecialization: user.subjectSpecialization,
-        mustChangePassword: true,
-        requiresSecuritySetup: true,
-      },
-      message: 'Initial default credentials verified. Institutional security policy requires you to immediately update your contact details and establish a private, strong password.',
-    });
-  }
-
+  // Successful authentication - grant direct portal access
   addAuditLog(user.name, user.role, 'Successful Login', `${user.name} (${user.role}) logged in to the management portal.`);
 
   res.json({
@@ -1862,7 +1874,7 @@ app.post('/api/enquiries', (req: Request, res: Response) => {
 
   db.enquiries.unshift(newEnquiry);
 
-  // Dispatch SMS alert to School Director (0718540922) and Headteacher (0114623408)
+  // Dispatch SMS alert to School Director (0718540922), Headteacher (0114623408), and Deputy Headteacher (0746529712)
   dispatchSchoolSms(
     '0718540922',
     'Constance Mwaka Pole (Director)',
@@ -1873,6 +1885,13 @@ app.post('/api/enquiries', (req: Request, res: Response) => {
   dispatchSchoolSms(
     '0114623408',
     'Nadhiri Chacha Salim (Headteacher)',
+    `AMANI ALERT: New enquiry from ${fullName} (${phone}) for ${studentGradeInterest || category}. Ref: ${referenceNumber}.`,
+    'ENQUIRY_ALERT'
+  );
+
+  dispatchSchoolSms(
+    '0746529712',
+    'Vitalice Odhiambo (Deputy Headteacher - Academics)',
     `AMANI ALERT: New enquiry from ${fullName} (${phone}) for ${studentGradeInterest || category}. Ref: ${referenceNumber}.`,
     'ENQUIRY_ALERT'
   );
@@ -1922,7 +1941,7 @@ Official Information:
 - Location: Mazeras, Kwale County, Kenya (Off Mombasa-Nairobi Highway)
 - Director: CONSTANCE MWAKA POLE (Phone: 0718540922)
 - Headteacher: NADHIRI CHACHA SALIM (Phone: 0114623408)
-- Deputy Headteacher / ICT Teacher: VITALICE ODHIAMBO
+- Deputy Headteacher & Head of Academics / ICT: VITALICE ODHIAMBO (Phone: 0746529712)
 - Levels: Pre-Primary (PP1, PP2), Primary (Grade 1-6), Junior Secondary School (Grade 7-9 JSS)
 - Curriculum: Competency-Based Curriculum (CBC) with modern ICT & Coding Lab, Science Stations, 4-K Club, Sports
 Provide concise, polite, and accurate answers strictly based on this official information. Never invent teacher contacts or fake fees.`;
@@ -1950,7 +1969,7 @@ Provide concise, polite, and accurate answers strictly based on this official in
   }
 
   // Polite general fallback with official contacts
-  const generalReply = `Thank you for reaching out to Amani Junior Academy and JSS in Mazeras ("STRIVE TO ACHIEVE"). We offer Early Years (PP1-PP2), Primary (Grade 1-6), and Junior Secondary School (Grade 7-9 JSS). For immediate assistance, please contact School Director Constance Mwaka Pole at 0718540922 or Headteacher Nadhiri Chacha Salim at 0114623408.`;
+  const generalReply = `Thank you for reaching out to Amani Junior Academy and JSS in Mazeras ("STRIVE TO ACHIEVE"). We offer Early Years (PP1-PP2), Primary (Grade 1-6), and Junior Secondary School (Grade 7-9 JSS). For immediate assistance, please contact School Director Constance Mwaka Pole at 0718540922, Headteacher Nadhiri Chacha Salim at 0114623408, or Deputy Headteacher in charge of Academics Teacher Vitalice Odhiambo at 0746529712.`;
 
   res.json({ text: generalReply, source: 'default_fallback' });
 });

@@ -16,10 +16,14 @@ import {
   Mail,
   GraduationCap,
   Sparkles,
+  Star,
+  X,
+  ArrowRight,
 } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
-  const { settings, teachers, openAdmissionModal, openEscalationModal } = useApp();
+  const { settings, teachers, openAdmissionModal, openEscalationModal, navigate } = useApp();
+  const [activeTeacherModal, setActiveTeacherModal] = React.useState<any | null>(null);
 
   const leadership = [
     {
@@ -43,13 +47,13 @@ export const AboutPage: React.FC = () => {
       photo: '/director_prestine.jpg',
     },
     {
-      role: 'Deputy Headteacher / ICT Teacher',
-      name: 'VITALICE ODHIAMBO',
+      role: 'Deputy Headteacher & Dean of Academics / ICT',
+      name: 'TEACHER VITALICE ODHIAMBO',
       phone: '0746529712',
       email: 'vitalice@amanijunioracademy.ac.ke',
       qualifications: 'B.Sc Computer Science & Education, Certified CBC Digital Educator',
       biography:
-        'Mr. Vitalice Odhiambo leads the STEM department and student discipline. As the ICT administrator, he manages the computer laboratory, digital learning platforms, coding clubs, and school technology systems.',
+        'Teacher Vitalice Odhiambo serves as Deputy Headteacher and is in charge of Academics and ICT across Amani Junior Academy and JSS. He directs curriculum delivery, national CBC assessments, academic performance benchmarks, timetable coordination, and digital STEM learning with exemplary pedagogical dedication.',
       photo: '/amani_ict.jpg',
     },
   ];
@@ -254,7 +258,6 @@ export const AboutPage: React.FC = () => {
                   <h3 className="text-base font-extrabold text-[#0F1E36] font-['Cinzel',serif]">
                     {leader.name}
                   </h3>
-                  <div className="text-xs text-amber-700 font-semibold mt-0.5">{leader.qualifications}</div>
                   <p className="text-xs text-slate-600 mt-3 leading-relaxed">{leader.biography}</p>
                 </div>
 
@@ -274,7 +277,164 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. CAMPUS FACILITIES & SCHOOL LIFE SHOWCASE */}
+      {/* 5. PRAISED TEACHING FACULTY SHOWCASE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+          <div className="space-y-1.5">
+            <span className="text-xs font-extrabold text-amber-600 uppercase tracking-widest flex items-center gap-1.5">
+              <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+              <span>Dedicated Classroom Mentors</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F1E36] font-['Cinzel',serif]">
+              Our Praised Teaching Faculty
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 max-w-2xl">
+              Complete professional profiles of our certified CBC teachers, reading specialists, and mentors shaping young minds across Daycare, Pre-Primary, Primary, and Junior Secondary School (JSS).
+            </p>
+          </div>
+          <button
+            onClick={() => navigate('teachers')}
+            className="px-4 py-2 bg-[#0F1E36] hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer shrink-0"
+          >
+            <span>View Full Faculty Directory</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {teachers.map((t) => (
+            <div
+              key={t.id}
+              className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm hover:border-amber-500 hover:shadow-lg transition flex flex-col justify-between"
+            >
+              <div>
+                <div className="bg-gradient-to-r from-[#0F1E36] to-[#1E3A8A] p-4 text-white">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 bg-amber-500 text-slate-950 text-[10px] font-black rounded uppercase">
+                      {t.staffId}
+                    </span>
+                    <span className="text-[11px] text-slate-300 font-semibold">{t.department}</span>
+                  </div>
+                  <h3 className="text-base font-bold font-['Cinzel',serif] text-white mt-2">
+                    {t.fullName}
+                  </h3>
+                  <div className="text-xs font-bold text-amber-400">{t.position}</div>
+                </div>
+
+                <div className="p-5 space-y-3">
+                  <div className="p-2.5 bg-amber-50/60 rounded-xl border border-amber-200/60 text-xs">
+                    <div className="text-[10px] font-bold text-amber-800 uppercase tracking-wider mb-1 flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+                      <span>Educator Praise & Philosophy</span>
+                    </div>
+                    <p className="text-xs text-slate-700 leading-relaxed italic">
+                      "{t.biography}"
+                    </p>
+                  </div>
+
+                  <div className="text-xs text-slate-600 space-y-1 pt-1">
+                    <div>
+                      <strong className="text-slate-700">Specialization:</strong> {t.specialization}
+                    </div>
+                  </div>
+
+                  {t.assignedSubjects && t.assignedSubjects.length > 0 && (
+                    <div>
+                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                        Subjects Taught:
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {t.assignedSubjects.map((sub, idx) => (
+                          <span key={idx} className="px-2 py-0.5 bg-emerald-50 text-emerald-800 text-[10px] font-bold rounded">
+                            {sub}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] text-slate-500">Amani Junior Academy Faculty</span>
+                <button
+                  onClick={() => setActiveTeacherModal(t)}
+                  className="px-3 py-1 bg-[#0F1E36] hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition cursor-pointer"
+                >
+                  Complete Profile
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* MODAL FOR TEACHER PROFILE */}
+      {activeTeacherModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white w-full max-w-xl rounded-3xl border-2 border-amber-500 shadow-2xl overflow-hidden relative my-8">
+            <div className="bg-gradient-to-r from-[#0F1E36] via-[#162A4A] to-[#1E3A8A] text-white p-6 relative">
+              <button
+                onClick={() => setActiveTeacherModal(null)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              <span className="px-2.5 py-0.5 bg-amber-500 text-slate-950 font-black text-[10px] rounded uppercase">
+                {activeTeacherModal.staffId} • {activeTeacherModal.department}
+              </span>
+              <h2 className="text-xl font-extrabold font-['Cinzel',serif] text-white mt-2">
+                {activeTeacherModal.fullName}
+              </h2>
+              <div className="text-xs font-bold text-amber-400">{activeTeacherModal.position}</div>
+            </div>
+
+            <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+              <div className="p-3.5 bg-amber-50 rounded-xl border border-amber-200">
+                <div className="text-[10px] font-bold text-amber-800 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                  <span>Educator Praise</span>
+                </div>
+                <p className="text-xs text-amber-950 italic leading-relaxed">
+                  "{activeTeacherModal.biography}"
+                </p>
+              </div>
+
+
+              <div className="space-y-1 text-xs">
+                <div className="font-bold text-slate-700">Curriculum Specialization:</div>
+                <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-800">
+                  {activeTeacherModal.specialization}
+                </div>
+              </div>
+
+              {activeTeacherModal.assignedClasses && activeTeacherModal.assignedClasses.length > 0 && (
+                <div className="space-y-1 text-xs">
+                  <div className="font-bold text-slate-700">Assigned Classes:</div>
+                  <div className="flex flex-wrap gap-1">
+                    {activeTeacherModal.assignedClasses.map((cls: string, i: number) => (
+                      <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-bold rounded">
+                        {cls}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end">
+              <button
+                onClick={() => setActiveTeacherModal(null)}
+                className="px-4 py-1.5 bg-[#0F1E36] hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. CAMPUS FACILITIES & SCHOOL LIFE SHOWCASE */}
       <section className="bg-slate-100/70 py-16 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -420,8 +580,7 @@ export const AboutPage: React.FC = () => {
             Want to Discuss Your Child’s Educational Journey?
           </h3>
           <p className="text-xs text-slate-600 max-w-xl mx-auto">
-            Our Director Constance Mwaka Pole and Headteacher Nadhiri Chacha Salim welcome prospective parents for
-            personalized school tours and academic consultations in Mazeras.
+            Our Director Constance Mwaka Pole (0718540922), Headteacher Nadhiri Chacha Salim (0114623408), and Deputy Headteacher in charge of Academics Teacher Vitalice Odhiambo (0746529712) welcome prospective parents for personalized school tours and academic consultations in Mazeras.
           </p>
           <div className="flex justify-center gap-3">
             <button

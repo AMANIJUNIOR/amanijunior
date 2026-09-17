@@ -107,7 +107,8 @@ export const AdmissionModal: React.FC = () => {
               <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
                 Thank you, <strong>{parentName}</strong>. Our admissions team has registered your interest for{' '}
                 <strong>{childName}</strong> in <strong>{targetGrade}</strong>. Director{' '}
-                <strong>{settings.directorName}</strong> ({settings.directorPhone}) and Headteacher{' '}
+                <strong>{settings.directorName}</strong> ({settings.directorPhone}), Deputy Headteacher in charge of Academics{' '}
+                <strong>Teacher Vitalice Odhiambo</strong> (0746529712), and Headteacher{' '}
                 <strong>{settings.headteacherName}</strong> ({settings.headteacherPhone}) have been notified.
               </p>
               <div className="inline-block px-4 py-2 bg-amber-50 border border-amber-300 rounded-lg text-xs font-mono font-bold text-amber-900">

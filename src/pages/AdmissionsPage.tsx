@@ -139,7 +139,7 @@ export const AdmissionsPage: React.FC = () => {
                 </span>
                 <h4 className="text-sm font-bold text-[#0F1E36]">Online Enquiry or Call</h4>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Submit our online enquiry form or call Director Constance Mwaka Pole (0718540922) to confirm space availability.
+                  Submit our online enquiry form or call Director Constance Mwaka Pole (0718540922) or Deputy Headteacher Vitalice Odhiambo (0746529712) to confirm space availability.
                 </p>
               </div>
 
@@ -149,7 +149,7 @@ export const AdmissionsPage: React.FC = () => {
                 </span>
                 <h4 className="text-sm font-bold text-[#0F1E36]">Campus Visit & Interview</h4>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Visit the school in Mazeras for a friendly learner evaluation and orientation with Headteacher Nadhiri Chacha Salim.
+                  Visit the school in Mazeras for a friendly learner evaluation and orientation with Headteacher Nadhiri Chacha Salim (0114623408) or Deputy Headteacher Vitalice Odhiambo (0746529712).
                 </p>
               </div>
 

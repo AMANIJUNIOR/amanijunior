@@ -844,11 +844,19 @@ export const HomePage: React.FC = () => {
 
               <button
                 onClick={() => openEscalationModal('Campus Tour Request')}
-                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2"
+                className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2"
               >
                 <Phone className="w-4 h-4 text-emerald-400" />
-                <span>Call Director: 0718540922</span>
+                <span>Director: 0718540922</span>
               </button>
+
+              <a
+                href="tel:0746529712"
+                className="px-5 py-3 rounded-xl bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-500/40 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2"
+              >
+                <Phone className="w-4 h-4 text-white" />
+                <span>Deputy HT (Academics): 0746529712</span>
+              </a>
             </div>
           </div>
         </div>
@@ -884,7 +892,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-emerald-600" />
-                  <span>Deputy Headteacher: {settings.deputyHeadteacherPhone || '0746529712'}</span>
+                  <span>Deputy Headteacher (Academics & ICT): {settings.deputyHeadteacherPhone || '0746529712'}</span>
                 </div>
               </div>
             </div>

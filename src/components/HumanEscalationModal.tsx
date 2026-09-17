@@ -145,14 +145,21 @@ export const HumanEscalationModal: React.FC = () => {
                     className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-mono font-bold text-[11px] shadow-sm transition"
                   >
                     <PhoneCall className="w-3 h-3" />
-                    <span>Deputy Vitalice: 0746529712</span>
+                    <span>Deputy Vitalice (Academics): 0746529712</span>
+                  </a>
+                  <a
+                    href="tel:0114623408"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-900 hover:bg-blue-800 text-white rounded font-mono font-bold text-[11px] shadow-sm transition"
+                  >
+                    <PhoneCall className="w-3 h-3" />
+                    <span>Headteacher Salim: 0114623408</span>
                   </a>
                   <a
                     href="tel:0718540922"
                     className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#0F1E36] hover:bg-slate-800 text-amber-400 rounded font-mono font-bold text-[11px] shadow-sm transition"
                   >
                     <PhoneCall className="w-3 h-3" />
-                    <span>Director: 0718540922</span>
+                    <span>Director Constance: 0718540922</span>
                   </a>
                 </div>
               </div>

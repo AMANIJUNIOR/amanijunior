@@ -80,9 +80,10 @@
       "staffId": "AMANI-DIR-001",
       "department": "School Governance & Strategic Leadership",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
-      "createdAt": "2026-01-05T08:00:00Z"
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
+      "createdAt": "2026-01-05T08:00:00Z",
+      "lastLogin": "2026-09-17T10:55:03.001Z"
     },
     {
       "id": "usr-ht-1",
@@ -95,23 +96,24 @@
       "staffId": "AMANI-HT-002",
       "department": "Curriculum Implementation & Academic Administration",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
-      "createdAt": "2026-01-05T08:30:00Z"
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
+      "createdAt": "2026-01-05T08:30:00Z",
+      "lastLogin": "2026-09-17T10:51:48.825Z"
     },
     {
       "id": "usr-ict-1",
       "name": "Vitalice Odhiambo",
       "role": "CHIEF_ADMIN",
-      "title": "Deputy Headteacher / ICT / Chief Admin",
+      "title": "Deputy Headteacher & Head of Academics / Chief Admin",
       "email": "vitalice@amanijunioracademy.ac.ke",
       "phone": "0746529712",
       "username": "vitalice",
       "staffId": "AMANI-ICT-003",
       "department": "STEM, Information & Communications Technology",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-05T09:00:00Z",
       "assignedClassIds": [
         "cls-jss-7a",
@@ -120,7 +122,8 @@
       "assignedSubjectIds": [
         "sub-cs",
         "sub-pretech"
-      ]
+      ],
+      "lastLogin": "2026-09-17T10:55:00.540Z"
     },
     {
       "id": "usr-tch-1",
@@ -138,8 +141,8 @@
         "Creative Writing"
       ],
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T10:00:00Z",
       "assignedClassIds": [
         "cls-jss-7a",
@@ -166,8 +169,8 @@
         "Environmental Sustainability"
       ],
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T10:30:00Z",
       "assignedClassIds": [
         "cls-jss-7a",
@@ -194,8 +197,8 @@
         "Guidance & Counseling"
       ],
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-08T09:15:00Z",
       "assignedClassIds": [
         "cls-jss-7a",
@@ -218,13 +221,14 @@
       "department": "Early Childhood Development (ECDE)",
       "subjectSpecialization": "Playgroup & Daycare Early Activities",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T08:00:00Z",
       "assignedClassIds": [
         "cls-playgroup",
         "cls-daycare"
-      ]
+      ],
+      "lastLogin": "2026-09-17T10:55:05.715Z"
     },
     {
       "id": "usr-tch-tatu",
@@ -238,8 +242,8 @@
       "department": "Early Childhood Development (ECDE)",
       "subjectSpecialization": "Playgroup Activities & Psychomotor Development",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T08:30:00Z",
       "assignedClassIds": [
         "cls-playgroup"
@@ -257,8 +261,8 @@
       "department": "Pre-Primary Education",
       "subjectSpecialization": "PP1 Language & Mathematical Activities",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T09:00:00Z",
       "assignedClassIds": [
         "cls-pp-1"
@@ -276,8 +280,8 @@
       "department": "Lower Primary",
       "subjectSpecialization": "Grade 1 Kiswahili & Environmental Activities",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T11:00:00Z",
       "assignedClassIds": [
         "cls-pri-1"
@@ -295,8 +299,8 @@
       "department": "Lower Primary",
       "subjectSpecialization": "Grade 2 Mathematics & Science Activities",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T11:30:00Z",
       "assignedClassIds": [
         "cls-pri-2"
@@ -314,8 +318,8 @@
       "department": "Lower Primary",
       "subjectSpecialization": "Grade 3 Languages & Creative Arts",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T12:00:00Z",
       "assignedClassIds": [
         "cls-pri-3"
@@ -333,8 +337,8 @@
       "department": "Upper Primary",
       "subjectSpecialization": "Grade 4 Social Studies, CRE & Agriculture",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T12:30:00Z",
       "assignedClassIds": [
         "cls-pri-4"
@@ -352,8 +356,8 @@
       "department": "Upper Primary",
       "subjectSpecialization": "Grade 5 Mathematics & Integrated Science",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T13:00:00Z",
       "assignedClassIds": [
         "cls-pri-5"
@@ -371,8 +375,8 @@
       "department": "Junior Secondary School (JSS)",
       "subjectSpecialization": "Junior Secondary English, Literature & Humanities",
       "isActive": true,
-      "mustChangePassword": true,
-      "requiresSecuritySetup": true,
+      "mustChangePassword": false,
+      "requiresSecuritySetup": false,
       "createdAt": "2026-01-06T13:30:00Z",
       "assignedClassIds": [
         "cls-jss-7a",
@@ -460,7 +464,7 @@
       "userId": "usr-dir-1",
       "fullName": "Constance Mwaka Pole",
       "staffId": "AMANI-DIR-001",
-      "position": "School Director / Chief Admin",
+      "position": "School Director / Chief Administrator",
       "department": "School Governance & Strategic Leadership",
       "email": "director@amanijunioracademy.ac.ke",
       "phone": "0718540922",
@@ -470,7 +474,7 @@
         "Board of Management Chair",
         "Strategic Planning"
       ],
-      "biography": "Director Constance Mwaka Pole provides visionary institutional leadership for Amani Junior Academy and JSS, championing accessible quality education, disciplined moral foundations, and high academic benchmarks in Mazeras.",
+      "biography": "Director Constance Mwaka Pole is a visionary educational champion celebrated throughout Mazeras and Kilifi County for establishing an inclusive, morals-driven sanctuary of learning. Her transformative leadership, unwavering dedication to child safeguarding, and passionate commitment to academic distinction continue to empower hundreds of young scholars to realize their fullest divine and academic potential.",
       "assignedClasses": [
         "Grade 7A (JSS)",
         "Grade 8 Alpha (JSS)",
@@ -479,14 +483,16 @@
       "assignedSubjects": [
         "Leadership & Ethics"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "Visionary founder and pillar of Amani Junior Academy, transforming education in Mazeras with profound integrity, selfless devotion, and motherly compassion.",
+      "philosophy": "Every child is endowed with divine promise; our highest calling is to nurture it with unconditional love, discipline, and uncompromising academic standards."
     },
     {
       "id": "tch-ht",
       "userId": "usr-ht-1",
       "fullName": "Nadhiri Chacha Salim",
       "staffId": "AMANI-HT-002",
-      "position": "Headteacher / Chief Admin",
+      "position": "Headteacher / Chief Administrator",
       "department": "Curriculum Implementation & Academic Administration",
       "email": "headteacher@amanijunioracademy.ac.ke",
       "phone": "0114623408",
@@ -496,7 +502,7 @@
         "Academic Quality Assurance",
         "KNEC Assessment Protocols"
       ],
-      "biography": "Headteacher Nadhiri Chacha Salim leads daily institutional operations, ensuring student safety, teacher instructional excellence, and rigorous competency-based assessment benchmarks across all grade cohorts.",
+      "biography": "Headteacher Nadhiri Chacha Salim is an esteemed educational administrator renowned for his rigorous standards of instructional delivery, gentle firmness in student discipline, and relentless pursuit of pedagogical excellence. He works hand-in-hand with parents and teachers to cultivate an orderly, joyful, and high-performing learning environment.",
       "assignedClasses": [
         "Grade 8 Alpha (JSS)",
         "Grade 6 Leaders"
@@ -504,111 +510,122 @@
       "assignedSubjects": [
         "Mathematics & Science Coordination"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "Steadfast custodian of academic discipline, instructional quality, and Kenya Competency-Based Curriculum (CBC) compliance.",
+      "philosophy": "Discipline and structured effort are the golden bridges between a student’s raw potential and lifelong scholastic accomplishment."
     },
     {
       "id": "tch-ict",
       "userId": "usr-ict-1",
       "fullName": "Vitalice Odhiambo",
       "staffId": "AMANI-ICT-003",
-      "position": "Deputy Headteacher / ICT / Chief Admin",
-      "department": "STEM, Information & Communications Technology",
+      "position": "Deputy Headteacher & Head of Academics / ICT",
+      "department": "Academic Administration, Curriculum Standards & ICT",
       "email": "vitalice@amanijunioracademy.ac.ke",
       "phone": "0746529712",
-      "qualifications": "B.Sc Computer Science & Education, Certified CBC Digital Educator",
-      "specialization": "Computer Studies, Pre-Technical Studies & Digital Systems",
+      "qualifications": "B.Sc Computer Science & Education, Certified CBC Master Facilitator",
+      "specialization": "In Charge of Academics, Curriculum Delivery, Examinations, Computer Studies & Science",
       "additionalSpecializations": [
-        "Robotics & Coding Club Patron",
-        "School ICT Administrator"
+        "Deputy Headteacher - Academics",
+        "Curriculum Standards Lead",
+        "School ICT Administrator",
+        "Robotics & STEM Patron"
       ],
-      "biography": "Mr. Vitalice Odhiambo oversees academic discipline, school digital integration, and computer programming clubs, spearheading the modern ICT lab and learner coding projects.",
+      "biography": "Teacher Vitalice Odhiambo is the distinguished Deputy Headteacher and Head of Academics, in direct charge of academic standards, timetable coordination, curriculum delivery, diagnostic assessments, and digital integration across all tiers of the academy. Praised by parents and colleagues for his dynamic teaching methods, unmatched dedication to pupil performance, and visionary coding curriculum, he ensures every learner achieves academic brilliance and technological confidence.",
       "assignedClasses": [
+        "Grade 6 Leaders",
         "Grade 7A (JSS)",
         "Grade 8 Alpha (JSS)"
       ],
       "assignedSubjects": [
         "Computer Science & Coding",
-        "Pre-Technical Studies"
+        "Pre-Technical Studies",
+        "Integrated Science"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "The academic heartbeat of Amani Junior Academy & JSS. In charge of Academics, Teacher Vitalice Odhiambo leads with extraordinary diligence, orchestrating timetable precision, stellar academic results, and pioneering digital education.",
+      "philosophy": "Through clear academic structure, disciplined study habits, and hands-on digital empowerment, no student will ever be left behind."
     },
     {
       "id": "tch-faith",
       "userId": "usr-tch-1",
       "fullName": "Faith Mwende Kilonzo",
       "staffId": "AMANI-TCH-004",
-      "position": "Senior Teacher - Languages & Creative Arts",
-      "department": "Languages & Humanities",
+      "position": "Teacher - PP1 (Pre-Primary 1)",
+      "department": "Pre-Primary Education",
       "email": "faith.mwende@amanijunioracademy.ac.ke",
       "phone": "0722112233",
-      "qualifications": "Dip. Education (English / Literature), CBC Assessment Certified",
-      "specialization": "English Language, Creative Writing & Debating Club Patron",
+      "qualifications": "Cert. ECDE & Foundational CBC Mentorship",
+      "specialization": "PP1 Environmental Activities, Psychomotor & Music",
       "additionalSpecializations": [
-        "Drama & Elocution",
-        "Remedial Reading Specialist"
+        "Early Sports",
+        "Drama & Roleplay"
       ],
-      "biography": "Madam Faith instills confidence and articulate communication through drama, public speaking competitions, and creative literature exploration.",
+      "biography": "Madam Gladys brings radiant enthusiasm and joyful energy into every lesson. A champion of motor agility and creative exploration, she helps learners observe nature, express themselves freely through drama and music, and embrace physical health from an early age.",
       "assignedClasses": [
-        "Grade 7A (JSS)",
-        "Grade 6 Leaders"
+        "Pre-Primary 1 (PP1)"
       ],
       "assignedSubjects": [
-        "English Language",
-        "Kiswahili & Fasihi"
+        "Environmental Activities",
+        "Psychomotor & Music"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "A radiant educator whose infectious enthusiasm for music and nature unlocks children’s imagination and physical confidence.",
+      "philosophy": "Curiosity nurtured with warm encouragement in the early years blossoms into lifelong academic distinction."
     },
     {
       "id": "tch-peter",
       "userId": "usr-tch-2",
       "fullName": "Peter Juma Mwangi",
       "staffId": "AMANI-TCH-005",
-      "position": "Teacher - Integrated Science & Agriculture",
-      "department": "Pure & Applied Sciences",
+      "position": "Teacher - PP2 (Pre-Primary 2)",
+      "department": "Pre-Primary Education",
       "email": "peter.juma@amanijunioracademy.ac.ke",
       "phone": "0733445566",
-      "qualifications": "B.Ed Science (Biology/Agriculture), First Class Honours",
-      "specialization": "Integrated Science, Agricultural Practical Projects & 4-K Club Patron",
+      "qualifications": "Dip. Teacher Education (ECDE / Primary Transition)",
+      "specialization": "PP2 Phonics Reading, Writing Readiness & Numeracy",
       "additionalSpecializations": [
-        "Laboratory Safety Officer",
-        "Drip Irrigation Field Specialist"
+        "Spelling Bee Coach",
+        "Early STEM Concepts"
       ],
-      "biography": "Mr. Peter manages the Amani botanical demonstration plots and science practical stations, cultivating empirical enquiry in every child.",
+      "biography": "Teacher Emily Mwaka is a revered reading specialist praised for turning PP2 learners into astonishingly fluent, confident early readers. Her meticulous phonics workshops and warm encouragement ensure that every pupil graduates to Grade 1 with superior literacy and numeracy foundations.",
       "assignedClasses": [
-        "Grade 7A (JSS)",
-        "Grade 8 Alpha (JSS)"
+        "Pre-Primary 2 (PP2)"
       ],
       "assignedSubjects": [
-        "Integrated Science",
-        "Agriculture & Nutrition"
+        "Phonics & Literacy",
+        "Mathematical Activities"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "A revered phonics master celebrated for transforming PP2 learners into astonishingly fluent, confident early readers ready for Grade 1.",
+      "philosophy": "When a child learns to read with joy and ease, the doors of every academic discipline are unlocked for life."
     },
     {
       "id": "tch-emmanuel",
       "userId": "usr-tch-3",
       "fullName": "Emmanuel Mwachiro",
       "staffId": "AMANI-TCH-006",
-      "position": "Teacher - Mathematics & Religious Education",
-      "department": "Mathematics & Humanities",
+      "position": "Teacher - Grade 1",
+      "department": "Lower Primary",
       "email": "emmanuel.mwachiro@amanijunioracademy.ac.ke",
       "phone": "0721998877",
-      "qualifications": "B.Ed (Mathematics / CRE), Certified Guidance Counselor",
-      "specialization": "Junior Secondary Mathematics & Christian Religious Education (CRE)",
+      "qualifications": "P1 Primary Teacher Certificate, CBC Trained Facilitator",
+      "specialization": "Grade 1 Mathematics Activities & English Language",
       "additionalSpecializations": [
-        "Chess Club Patron",
-        "Guidance & Counseling Coordinator"
+        "Remedial Reading",
+        "Penmanship & Handwriting"
       ],
-      "biography": "Mr. Emmanuel fosters analytical thinking and moral values through rigorous mathematics problem-solving and foundational religious studies.",
+      "biography": "Madam Florence is an outstanding pillar of Lower Primary education, admired for her kind motherly composure and dedication to individualized learner support. She transforms complex early arithmetic into intuitive daily adventures and nurtures impeccable penmanship.",
       "assignedClasses": [
-        "Grade 7A (JSS)",
-        "Grade 5 Victors"
+        "Grade 1 Explorers"
       ],
       "assignedSubjects": [
-        "Mathematics",
-        "Christian Religious Education (CRE)"
+        "Mathematics Activities",
+        "English Activities"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "An esteemed Lower Primary matriarch whose calm clarity turns first-grade arithmetic and penmanship into a daily triumph for every child.",
+      "philosophy": "Patience, structure, and warm praise awaken the dormant brilliance in every student."
     },
     {
       "id": "tch-raheli",
@@ -625,7 +642,7 @@
         "Early Child Health",
         "Creative Movement"
       ],
-      "biography": "Madam Raheli Wali provides compassionate, specialized early childhood care and stimulating playgroup learning for toddlers and young learners embarking on their educational journey.",
+      "biography": "Madam Raheli Wali is cherished for her boundless maternal warmth, angelic patience, and exceptional gift in comforting young toddlers taking their very first steps away from home. Her playful, affirming classroom atmosphere transforms school into a safe haven of laughter, wonder, and emotional security.",
       "assignedClasses": [
         "Playgroup (Budding Stars)",
         "Daycare (Tender Hearts)"
@@ -634,7 +651,9 @@
         "Creative Activities",
         "Language & Social Skills"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "A gentle mother to our youngest learners whose tender care dissolves all first-day tears and fills toddlers with boundless confidence and joy.",
+      "philosophy": "To teach a toddler is to touch the future with tenderness, boundless patience, and unconditional affection."
     },
     {
       "id": "tch-tatu",
@@ -651,7 +670,7 @@
         "Puppetry & Storytelling",
         "Music & Rhymes"
       ],
-      "biography": "Madam Tatu guides playgroup children through engaging sensory exploration, phonics games, and social play, fostering joy and curiosity in early learning.",
+      "biography": "Madam Tatu is a master of imaginative early learning, admired for bringing stories and rhymes alive through colorful puppetry, sensory exploration, and joyful song. She effortlessly instills confidence, verbal articulacy, and cheerful camaraderie in our youngest learners.",
       "assignedClasses": [
         "Playgroup (Budding Stars)"
       ],
@@ -659,7 +678,9 @@
         "Psychomotor Activities",
         "Sensory Play & Songs"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "A spark of imaginative wonder who turns early childhood into an enchanting world of songs, motor coordination, and joyful learning.",
+      "philosophy": "Joyful, hands-on play is the highest form of foundational research for a growing child."
     },
     {
       "id": "tch-periz",
@@ -676,7 +697,7 @@
         "Child Counseling",
         "Art Therapy"
       ],
-      "biography": "Madam Periz Inyangala fosters foundational reading, numeracy, and cooperative learning among PP1 pupils through hands-on learning corners.",
+      "biography": "Madam Periz Inyangala is an exceptional pre-primary educator celebrated for laying rock-solid foundations in letter sounds, numeracy, and cooperative team values. Her gentle guidance and structured sensory centers inspire deep curiosity and lifelong self-confidence in little scholars.",
       "assignedClasses": [
         "Pre-Primary 1 (PP1)"
       ],
@@ -684,7 +705,9 @@
         "Language Activities",
         "Mathematical Activities"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "A cornerstone of foundational literacy, revered by parents for giving PP1 children rock-solid phonetic clarity and numeric confidence.",
+      "philosophy": "A solid, affirming beginning creates an unstoppable lifelong scholar."
     },
     {
       "id": "tch-halima",
@@ -701,7 +724,7 @@
         "Cultural Heritage Club",
         "Traditional Storytelling"
       ],
-      "biography": "Madam Halima brings Kiswahili language and environmental awareness to life with interactive cultural activities and nature walks.",
+      "biography": "Madam Halima is a gifted linguist and cultural storyteller whose vibrant Kiswahili sessions inspire children to speak eloquently and embrace coastal heritage. Her outdoor environmental explorations instill respect for living things and community responsibility.",
       "assignedClasses": [
         "Grade 1 Explorers"
       ],
@@ -709,7 +732,9 @@
         "Kiswahili Activities",
         "Environmental Studies"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "Master custodian of Kiswahili eloquence and cultural dignity, inspiring rich oration and reverence for the natural environment.",
+      "philosophy": "Lugha safi ni uti wa mgongo wa hekima, maadili mema na utambulisho wa mwanafunzi."
     },
     {
       "id": "tch-elias",
@@ -726,7 +751,7 @@
         "Mental Math Club",
         "Junior Scouts Patron"
       ],
-      "biography": "Mr. Elias fosters mathematical problem-solving, teamwork, and scientific inquisitiveness among Grade 2 Achievers.",
+      "biography": "Mr. Elias is celebrated for his vibrant, interactive teaching style that turns mathematics into an exhilarating quest. He excels at sparking scientific inquiry in Grade 2 learners and is an inspiring mentor who teaches discipline, courage, and teamwork through Junior Scouts.",
       "assignedClasses": [
         "Grade 2 Achievers"
       ],
@@ -734,7 +759,9 @@
         "Mathematics Activities",
         "Science & Hygiene"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "Dynamic mathematics mentor and Junior Scouts leader whose high-energy lessons make problem-solving and scientific discovery exhilarating.",
+      "philosophy": "Mathematical confidence and personal character discipline go hand in hand to build champions."
     },
     {
       "id": "tch-jessicah",
@@ -751,7 +778,7 @@
         "Choir Director",
         "Drama & Elocution"
       ],
-      "biography": "Madam Jessicah Chizi mentors Grade 3 Pioneers in expressive communication, vocal music, drama, and CBC formative assessment projects.",
+      "biography": "Madam Jessicah Chizi is a phenomenal creative arts instructor and choir director whose passion inspires extraordinary public speaking poise and artistic flair in Grade 3 learners. Under her mentorship, pupils develop rich vocabularies, expressive writing, and stage confidence.",
       "assignedClasses": [
         "Grade 3 Pioneers"
       ],
@@ -759,7 +786,9 @@
         "English Language Activities",
         "Creative Arts & Music"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "Brilliant creative arts visionary and choir director whose pupils shine with exceptional poise, expressive English, and award-winning harmonies.",
+      "philosophy": "Creative expression, music, and spoken eloquence give our children the courage to lead anywhere in the world."
     },
     {
       "id": "tch-nancy",
@@ -776,7 +805,7 @@
         "4-K Club Coordinator",
         "Environmental Conservation"
       ],
-      "biography": "Madam Nancy guides Grade 4 Champions through moral leadership, civic responsibility, and hands-on agricultural projects.",
+      "biography": "Madam Nancy is an inspiring educator celebrated for shaping moral uprightness, civic integrity, and hands-on agricultural mastery in Grade 4. Her active 4-K club gardens give pupils practical farming skills, environmental stewardship, and nutritional consciousness.",
       "assignedClasses": [
         "Grade 4 Champions"
       ],
@@ -784,7 +813,9 @@
         "Social Studies & CRE",
         "Agriculture & Nutrition"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "Exemplary agricultural champion and moral mentor cultivating lush green school gardens and integrity in Grade 4 leaders.",
+      "philosophy": "Work with your hands, guard your moral character, and learn to steward the earth responsibly."
     },
     {
       "id": "tch-josephat",
@@ -801,7 +832,7 @@
         "Football Coach",
         "Track & Field Master"
       ],
-      "biography": "Mr. Josephat Kobe champions analytical mathematical rigor and vibrant athletic discipline among Grade 5 Victors.",
+      "biography": "Mr. Josephat Kobe is an energetic, highly disciplined mathematics and sports mentor who instills intellectual tenacity and athletic excellence in Grade 5 pupils. His mathematical problem-solving drills and championship soccer training inspire focus, resilience, and victory.",
       "assignedClasses": [
         "Grade 5 Victors"
       ],
@@ -809,7 +840,9 @@
         "Mathematics",
         "Physical & Health Education"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "A powerhouse educator and athletics champion who builds razor-sharp mathematical thinkers and resilient sports champions.",
+      "philosophy": "A sharp, critical intellect thrives best inside a disciplined, active, and determined body."
     },
     {
       "id": "tch-rhoda",
@@ -826,7 +859,7 @@
         "Debate & Model UN Patron",
         "JSS Academic Counseling"
       ],
-      "biography": "Madam Rhoda Sikuku leads Junior Secondary Grade 7 learners in critical literary analysis, debate, and CBC national competency assessment preparation.",
+      "biography": "Madam Rhoda Sikuku is an intellectually dazzling Junior Secondary literature specialist and debate coach holding First Class Honours. She challenges adolescents to think critically, express perspectives with persuasive eloquence, and excel in national CBC assessment benchmarks.",
       "assignedClasses": [
         "Grade 7A (JSS)",
         "Grade 7B (JSS)"
@@ -835,7 +868,9 @@
         "English Language",
         "Social Studies & Life Skills"
       ],
-      "accountStatus": "ACTIVE"
+      "accountStatus": "ACTIVE",
+      "commendation": "First-Class Honours academic luminary and debate patron driving our Junior Secondary scholars to elite national CBC distinction.",
+      "philosophy": "Empower young minds to question deeply, reason logically, and articulate their convictions with unshakeable dignity."
     }
   ],
   "classes": [
@@ -1496,6 +1531,123 @@
   ],
   "auditLogs": [
     {
+      "id": "log-1789642505716-842",
+      "userId": "usr-sys",
+      "userName": "Madam Raheli Wali",
+      "userRole": "TEACHER",
+      "action": "Successful Login",
+      "details": "Madam Raheli Wali (TEACHER) logged in to the management portal.",
+      "timestamp": "2026-09-17T10:55:05.716Z"
+    },
+    {
+      "id": "log-1789642503001-408",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Successful Login",
+      "details": "Constance Mwaka Pole (CHIEF_ADMIN) logged in to the management portal.",
+      "timestamp": "2026-09-17T10:55:03.001Z"
+    },
+    {
+      "id": "log-1789642500541-973",
+      "userId": "usr-sys",
+      "userName": "Vitalice Odhiambo",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Successful Login",
+      "details": "Vitalice Odhiambo (CHIEF_ADMIN) logged in to the management portal.",
+      "timestamp": "2026-09-17T10:55:00.541Z"
+    },
+    {
+      "id": "log-1789642308888-839",
+      "userId": "usr-sys",
+      "userName": "Madam Raheli Wali",
+      "userRole": "TEACHER",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:51:48.888Z"
+    },
+    {
+      "id": "log-1789642308826-995",
+      "userId": "usr-sys",
+      "userName": "Nadhiri Chacha Salim",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:51:48.826Z"
+    },
+    {
+      "id": "log-1789642308761-864",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:51:48.761Z"
+    },
+    {
+      "id": "log-1789642305550-410",
+      "userId": "usr-sys",
+      "userName": "Vitalice Odhiambo",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:51:45.550Z"
+    },
+    {
+      "id": "log-1789642086649-310",
+      "userId": "usr-sys",
+      "userName": "Vitalice Odhiambo",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:48:06.649Z"
+    },
+    {
+      "id": "log-1789642084263-78",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:48:04.263Z"
+    },
+    {
+      "id": "log-1789642060073-895",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:47:40.073Z"
+    },
+    {
+      "id": "log-1789642047588-225",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Default Credentials Verified",
+      "details": "Staff authenticated with initial default credentials; mandatory security profile completion required.",
+      "timestamp": "2026-09-17T10:47:27.588Z"
+    },
+    {
+      "id": "log-1789642041956-20",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Failed Login Attempt",
+      "details": "Incorrect password entered for director",
+      "timestamp": "2026-09-17T10:47:21.956Z"
+    },
+    {
+      "id": "log-1789642037765-953",
+      "userId": "usr-sys",
+      "userName": "Constance Mwaka Pole",
+      "userRole": "CHIEF_ADMIN",
+      "action": "Failed Login Attempt",
+      "details": "Incorrect password entered for director",
+      "timestamp": "2026-09-17T10:47:17.765Z"
+    },
+    {
       "id": "log-1789460444332-948",
       "userId": "usr-sys",
       "userName": "Vitalice Odhiambo",
@@ -1543,7 +1695,7 @@
   ],
   "analytics": {
     "totalVisitors": 1420,
-    "totalPageViews": 4130,
+    "totalPageViews": 4134,
     "totalChatbotQueries": 280,
     "pageViewsByPath": {
       "/": 1650,

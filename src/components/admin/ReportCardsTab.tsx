@@ -257,7 +257,7 @@ export const ReportCardsTab: React.FC<Props> = ({ classes, settings }) => {
                   Motto: "STRIVE TO ACHIEVE"
                 </p>
                 <p className="text-xs text-slate-600">
-                  P.O. BOX 93-80114, MAZERAS, KENYA | Phone: 0718540922 / 0114623408
+                  P.O. BOX 93-80114, MAZERAS, KENYA | Phone: 0718540922 / 0114623408 / 0746529712
                 </p>
                 <div className="inline-block px-4 py-1 bg-[#0F1E36] text-white font-bold text-xs uppercase tracking-wider rounded-md mt-1">
                   OFFICIAL LEARNER'S CONTINUOUS ASSESSMENT REPORT

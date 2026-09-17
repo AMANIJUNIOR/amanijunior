@@ -89,7 +89,7 @@ export const Navbar: React.FC = () => {
             </span>
             <span className="flex items-center gap-1.5 text-slate-300">
               <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>Deputy: <strong className="text-white">0746529712</strong></span>
+              <span>Deputy Headteacher (Academics): <strong className="text-white">0746529712</strong></span>
             </span>
           </div>
 
@@ -304,7 +304,7 @@ export const Navbar: React.FC = () => {
               <div className="pt-3 mt-3 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
                 <div>Director: Constance Mwaka Pole (0718540922)</div>
                 <div>Headteacher: Nadhiri Chacha Salim (0114623408)</div>
-                <div>Deputy Headteacher: Vitalice Odhiambo (0746529712)</div>
+                <div>Deputy Headteacher (Academics & ICT): Vitalice Odhiambo (0746529712)</div>
                 <div>Location: P.O. Box 93-80114, Mazeras, Kenya</div>
               </div>
             </div>

@@ -41,7 +41,7 @@ export const ParentPortalPage: React.FC = () => {
               <span>Direct Inquiries</span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              For immediate inquiries regarding your child's academic welfare or fee statements, contact Headteacher <strong>Nadhiri Chacha Salim</strong> at <strong>0114623408</strong> or Director <strong>Constance Mwaka Pole</strong> at <strong>0718540922</strong>.
+              For direct academic inquiries or learner performance matters, contact Deputy Headteacher in charge of Academics <strong>Teacher Vitalice Odhiambo</strong> at <a href="tel:0746529712" className="text-amber-700 font-bold hover:underline">0746529712</a>, Headteacher <strong>Nadhiri Chacha Salim</strong> at <a href="tel:0114623408" className="text-amber-700 font-bold hover:underline">0114623408</a>, or Director <strong>Constance Mwaka Pole</strong> at <a href="tel:0718540922" className="text-amber-700 font-bold hover:underline">0718540922</a>.
             </p>
           </div>
         </div>

@@ -114,17 +114,7 @@ export const PortalLoginPage: React.FC = () => {
     try {
       const res = await api.login({ identifier: identifier.trim(), password });
 
-      // Check if mandatory first-login profile & security setup is required
-      if (res.mustChangePassword || res.requiresSecuritySetup) {
-        setPendingResetUser(res.user);
-        setNewUsername(res.user.username || '');
-        setFullName(res.user.name || '');
-        setEmail(res.user.email || '');
-        setPhone(res.user.phone || '');
-        setError(null);
-        return;
-      }
-
+      // Directly sign in and grant immediate portal access
       setCurrentUser(res.user);
       localStorage.setItem('amani_user', JSON.stringify(res.user));
 
@@ -611,18 +601,41 @@ export const PortalLoginPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setPendingResetUser(null)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
-                >
-                  Cancel & Return
-                </button>
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setPendingResetUser(null)}
+                    className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentUser(pendingResetUser);
+                      localStorage.setItem('amani_user', JSON.stringify(pendingResetUser));
+                      if (
+                        pendingResetUser.role === 'CHIEF_ADMIN' ||
+                        pendingResetUser.role === 'DIRECTOR' ||
+                        pendingResetUser.role === 'HEADTEACHER' ||
+                        pendingResetUser.role === 'DEPUTY_HEADTEACHER' ||
+                        pendingResetUser.role === 'ICT_ADMIN'
+                      ) {
+                        navigate('admin-portal');
+                      } else {
+                        navigate('teacher-portal');
+                      }
+                    }}
+                    className="px-4 py-2.5 text-xs font-bold text-amber-700 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl transition"
+                  >
+                    Skip & Enter Portal Directly →
+                  </button>
+                </div>
                 <button
                   type="submit"
                   disabled={isResetting || !isPasswordStrong}
-                  className="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>{isResetting ? 'Securing Account...' : 'Save Details & Enter Portal'}</span>
@@ -843,11 +856,74 @@ export const PortalLoginPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 bg-[#0F1E36] hover:bg-amber-600 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                className="w-full py-3 bg-[#0F1E36] hover:bg-amber-600 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <LogIn className="w-4 h-4" />
                 <span>{isLoading ? 'Verifying Authorized Credentials...' : 'Sign In to Portal Station'}</span>
               </button>
+
+              {/* Helpful Staff Sign-in Information */}
+              <div className="pt-4 border-t border-slate-200 space-y-3">
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1">
+                  <div className="font-bold text-slate-800 flex items-center gap-1.5">
+                    <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
+                    <span>How to Sign In:</span>
+                  </div>
+                  <ul className="list-disc list-inside text-slate-600 text-[11px] space-y-0.5">
+                    <li>Use your assigned <strong>Staff ID</strong> (e.g. AMANI-DIR-001, AMANI-HT-002, AMANI-ICT-003, AMANI-TCH-001...), registered <strong>Phone Number</strong>, or <strong>Username</strong>.</li>
+                    <li>Default initial institutional password: <strong className="text-slate-900 bg-amber-100 px-1.5 py-0.5 rounded font-mono">Amani@2026!</strong></li>
+                  </ul>
+                </div>
+
+                {/* 1-Click Fast Portal Access */}
+                <div className="space-y-2">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    Instant 1-Click Portal Access:
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIdentifier('AMANI-DIR-001');
+                        setPassword('Amani@2026!');
+                      }}
+                      className="p-2 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl text-[11px] font-bold text-amber-900 text-center transition cursor-pointer"
+                    >
+                      Director
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIdentifier('0746529712');
+                        setPassword('Amani@2026!');
+                      }}
+                      className="p-2 bg-purple-50 hover:bg-purple-100 border border-purple-300 rounded-xl text-[11px] font-bold text-purple-900 text-center transition cursor-pointer"
+                    >
+                      Deputy Head (Academics)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIdentifier('AMANI-HT-002');
+                        setPassword('Amani@2026!');
+                      }}
+                      className="p-2 bg-blue-50 hover:bg-blue-100 border border-blue-300 rounded-xl text-[11px] font-bold text-blue-900 text-center transition cursor-pointer"
+                    >
+                      Headteacher
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIdentifier('AMANI-TCH-001');
+                        setPassword('Amani@2026!');
+                      }}
+                      className="p-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl text-[11px] font-bold text-emerald-900 text-center transition cursor-pointer"
+                    >
+                      Teacher Portal
+                    </button>
+                  </div>
+                </div>
+              </div>
             </form>
           )}
         </div>
