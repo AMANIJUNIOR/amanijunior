@@ -478,7 +478,7 @@ app.post('/api/auth/login', (req: Request, res: Response) => {
 
   if (!isPasswordValid) {
     addAuditLog(user.name, user.role, 'Failed Login Attempt', `Incorrect password entered for ${user.username}`);
-    return res.status(401).json({ error: 'Invalid password. Please enter your password or default code (Amani@2026!).' });
+    return res.status(401).json({ error: 'Invalid password. Please enter your authorized staff password or contact the administration.' });
   }
 
   // Update last login

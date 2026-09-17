@@ -862,24 +862,11 @@ export const PortalLoginPage: React.FC = () => {
                 <span>{isLoading ? 'Verifying Authorized Credentials...' : 'Sign In to Portal Station'}</span>
               </button>
 
-              {/* Helpful Staff Sign-in Information */}
-              <div className="pt-4 border-t border-slate-200 space-y-3">
-                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1">
-                  <div className="font-bold text-slate-800 flex items-center gap-1.5">
-                    <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
-                    <span>How to Sign In:</span>
-                  </div>
-                  <ul className="list-disc list-inside text-slate-600 text-[11px] space-y-0.5">
-                    <li>Use your assigned <strong>Staff ID</strong> (e.g. AMANI-DIR-001, AMANI-HT-002, AMANI-ICT-003, AMANI-TCH-001...), registered <strong>Phone Number</strong>, or <strong>Username</strong>.</li>
-                    <li>Default initial institutional password: <strong className="text-slate-900 bg-amber-100 px-1.5 py-0.5 rounded font-mono">Amani@2026!</strong></li>
-                  </ul>
+              {/* 1-Click Fast Portal Access */}
+              <div className="pt-4 border-t border-slate-200 space-y-2">
+                <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                  Instant 1-Click Portal Access:
                 </div>
-
-                {/* 1-Click Fast Portal Access */}
-                <div className="space-y-2">
-                  <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    Instant 1-Click Portal Access:
-                  </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     <button
                       type="button"
@@ -923,7 +910,6 @@ export const PortalLoginPage: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              </div>
             </form>
           )}
         </div>
