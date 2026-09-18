@@ -88,7 +88,7 @@ export const AboutPage: React.FC = () => {
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               <strong>Amani Junior Academy and JSS</strong> was founded to provide transformative, value-based education
-              in Mazeras, Kwale County. Established under the banner of peace, integrity, and relentless striving for
+              in Mazeras, Kilifi County. Established under the banner of peace, integrity, and relentless striving for
               excellence, the school has evolved into a premier educational institution providing seamless progression
               from Early Childhood Development Education (PP1 and PP2) through Primary (Grade 1 to 6) and Junior
               Secondary School (Grade 7 to 9).

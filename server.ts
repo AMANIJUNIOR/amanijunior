@@ -1938,7 +1938,7 @@ Official Information:
 - School Name: AMANI JUNIOR ACADEMY AND JSS
 - School Motto: "STRIVE TO ACHIEVE"
 - Postal Address: P.O. BOX 93-80114, MAZERAS, KENYA
-- Location: Mazeras, Kwale County, Kenya (Off Mombasa-Nairobi Highway)
+- Location: Mazeras, Kilifi County, Kenya (Off Mombasa-Nairobi Highway)
 - Director: CONSTANCE MWAKA POLE (Phone: 0718540922)
 - Headteacher: NADHIRI CHACHA SALIM (Phone: 0114623408)
 - Deputy Headteacher & Head of Academics / ICT: VITALICE ODHIAMBO (Phone: 0746529712)

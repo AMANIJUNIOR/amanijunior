@@ -93,7 +93,7 @@ export const ContactPage: React.FC = () => {
                   <div>
                     <div className="font-bold text-white">Postal & Physical Location:</div>
                     <div className="text-slate-300">{settings.postalAddress}</div>
-                    <div className="text-[11px] text-amber-300 mt-0.5">Mazeras, Kwale County, Kenya</div>
+                    <div className="text-[11px] text-amber-300 mt-0.5">Mazeras, Kilifi County, Kenya</div>
                   </div>
                 </div>
 
@@ -107,14 +107,24 @@ export const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/40">
                   <Phone className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
+                  <div className="space-y-1 w-full">
                     <div className="font-bold text-white">Deputy Headteacher & Head of Academics (Vitalice Odhiambo):</div>
                     <div className="text-[11px] text-amber-300">Directly in charge of Academics, CBC Curricula & ICT</div>
-                    <a href={`tel:${settings.deputyHeadteacherPhone || '0746529712'}`} className="text-amber-400 font-mono text-sm font-bold hover:underline">
-                      {settings.deputyHeadteacherPhone || '0746529712'}
-                    </a>
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <a href="tel:0746529712" className="text-amber-400 font-mono text-sm font-bold hover:underline">
+                        +254 746 529 712
+                      </a>
+                      <a
+                        href="https://wa.me/254746529712?text=Hello%20Vitalice,%20I%20am%20contacting%20you%20regarding%20Amani%20Junior%20Academy%20and%20JSS"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition shadow-sm"
+                      >
+                        <span>Chat Vitalice on WhatsApp</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
 

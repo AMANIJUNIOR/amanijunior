@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <SchoolLogoBadge size="md" textColor="light" />
             <p className="text-xs text-slate-300 leading-relaxed">
-              A premier private junior academy and junior secondary institution in Mazeras, Kwale County. Committed
+              A premier private junior academy and junior secondary institution in Mazeras, Kilifi County. Committed
               to the Kenyan Competency-Based Curriculum (CBC), STEM technological innovation, moral leadership, and
               holistic child development.
             </p>
@@ -175,7 +175,7 @@ export const Footer: React.FC = () => {
                 <div>
                   <div className="font-bold text-white">Postal Address:</div>
                   <div className="text-slate-300">{settings.postalAddress}</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Mazeras, Kwale County, Kenya</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Mazeras, Kilifi County, Kenya</div>
                 </div>
               </div>
 
@@ -196,9 +196,20 @@ export const Footer: React.FC = () => {
                   <div className="font-bold text-white">Deputy Headteacher (Academics & ICT):</div>
                   <div className="text-slate-200 font-semibold">Teacher Vitalice Odhiambo</div>
                   <div className="text-[11px] text-amber-300">In charge of Academics, Curriculum & ICT</div>
-                  <a href="tel:0746529712" className="text-amber-400 font-mono font-bold hover:underline">
-                    0746529712
-                  </a>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <a href="tel:0746529712" className="text-amber-400 font-mono font-bold hover:underline">
+                      0746529712
+                    </a>
+                    <span className="text-slate-500">•</span>
+                    <a
+                      href="https://wa.me/254746529712?text=Hello%20Teacher%20Vitalice,%20I%20am%20contacting%20you%20regarding%20Amani%20Junior%20Academy%20and%20JSS"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 hover:underline"
+                    >
+                      <span>Direct WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
               </div>
 

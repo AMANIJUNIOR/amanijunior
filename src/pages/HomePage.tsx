@@ -877,7 +877,7 @@ export const HomePage: React.FC = () => {
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Located within Mazeras, along the Mombasa-Nairobi transportation artery with safe, designated school
-                transport coverage extending to Mariakani, Miritini, and surrounding Kwale communities.
+                transport coverage extending to Mariakani, Miritini, and surrounding Kilifi and Mazeras communities.
               </p>
               <div className="pt-2 text-xs space-y-1.5 font-semibold text-slate-700">
                 <div className="flex items-center gap-2">
