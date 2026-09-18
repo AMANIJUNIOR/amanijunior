@@ -47,6 +47,7 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
   const [studentClass, setStudentClass] = useState(assignedClasses[0] || 'Grade 7A (JSS)');
   const [gender, setGender] = useState<'M' | 'F'>('M');
   const [dateOfBirth, setDateOfBirth] = useState('2012-05-15');
+  const [academicYear, setAcademicYear] = useState('2026');
   const [guardianName, setGuardianName] = useState('');
   const [guardianPhone, setGuardianPhone] = useState('');
   const [guardianEmail, setGuardianEmail] = useState('');
@@ -92,6 +93,7 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
       setStudentClass(student.class);
       setGender(student.gender);
       setDateOfBirth(student.dateOfBirth || '2012-05-15');
+      setAcademicYear(student.academicYear || '2026');
       setGuardianName(student.guardianName || '');
       setGuardianPhone(student.guardianPhone || '');
       setGuardianEmail(student.guardianEmail || '');
@@ -103,6 +105,7 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
       setStudentClass(selectedClassFilter !== 'ALL' ? selectedClassFilter : assignedClasses[0] || 'Grade 7A (JSS)');
       setGender('M');
       setDateOfBirth('2012-05-15');
+      setAcademicYear('2026');
       setGuardianName('');
       setGuardianPhone('');
       setGuardianEmail('');
@@ -155,7 +158,7 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
             : studentClass.includes('Grade 9')
             ? 'Grade 9'
             : studentClass.split(' ')[0],
-          academicYear: '2026',
+          academicYear: academicYear.trim() || '2026',
           status: 'ACTIVE',
           gender,
           dateOfBirth,
@@ -525,6 +528,19 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
                     value={dateOfBirth}
                     onChange={(e) => setDateOfBirth(e.target.value)}
                     className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Admission Year
+                  </label>
+                  <input
+                    type="text"
+                    value={academicYear}
+                    onChange={(e) => setAcademicYear(e.target.value)}
+                    placeholder="e.g. 2026"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-slate-800 font-mono font-bold"
                   />
                 </div>
               </div>

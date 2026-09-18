@@ -13,7 +13,10 @@ import {
   Clock,
   ArrowRight,
   ShieldAlert,
+  Calendar,
 } from 'lucide-react';
+import { AcademicYearTermSelector } from '../common/AcademicYearTermSelector';
+import { InfiniteCalendarModal } from '../common/InfiniteCalendarModal';
 
 interface Props {
   teacherId: string;
@@ -33,8 +36,10 @@ export const TeacherMarksEntryTab: React.FC<Props> = ({
   const [selectedClass, setSelectedClass] = useState(assignedClasses[0] || 'Grade 7A (JSS)');
   const [selectedSubject, setSelectedSubject] = useState(assignedSubjects[0] || 'Mathematics');
   const [assessmentType, setAssessmentType] = useState('CAT 1');
-  const [term, setTerm] = useState('Term 1, 2026');
-  const [academicYear, setAcademicYear] = useState('2026');
+  const [term, setTerm] = useState(settings?.currentTerm || `Term 1, ${settings?.academicYear || '2026'}`);
+  const [academicYear, setAcademicYear] = useState(settings?.academicYear || '2026');
+  const [assessmentDate, setAssessmentDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [maxMarks, setMaxMarks] = useState(50);
 
   // Student roster and existing marks
@@ -357,29 +362,27 @@ export const TeacherMarksEntryTab: React.FC<Props> = ({
           </select>
         </div>
 
-        <div>
-          <label className="block font-bold text-slate-700 mb-1">Academic Term</label>
-          <select
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            className="w-full border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-800"
-          >
-            <option value="Term 1, 2026">Term 1, 2026</option>
-            <option value="Term 2, 2026">Term 2, 2026</option>
-            <option value="Term 3, 2026">Term 3, 2026</option>
-          </select>
+        <div className="sm:col-span-2">
+          <label className="block font-bold text-slate-700 mb-1">Academic Year & Term</label>
+          <AcademicYearTermSelector
+            selectedYear={academicYear}
+            onYearChange={setAcademicYear}
+            selectedTerm={term}
+            onTermChange={setTerm}
+            className="w-full"
+          />
         </div>
 
         <div>
-          <label className="block font-bold text-slate-700 mb-1">Academic Year</label>
-          <select
-            value={academicYear}
-            onChange={(e) => setAcademicYear(e.target.value)}
-            className="w-full border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-800 font-mono"
+          <label className="block font-bold text-slate-700 mb-1">Assessment Date</label>
+          <button
+            type="button"
+            onClick={() => setIsCalendarOpen(true)}
+            className="w-full border border-slate-300 hover:border-amber-500 rounded-lg px-2.5 py-1.5 bg-white text-slate-800 font-mono text-xs flex items-center justify-between transition cursor-pointer"
           >
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-          </select>
+            <span>{assessmentDate}</span>
+            <Calendar className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+          </button>
         </div>
 
         <div>
@@ -620,6 +623,16 @@ export const TeacherMarksEntryTab: React.FC<Props> = ({
           </div>
         </div>
       )}
+
+      {/* Infinite Calendar Modal */}
+      <InfiniteCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={assessmentDate}
+        onSelectDate={(newDate) => setAssessmentDate(newDate)}
+        title="Assessment Date Selector"
+        subtitle="Pick any continuous assessment date across past, present, or future terms."
+      />
     </div>
   );
 };

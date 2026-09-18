@@ -16,6 +16,8 @@ import {
   School,
 } from 'lucide-react';
 import { SchoolLogoBadge } from '../SchoolLogoBadge';
+import { AcademicYearTermSelector } from '../common/AcademicYearTermSelector';
+import { InfiniteCalendarModal } from '../common/InfiniteCalendarModal';
 
 interface Props {
   classes: SchoolClass[];
@@ -27,8 +29,10 @@ export const ReportCardsTab: React.FC<Props> = ({ classes, settings }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedClass, setSelectedClass] = useState('Grade 7A (JSS)');
-  const [academicYear, setAcademicYear] = useState('2026');
-  const [term, setTerm] = useState('Term 1, 2026');
+  const [academicYear, setAcademicYear] = useState(settings?.academicYear || '2026');
+  const [term, setTerm] = useState(settings?.currentTerm || `Term 1, ${settings?.academicYear || '2026'}`);
+  const [issueDate, setIssueDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   // Single report card modal view / print preview
   const [selectedCard, setSelectedCard] = useState<StudentReportCard | null>(null);
@@ -96,24 +100,12 @@ export const ReportCardsTab: React.FC<Props> = ({ classes, settings }) => {
             ))}
           </select>
 
-          <select
-            value={academicYear}
-            onChange={(e) => setAcademicYear(e.target.value)}
-            className="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:border-amber-500"
-          >
-            <option value="2026">Academic Year 2026</option>
-            <option value="2025">Academic Year 2025</option>
-          </select>
-
-          <select
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            className="border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:border-amber-500"
-          >
-            <option value="Term 1, 2026">Term 1, 2026</option>
-            <option value="Term 2, 2026">Term 2, 2026</option>
-            <option value="Term 3, 2026">Term 3, 2026</option>
-          </select>
+          <AcademicYearTermSelector
+            selectedYear={academicYear}
+            onYearChange={setAcademicYear}
+            selectedTerm={term}
+            onTermChange={setTerm}
+          />
         </div>
 
         <button
@@ -371,7 +363,15 @@ export const ReportCardsTab: React.FC<Props> = ({ classes, settings }) => {
                   </p>
                   <div className="pt-4 flex items-center justify-between text-[11px] text-slate-500">
                     <span>Nadhiri Chacha Salim (Headteacher)</span>
-                    <span className="font-mono">Date: 14/04/2026</span>
+                    <button
+                      type="button"
+                      onClick={() => setIsCalendarOpen(true)}
+                      title="Click to set date using Infinite Calendar"
+                      className="font-mono text-slate-700 hover:text-amber-700 hover:underline flex items-center gap-1 cursor-pointer bg-white hover:bg-amber-50 px-2 py-0.5 rounded border border-slate-300 shadow-xs transition"
+                    >
+                      <Calendar className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Date: {issueDate.split('-').reverse().join('/')}</span>
+                    </button>
                   </div>
                 </div>
 
@@ -398,6 +398,16 @@ export const ReportCardsTab: React.FC<Props> = ({ classes, settings }) => {
           </div>
         </div>
       )}
+
+      {/* Infinite Calendar Picker Modal */}
+      <InfiniteCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={issueDate}
+        onSelectDate={(newDate) => setIssueDate(newDate)}
+        title="Report Card Issue Date Calendar"
+        subtitle="Select any official release date across any academic year without restriction."
+      />
     </div>
   );
 };

@@ -14,6 +14,9 @@ import {
   School,
   ToggleLeft,
   ToggleRight,
+  Calendar,
+  Globe,
+  GraduationCap,
 } from 'lucide-react';
 
 interface Props {
@@ -81,7 +84,9 @@ export const SchoolSettingsTab: React.FC<Props> = ({ settings, onSettingsUpdated
       };
 
       const res = await api.updateSettings(payload);
-      onSettingsUpdated(res.settings);
+      if (typeof onSettingsUpdated === 'function') {
+        onSettingsUpdated(res.settings);
+      }
       setStatusMessage({ type: 'success', text: 'School settings and grading configuration saved successfully!' });
       setTimeout(() => setStatusMessage(null), 4000);
     } catch (err: any) {
@@ -131,6 +136,77 @@ export const SchoolSettingsTab: React.FC<Props> = ({ settings, onSettingsUpdated
           <span>{statusMessage.text}</span>
         </div>
       )}
+
+      {/* Public Admission Campaign & Academic Calendar Control */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div>
+            <h3 className="text-sm font-bold text-[#0F1E36] flex items-center gap-2">
+              <Globe className="w-4 h-4 text-amber-600" />
+              <span>Public Website Admission Year & Calendar Control</span>
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Control the public admission intake year displayed on the Home Page, Admissions Page, and portal calendar.
+            </p>
+          </div>
+          <span className="px-2.5 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-lg text-[11px] font-bold self-start sm:self-auto">
+            Live Public Sync
+          </span>
+        </div>
+
+        <div className="grid sm:grid-cols-3 gap-4 text-xs">
+          {/* Active Admission Year */}
+          <div className="p-3.5 bg-amber-50/60 border border-amber-200 rounded-xl space-y-2">
+            <label className="block font-bold text-amber-950 flex items-center gap-1.5">
+              <GraduationCap className="w-4 h-4 text-amber-600" />
+              <span>Active Admission Year</span>
+            </label>
+            <input
+              type="text"
+              value={formData.activeAdmissionYear || formData.academicYear || '2026'}
+              onChange={(e) => setFormData({ ...formData, activeAdmissionYear: e.target.value })}
+              placeholder="e.g. 2026, 2027, 2028..."
+              className="w-full px-3 py-2 bg-white border border-amber-300 rounded-lg text-sm font-bold font-mono text-[#0F1E36] focus:outline-none focus:border-amber-500"
+            />
+            <p className="text-[10px] text-amber-800 leading-tight">
+              Updates the homepage intake banner (e.g. "Apply for {formData.activeAdmissionYear || '2026'} Intake" & "Enrolment Open for {formData.activeAdmissionYear || '2026'}").
+            </p>
+          </div>
+
+          {/* Current Academic Year */}
+          <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <label className="block font-bold text-slate-800 flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-indigo-600" />
+              <span>Current Academic Year</span>
+            </label>
+            <input
+              type="text"
+              value={formData.academicYear || '2026'}
+              onChange={(e) => setFormData({ ...formData, academicYear: e.target.value })}
+              placeholder="e.g. 2026"
+              className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-bold font-mono text-slate-800 focus:outline-none focus:border-indigo-500"
+            />
+            <p className="text-[10px] text-slate-500 leading-tight">
+              Default operational academic year across continuous assessment rosters and report cards.
+            </p>
+          </div>
+
+          {/* Current Term */}
+          <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <label className="block font-bold text-slate-800">Current Operational Term</label>
+            <input
+              type="text"
+              value={formData.currentTerm || `Term 1, ${formData.academicYear || '2026'}`}
+              onChange={(e) => setFormData({ ...formData, currentTerm: e.target.value })}
+              placeholder="e.g. Term 1, 2026"
+              className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:border-indigo-500"
+            />
+            <p className="text-[10px] text-slate-500 leading-tight">
+              Active school term for continuous assessment and grading sessions.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Configurable Grading Scale Module */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">

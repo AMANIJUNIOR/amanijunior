@@ -52,6 +52,7 @@ export const initialSchoolSettings: SchoolSettings = {
   preferredLoginMethod: 'USERNAME',
   admissionOpen: true,
   academicYear: '2026',
+  activeAdmissionYear: '2026',
   currentTerm: 'Term 1, 2026',
   gradingScale: [
     { grade: 'A', min: 80, max: 100, description: 'Exceeding Expectations (Distinction)' },

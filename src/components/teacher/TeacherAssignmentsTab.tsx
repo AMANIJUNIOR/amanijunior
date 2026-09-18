@@ -52,23 +52,17 @@ export const TeacherAssignmentsTab: React.FC<Props> = ({
     setStatusMessage(null);
 
     try {
-      const res = await fetch('/api/assignments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title,
-          className,
-          subjectName,
-          dueDate,
-          instructions,
-          description: instructions,
-          teacherId,
-          teacherName,
-          createdAt: new Date().toISOString().split('T')[0],
-        }),
+      await api.createAssignment({
+        title,
+        className,
+        subjectName,
+        dueDate,
+        instructions,
+        description: instructions,
+        teacherId,
+        teacherName,
+        createdAt: new Date().toISOString().split('T')[0],
       });
-
-      if (!res.ok) throw new Error('Failed to publish assignment');
 
       setTitle('');
       setInstructions('');

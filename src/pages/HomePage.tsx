@@ -38,6 +38,8 @@ export const HomePage: React.FC = () => {
     classes,
   } = useApp();
 
+  const admissionYear = settings?.activeAdmissionYear || settings?.academicYear || '2026';
+
   return (
     <div className="space-y-16 pb-12">
       {/* 1. HERO SECTION */}
@@ -178,7 +180,7 @@ export const HomePage: React.FC = () => {
                     onClick={() => openAdmissionModal()}
                     className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-extrabold text-xs tracking-wider uppercase shadow-md transition"
                   >
-                    Apply for 2026 Intake
+                    Apply for {admissionYear} Intake
                   </button>
                 </div>
               </div>
@@ -821,7 +823,7 @@ export const HomePage: React.FC = () => {
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0F1E36] via-[#162A4A] to-[#0A1628] p-8 sm:p-14 text-white shadow-2xl border-2 border-amber-500">
           <div className="relative z-10 max-w-2xl space-y-4">
             <span className="px-3 py-1 bg-amber-500/20 border border-amber-400/40 text-amber-400 text-xs font-bold rounded-full uppercase tracking-wider">
-              Enrolment Open for 2026 Academic Year
+              Enrolment Open for {admissionYear} Academic Year
             </span>
             <h2 className="text-2xl sm:text-4xl font-black font-['Cinzel',serif] tracking-tight">
               Give Your Child the Foundation to Strive & Achieve

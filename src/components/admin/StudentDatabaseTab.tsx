@@ -38,6 +38,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
   const [selectedClass, setSelectedClass] = useState('Grade 7A (JSS)');
   const [gender, setGender] = useState<'M' | 'F'>('M');
   const [dateOfBirth, setDateOfBirth] = useState('2012-05-15');
+  const [academicYear, setAcademicYear] = useState('2026');
   const [guardianName, setGuardianName] = useState('');
   const [guardianPhone, setGuardianPhone] = useState('');
   const [guardianEmail, setGuardianEmail] = useState('');
@@ -109,7 +110,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
         guardianName,
         guardianPhone,
         guardianEmail,
-        academicYear: '2026',
+        academicYear,
         confirmDuplicate,
       };
 
@@ -396,7 +397,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">Gender</label>
                   <select
@@ -416,6 +417,17 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
                     value={dateOfBirth}
                     onChange={(e) => setDateOfBirth(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-amber-500 text-slate-800"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Admission Year</label>
+                  <input
+                    type="text"
+                    value={academicYear}
+                    onChange={(e) => setAcademicYear(e.target.value)}
+                    placeholder="e.g. 2026"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-amber-500 text-slate-800 font-mono font-bold"
                   />
                 </div>
               </div>

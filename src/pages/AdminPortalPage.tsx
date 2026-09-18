@@ -21,7 +21,9 @@ import {
   MessageSquare,
   Lock,
   LogOut,
+  Calendar,
 } from 'lucide-react';
+import { InfiniteCalendarModal } from '../components/common/InfiniteCalendarModal';
 
 // Admin Modular Tabs
 import { StudentDatabaseTab } from '../components/admin/StudentDatabaseTab';
@@ -36,6 +38,7 @@ export const AdminPortalPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     'students' | 'teachers' | 'results' | 'reports' | 'settings' | 'enquiries' | 'audit'
   >('students');
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   // Enquiries state
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
@@ -92,16 +95,11 @@ export const AdminPortalPage: React.FC = () => {
 
   const handleUpdateEnquiryStatus = async (id: string, status: 'New' | 'In Progress' | 'Resolved') => {
     try {
-      const res = await fetch(`/api/enquiries/${id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, responseNotes: responseText }),
-      });
-      if (res.ok) {
-        await fetchEnquiries();
-        setSelectedEnquiry(null);
-        setResponseText('');
-      }
+      const normalizedStatus = status === 'New' ? 'NEW' : status === 'In Progress' ? 'IN PROGRESS' : 'RESOLVED';
+      await api.updateEnquiryStatus(id, normalizedStatus, responseText);
+      await fetchEnquiries();
+      setSelectedEnquiry(null);
+      setResponseText('');
     } catch (err) {
       alert('Failed to update enquiry status.');
     }
@@ -112,23 +110,34 @@ export const AdminPortalPage: React.FC = () => {
       {/* Top Banner & Leadership Identity */}
       <div className="bg-[#0F1E36] text-white p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
         <div className="space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold border border-amber-400/30">
-            <Shield className="w-3.5 h-3.5 text-amber-400" />
-            <span>Chief Administrative Portal • Amani Junior Academy and JSS</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold border border-amber-400/30">
+              <Shield className="w-3.5 h-3.5 text-amber-400" />
+              <span>Chief Administrative Portal • Amani Junior Academy and JSS</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-slate-200 rounded-full text-xs font-bold border border-white/10">
+              <span>Intake Campaign:</span>
+              <span className="text-amber-300 font-mono">{settings.activeAdmissionYear || settings.academicYear || '2026'}</span>
+            </div>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold font-['Cinzel',serif] tracking-wide">
             School Governance & Academic Registry
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            Logged in as: <strong className="text-white">{currentUser?.name}</strong> ({currentUser?.role}) • P.O. Box 93-80114, Mazeras, Kenya
+            Logged in as: <strong className="text-white">{currentUser?.name}</strong> ({currentUser?.role}) • Academic Year: <strong className="text-amber-300 font-mono">{settings.academicYear || '2026'}</strong> ({settings.currentTerm || 'Term 1'})
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 relative z-10 shrink-0">
-          <div className="text-right hidden sm:block text-xs text-slate-300">
-            <div>Director: Constance Mwaka Pole</div>
-            <div>Headteacher: Nadhiri Chacha Salim</div>
-          </div>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 relative z-10 shrink-0">
+          <button
+            type="button"
+            onClick={() => setIsCalendarOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2 bg-white/10 hover:bg-white/20 text-amber-300 rounded-xl text-xs font-bold shadow-sm transition border border-white/20 cursor-pointer"
+            title="Open Infinite Academic Calendar"
+          >
+            <Calendar className="w-4 h-4 text-amber-400" />
+            <span>Academic Calendar</span>
+          </button>
           <button
             id="btn-admin-portal-logout"
             onClick={() => logout('portal-login')}
@@ -244,7 +253,11 @@ export const AdminPortalPage: React.FC = () => {
         {activeTab === 'settings' && (
           <SchoolSettingsTab
             settings={settings}
-            onSettingsUpdated={(newSettings) => setSettings(newSettings)}
+            onSettingsUpdated={(newSettings) => {
+              if (typeof setSettings === 'function') {
+                setSettings(newSettings);
+              }
+            }}
           />
         )}
         {activeTab === 'audit' && <AuditLogsTab />}
@@ -353,6 +366,16 @@ export const AdminPortalPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Infinite Academic Calendar Modal */}
+      <InfiniteCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={new Date().toISOString().split('T')[0]}
+        onSelectDate={() => {}}
+        title="Institutional Academic Calendar"
+        subtitle="School term schedules, opening dates, and examination timelines across all years."
+      />
     </div>
   );
 };

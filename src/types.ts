@@ -304,7 +304,7 @@ export interface Enquiry {
   category: EnquiryCategory;
   message: string;
   status: EnquiryStatus;
-  source: 'Website Form' | 'AI Chatbot Handoff' | 'Admissions Page' | 'Phone';
+  source: 'Website Form' | 'AI Chatbot Handoff' | 'Admissions Page' | 'Phone' | 'Contact Page' | string;
   assignedStaff?: string;
   studentGradeInterest?: string;
   createdAt: string;
@@ -479,6 +479,7 @@ export interface SchoolSettings {
   };
   preferredLoginMethod: 'USERNAME' | 'STAFF_ID' | 'PHONE' | 'EMAIL';
   admissionOpen: boolean;
+  activeAdmissionYear?: string;
   academicYear: string;
   currentTerm: string;
   gradingScale: GradingScaleItem[];

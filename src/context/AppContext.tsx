@@ -49,6 +49,7 @@ interface AppContextType {
 
   // School data
   settings: SchoolSettings;
+  setSettings: React.Dispatch<React.SetStateAction<SchoolSettings>>;
   teachers: TeacherProfile[];
   classes: SchoolClass[];
   subjects: Subject[];
@@ -240,6 +241,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCurrentRoute: navigate,
         navigate,
         settings,
+        setSettings,
         teachers,
         classes,
         subjects,

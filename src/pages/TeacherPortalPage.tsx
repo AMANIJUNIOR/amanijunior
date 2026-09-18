@@ -19,10 +19,12 @@ import { TeacherMarksEntryTab } from '../components/teacher/TeacherMarksEntryTab
 import { TeacherAttendanceTab } from '../components/teacher/TeacherAttendanceTab';
 import { TeacherAssignmentsTab } from '../components/teacher/TeacherAssignmentsTab';
 import { TeacherStudentRegistrationTab } from '../components/teacher/TeacherStudentRegistrationTab';
+import { InfiniteCalendarModal } from '../components/common/InfiniteCalendarModal';
 
 export const TeacherPortalPage: React.FC = () => {
   const { currentUser, navigate, settings, classes, subjects, logout } = useApp();
   const [activeTab, setActiveTab] = useState<'learners' | 'marks' | 'attendance' | 'assignments'>('learners');
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   if (!currentUser) {
     return (
@@ -82,6 +84,15 @@ export const TeacherPortalPage: React.FC = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 relative z-10 shrink-0">
+          <button
+            type="button"
+            onClick={() => setIsCalendarOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2 bg-white/10 hover:bg-white/20 text-amber-300 rounded-xl text-xs font-bold shadow-sm transition border border-white/20 cursor-pointer"
+            title="Open Infinite Academic Calendar"
+          >
+            <Calendar className="w-4 h-4 text-amber-400" />
+            <span>Academic Calendar</span>
+          </button>
           <button
             id="btn-teacher-portal-logout"
             onClick={() => logout('portal-login')}
@@ -183,6 +194,16 @@ export const TeacherPortalPage: React.FC = () => {
           />
         )}
       </div>
+
+      {/* Infinite Academic Calendar Modal */}
+      <InfiniteCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={new Date().toISOString().split('T')[0]}
+        onSelectDate={() => {}}
+        title="Faculty Academic Calendar"
+        subtitle="School term dates, examination weeks, and reporting deadlines across all academic years."
+      />
     </div>
   );
 };

@@ -21,6 +21,8 @@ export const AdmissionsPage: React.FC = () => {
   const { openAdmissionModal, openEscalationModal, settings } = useApp();
   const [activeTab, setActiveTab] = useState<'process' | 'requirements' | 'fees' | 'uniform' | 'transport'>('process');
 
+  const admissionYear = settings?.activeAdmissionYear || settings?.academicYear || '2026';
+
   const feeStructure = [
     {
       level: 'Daycare (Tender Care - Below 3 Years)',
@@ -73,7 +75,7 @@ export const AdmissionsPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 border border-amber-400/40 rounded-full text-amber-400 text-xs font-extrabold uppercase tracking-widest">
             <GraduationCap className="w-3.5 h-3.5" />
-            <span>2026 Academic Year Enrollment</span>
+            <span>{admissionYear} Academic Year Enrollment</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black font-['Cinzel',serif] tracking-tight">
             Admissions & Enrollment Procedures
@@ -307,7 +309,7 @@ export const AdmissionsPage: React.FC = () => {
               <div className="p-4 bg-[#0F1E36] text-white flex items-center justify-between">
                 <div>
                   <h4 className="text-sm font-bold font-['Cinzel',serif]">
-                    Indicative 2026 Termly Fee Schedule (Per Term)
+                    Indicative {admissionYear} Termly Fee Schedule (Per Term)
                   </h4>
                   <p className="text-[11px] text-amber-300">All fees in Kenya Shillings (KES)</p>
                 </div>
