@@ -335,13 +335,8 @@ export class LocalDatabase {
       isPasswordValid = true;
     }
 
-    // On static hosting/demo mode: allow any reasonable entered password if not blank
-    if (!isPasswordValid && trimmedPassword.length >= 3) {
-      isPasswordValid = true;
-    }
-
     if (!isPasswordValid) {
-      throw new Error('Invalid password. Please enter your authorized staff password or use default "Amani@2026!".');
+      throw new Error('Invalid credentials. Please enter your authorized staff password or use your assigned initial institutional password.');
     }
 
     user.lastLogin = new Date().toISOString();
