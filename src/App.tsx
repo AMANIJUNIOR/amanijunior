@@ -5,6 +5,7 @@ import { Footer } from './components/Footer';
 import { AskAmaniChatbot } from './components/AskAmaniChatbot';
 import { AdmissionModal } from './components/AdmissionModal';
 import { HumanEscalationModal } from './components/HumanEscalationModal';
+import { VitaliceWhatsAppButton } from './components/VitaliceWhatsAppButton';
 
 // Pages for Amani Junior Academy and JSS
 import { HomePage } from './pages/HomePage';
@@ -83,6 +84,9 @@ const AppContent: React.FC = () => {
 
       {/* Floating AI Assistant ("Talk to Amani") */}
       <AskAmaniChatbot />
+
+      {/* Direct WhatsApp Contact for Teacher Vitalice (+254 746 529712) */}
+      <VitaliceWhatsAppButton />
 
       {/* Interactive Global Modals */}
       <AdmissionModal />

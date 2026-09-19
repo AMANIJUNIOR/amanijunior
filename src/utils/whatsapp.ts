@@ -1,100 +1,68 @@
 /**
- * WhatsApp Integration Utilities for Golden Span Technologies Limited
- * Directly routes customer inquiries to Directors:
- * 1. Prestine Otieno Odhiambo (MD): +254 745 684291
- * 2. Cynthia Atieno Omondi (Director): +254 796 838799
+ * WhatsApp Integration Utilities for Amani Junior Academy and JSS
+ * Directly routes parent and visitor inquiries to:
+ * Deputy Headteacher & Head of Academics / ICT: Teacher Vitalice Odhiambo (+254 746 529712)
  */
 
-export const DIRECTORS_WHATSAPP = {
-  prestine: {
-    name: 'Prestine Otieno Odhiambo',
-    role: 'Managing Director & Co-Founder',
-    phoneFormatted: '+254 745 684291',
-    whatsappNumber: '254745684291',
-  },
-  cynthia: {
-    name: 'Cynthia Atieno Omondi',
-    role: 'Director & Co-Founder',
-    phoneFormatted: '+254 796 838799',
-    whatsappNumber: '254796838799',
-  },
+export const VITALICE_WHATSAPP = {
+  name: 'Teacher Vitalice Odhiambo',
+  role: 'Deputy Headteacher & Head of Academics / ICT',
+  phoneFormatted: '+254 746 529712',
+  whatsappNumber: '254746529712',
 };
 
 export interface WhatsAppMessagePayload {
-  clientName: string;
-  clientPhone: string;
-  clientEmail?: string;
-  serviceOrSubject: string;
+  parentName?: string;
+  phone?: string;
+  learnerName?: string;
+  gradeOfInterest?: string;
+  subject?: string;
   message?: string;
-  referenceNumber?: string;
-  urgency?: 'STANDARD' | 'URGENT' | 'HIGH';
 }
 
 /**
- * Formats a professional, structured WhatsApp message for Golden Span Directors
+ * Generates direct click-to-chat WhatsApp URL for Teacher Vitalice Odhiambo
  */
-export function formatWhatsAppMessage(payload: WhatsAppMessagePayload): string {
-  const timestamp = new Date().toLocaleString('en-KE', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-    timeZone: 'Africa/Nairobi',
-  });
+export function getVitaliceWhatsAppUrl(customMessage?: string): string {
+  const defaultText =
+    'Hello Teacher Vitalice, I am contacting you regarding Amani Junior Academy & JSS (Mazeras, Kilifi County). I would like to make an inquiry.';
+  const text = customMessage || defaultText;
+  return `https://wa.me/${VITALICE_WHATSAPP.whatsappNumber}?text=${encodeURIComponent(text)}`;
+}
 
+/**
+ * Formats a structured message for WhatsApp consultation with Vitalice
+ */
+export function formatVitaliceWhatsAppMessage(payload: WhatsAppMessagePayload): string {
   const lines = [
-    '🚨 *URGENT CLIENT INQUIRY - GOLDEN SPAN TECHNOLOGIES*',
+    '🏫 *AMANI JUNIOR ACADEMY & JSS - DIRECT INQUIRY*',
     '--------------------------------------',
-    payload.referenceNumber ? `📌 *Reference:* ${payload.referenceNumber}` : null,
-    `👤 *Client Name:* ${payload.clientName || 'Website Visitor'}`,
-    `📞 *Client Phone:* ${payload.clientPhone}`,
-    payload.clientEmail ? `✉️ *Email:* ${payload.clientEmail}` : null,
-    `🏢 *Subject / Service:* ${payload.serviceOrSubject}`,
-    payload.urgency ? `⚡ *Priority:* ${payload.urgency}` : null,
+    payload.parentName ? `👤 *Parent/Guardian:* ${payload.parentName}` : null,
+    payload.phone ? `📞 *Phone:* ${payload.phone}` : null,
+    payload.learnerName ? `🎓 *Learner Name:* ${payload.learnerName}` : null,
+    payload.gradeOfInterest ? `📚 *Class/Grade:* ${payload.gradeOfInterest}` : null,
+    payload.subject ? `📌 *Inquiry Subject:* ${payload.subject}` : null,
     payload.message ? `💬 *Message:* "${payload.message.trim()}"` : null,
     '--------------------------------------',
-    `🕒 *Sent at:* ${timestamp}`,
-    '📍 *Platform:* Golden Span Technologies Portal (Bishop\'s Plaza, Siaya)',
+    '📍 *School Location:* Mazeras, Kilifi County, Kenya',
   ].filter(Boolean);
 
   return lines.join('\n');
 }
 
 /**
- * Generates direct click-to-chat WhatsApp URL for a specific director
+ * Opens WhatsApp chat directly with Teacher Vitalice in a new tab
  */
-export function getWhatsAppUrl(
-  directorKey: 'prestine' | 'cynthia',
-  messageText: string
-): string {
-  const director = DIRECTORS_WHATSAPP[directorKey];
-  const encodedText = encodeURIComponent(messageText);
-  return `https://wa.me/${director.whatsappNumber}?text=${encodedText}`;
-}
+export function openVitaliceWhatsApp(payload?: WhatsAppMessagePayload | string): void {
+  let url: string;
+  if (typeof payload === 'string') {
+    url = getVitaliceWhatsAppUrl(payload);
+  } else if (payload) {
+    const formatted = formatVitaliceWhatsAppMessage(payload);
+    url = getVitaliceWhatsAppUrl(formatted);
+  } else {
+    url = getVitaliceWhatsAppUrl();
+  }
 
-/**
- * Opens WhatsApp chat in a new tab/window for both directors or specific director
- */
-export function openWhatsAppChat(
-  directorKey: 'prestine' | 'cynthia',
-  payload: WhatsAppMessagePayload
-): void {
-  const message = formatWhatsAppMessage(payload);
-  const url = getWhatsAppUrl(directorKey, message);
   window.open(url, '_blank', 'noopener,noreferrer');
-}
-
-/**
- * Dispatches WhatsApp message to BOTH directors simultaneously
- */
-export function openBothDirectorsWhatsApp(payload: WhatsAppMessagePayload): void {
-  const message = formatWhatsAppMessage(payload);
-  const urlPrestine = getWhatsAppUrl('prestine', message);
-  const urlCynthia = getWhatsAppUrl('cynthia', message);
-
-  // Open Prestine in active new tab
-  window.open(urlPrestine, '_blank', 'noopener,noreferrer');
-
-  // Open Cynthia after short delay so browser doesn't block second popup
-  setTimeout(() => {
-    window.open(urlCynthia, '_blank', 'noopener,noreferrer');
-  }, 400);
 }

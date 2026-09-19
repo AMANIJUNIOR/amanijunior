@@ -627,6 +627,26 @@ export const api = {
     );
   },
 
+  async deleteEnquiry(id: string) {
+    return callApiWithFallback(
+      `/api/enquiries/${id}`,
+      {
+        method: 'DELETE',
+      },
+      () => localDb.deleteEnquiry(id)
+    );
+  },
+
+  async clearExhaustedEnquiries(all = false) {
+    return callApiWithFallback(
+      `/api/enquiries?all=${all}`,
+      {
+        method: 'DELETE',
+      },
+      () => localDb.clearExhaustedEnquiries(all)
+    );
+  },
+
   // Chatbot
   async queryChatbot(
     message: string,

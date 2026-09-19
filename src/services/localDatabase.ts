@@ -490,7 +490,13 @@ export class LocalDatabase {
 
   public updateStudent(id: string, updates: Partial<Student>): { success: boolean; student: Student } {
     const students = this.getStudents();
-    const idx = students.findIndex((s) => s.id === id || s.studentId === id);
+    const target = (id || '').toLowerCase().trim();
+    const idx = students.findIndex(
+      (s) =>
+        (s.id && s.id.toLowerCase() === target) ||
+        (s.studentId && s.studentId.toLowerCase() === target) ||
+        (s.admissionNumber && s.admissionNumber.toLowerCase() === target)
+    );
     if (idx === -1) throw new Error('Student not found');
     students[idx] = { ...students[idx], ...updates };
     setToStorage('amani_students', students);
@@ -499,7 +505,13 @@ export class LocalDatabase {
 
   public deleteStudent(id: string): { success: boolean } {
     const students = this.getStudents();
-    const filtered = students.filter((s) => s.id !== id && s.studentId !== id);
+    const target = (id || '').toLowerCase().trim();
+    const filtered = students.filter(
+      (s) =>
+        (s.id && s.id.toLowerCase() === target) === false &&
+        (s.studentId && s.studentId.toLowerCase() === target) === false &&
+        (s.admissionNumber && s.admissionNumber.toLowerCase() === target) === false
+    );
     setToStorage('amani_students', filtered);
     return { success: true };
   }
@@ -937,19 +949,76 @@ export class LocalDatabase {
       }
     }
 
+    const allSubjects = initialSubjects;
+
     const cards: StudentReportCard[] = target.map((student) => {
       const studentMarks = marks.filter((m) => m.studentId === student.studentId);
-      const subjectsTable: SubjectReportEntry[] = studentMarks.map((m) => ({
-        subjectName: m.subjectName,
-        subjectCode: m.subjectId.toUpperCase(),
-        teacherName: m.teacherName,
-        maxMarks: m.maxMarks,
-        marksObtained: m.marksObtained,
-        percentage: m.percentage,
-        grade: m.calculatedGrade,
-        teacherComment: m.feedback?.teacherComment || 'Satisfactory progress in CBC competencies.',
-        status: m.status,
-      }));
+      
+      // Determine student curriculum level
+      const c = (student.class || '').toLowerCase();
+      const g = (student.grade || '').toLowerCase();
+      const level = (c.includes('7') || c.includes('8') || c.includes('9') || c.includes('jss'))
+        ? 'Junior Secondary'
+        : (c.includes('pp1') || c.includes('pp2') || c.includes('playgroup'))
+        ? 'Pre-Primary'
+        : 'Primary';
+
+      let standardSubjects = allSubjects.filter((s) => s.level === level);
+      if (standardSubjects.length === 0) standardSubjects = allSubjects;
+
+      const subjectsTable: SubjectReportEntry[] = [];
+      const processedCodes = new Set<string>();
+
+      standardSubjects.forEach((subj) => {
+        processedCodes.add(subj.code.toUpperCase());
+        const m = studentMarks.find(
+          (sm) => sm.subjectId.toLowerCase() === subj.id.toLowerCase() || sm.subjectName.toLowerCase() === subj.name.toLowerCase()
+        );
+        if (m) {
+          subjectsTable.push({
+            subjectName: m.subjectName,
+            subjectCode: subj.code || m.subjectId.toUpperCase(),
+            teacherName: m.teacherName,
+            maxMarks: m.maxMarks,
+            marksObtained: m.marksObtained,
+            percentage: m.percentage,
+            grade: m.calculatedGrade,
+            teacherComment: m.feedback?.teacherComment || 'Satisfactory progress in CBC competencies.',
+            status: m.status,
+          });
+        } else {
+          // Missing marks recorded as 0% as required
+          subjectsTable.push({
+            subjectName: subj.name,
+            subjectCode: subj.code,
+            teacherName: subj.department || 'Curriculum Faculty',
+            maxMarks: 100,
+            marksObtained: 0,
+            percentage: 0,
+            grade: 'E',
+            teacherComment: 'Assessment pending / Marks not yet recorded (Recorded as 0%).',
+            status: 'APPROVED',
+          });
+        }
+      });
+
+      studentMarks.forEach((m) => {
+        const code = m.subjectId.toUpperCase();
+        if (!processedCodes.has(code)) {
+          processedCodes.add(code);
+          subjectsTable.push({
+            subjectName: m.subjectName,
+            subjectCode: code,
+            teacherName: m.teacherName,
+            maxMarks: m.maxMarks,
+            marksObtained: m.marksObtained,
+            percentage: m.percentage,
+            grade: m.calculatedGrade,
+            teacherComment: m.feedback?.teacherComment || 'Competency progress recorded.',
+            status: m.status,
+          });
+        }
+      });
 
       const totalMarksObtained = subjectsTable.reduce((sum, s) => sum + s.marksObtained, 0);
       const totalMaxPossible = subjectsTable.reduce((sum, s) => sum + s.maxMarks, 0);
@@ -1075,6 +1144,26 @@ export class LocalDatabase {
       }
       setToStorage('amani_enquiries', list);
     }
+    return { success: true };
+  }
+
+  public deleteEnquiry(id: string) {
+    let list = this.getEnquiries();
+    list = list.filter((e) => e.id !== id);
+    setToStorage('amani_enquiries', list);
+    return { success: true };
+  }
+
+  public clearExhaustedEnquiries(all = false) {
+    let list = this.getEnquiries();
+    if (all) {
+      list = [];
+    } else {
+      list = list.filter(
+        (e) => (e.status as any) !== 'RESOLVED' && (e.status as any) !== 'Resolved' && (e.status as any) !== 'CLOSED'
+      );
+    }
+    setToStorage('amani_enquiries', list);
     return { success: true };
   }
 

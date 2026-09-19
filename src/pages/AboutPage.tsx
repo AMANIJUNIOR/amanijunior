@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   Phone,
   Mail,
+  MessageCircle,
   GraduationCap,
   Sparkles,
   Star,
@@ -29,32 +30,30 @@ export const AboutPage: React.FC = () => {
     {
       role: 'School Director',
       name: 'CONSTANCE MWAKA POLE',
+      initials: 'CMP',
       phone: '0718540922',
-      email: 'director@amanijunioracademy.ac.ke',
       qualifications: 'B.Ed (Arts), Dip. Educational Management & Institutional Governance',
       biography:
-        'Director Constance Mwaka Pole provides the strategic vision and moral foundation for Amani Junior Academy and JSS. With deep dedication to the Mazeras community, she has championed accessible academic excellence, disciplined leadership, and a compassionate learning sanctuary.',
-      photo: '/director_cynthia.jpg',
+        'Director Constance Mwaka Pole provides the strategic vision and moral foundation for Amani Junior Academy and JSS. With deep dedication to the Mazeras community in Kilifi County, she has championed accessible academic excellence, disciplined leadership, and a compassionate learning sanctuary.',
     },
     {
       role: 'Headteacher',
       name: 'NADHIRI CHACHA SALIM',
+      initials: 'NCS',
       phone: '0114623408',
-      email: 'headteacher@amanijunioracademy.ac.ke',
       qualifications: 'B.Ed (Sc), Higher Dip. Quality Assurance & Standards in Education',
       biography:
         'Headteacher Nadhiri Chacha Salim commands daily school administration, curriculum alignment with KICD standards, and faculty supervision. He is committed to nurturing each child’s intellectual curiosity and ensuring high performance in CBC assessments.',
-      photo: '/director_prestine.jpg',
     },
     {
       role: 'Deputy Headteacher & Dean of Academics / ICT',
       name: 'TEACHER VITALICE ODHIAMBO',
+      initials: 'VO',
       phone: '0746529712',
-      email: 'vitalice@amanijunioracademy.ac.ke',
+      isVitalice: true,
       qualifications: 'B.Sc Computer Science & Education, Certified CBC Digital Educator',
       biography:
         'Teacher Vitalice Odhiambo serves as Deputy Headteacher and is in charge of Academics and ICT across Amani Junior Academy and JSS. He directs curriculum delivery, national CBC assessments, academic performance benchmarks, timetable coordination, and digital STEM learning with exemplary pedagogical dedication.',
-      photo: '/amani_ict.jpg',
     },
   ];
 
@@ -76,15 +75,15 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 1. Our Story & Who We Are */}
+      {/* 1. Our History & Who We Are */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-4">
             <span className="text-xs font-extrabold text-amber-600 uppercase tracking-widest">
-              Foundational Journey
+              Foundational Journey & Legacy
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F1E36] font-['Cinzel',serif]">
-              Our Story & Who We Are
+              Our History & Who We Are
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               <strong>Amani Junior Academy and JSS</strong> was founded to provide transformative, value-based education
@@ -105,18 +104,32 @@ export const AboutPage: React.FC = () => {
               </div>
               <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
                 <span className="text-emerald-700 block text-[11px] uppercase">Location</span>
-                <span className="text-sm">Mazeras, Kenya</span>
+                <span className="text-sm">Mazeras, Kilifi County, Kenya</span>
               </div>
             </div>
           </div>
 
           <div className="lg:col-span-6">
-            <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-500/20">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-500/20 relative group">
               <img
                 src="/amani_hero.jpg"
-                alt="Amani Campus Learning Environment"
+                alt="Amani Junior Academy and JSS Main Campus Entrance"
                 className="w-full h-80 sm:h-96 object-cover"
+                referrerPolicy="no-referrer"
               />
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#0F1E36] via-[#0F1E36]/80 to-transparent p-5 text-white">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-black text-[10px] uppercase tracking-wider">
+                    Official Campus
+                  </span>
+                  <span className="text-xs font-extrabold text-amber-300 font-['Cinzel',serif]">
+                    Amani Junior Academy and JSS
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-300 mt-1 font-medium">
+                  Mazeras, Kilifi County &bull; Motto: "Strive to Achieve"
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -240,15 +253,11 @@ export const AboutPage: React.FC = () => {
               key={idx}
               className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm hover:border-amber-500 transition group flex flex-col"
             >
-              <div className="h-52 bg-gradient-to-tr from-[#0F1E36] to-[#1E3A8A] flex flex-col items-center justify-center p-6 relative">
-                <div className="w-28 h-28 rounded-full border-4 border-amber-400 overflow-hidden shadow-xl bg-white">
-                  <img
-                    src={leader.photo}
-                    alt={leader.name}
-                    className="w-full h-full object-cover"
-                  />
+              <div className="h-48 bg-gradient-to-tr from-[#0F1E36] via-[#162A4A] to-[#1E3A8A] flex flex-col items-center justify-center p-6 relative">
+                <div className="w-24 h-24 rounded-2xl border-4 border-amber-400 overflow-hidden shadow-xl bg-slate-900 flex items-center justify-center text-amber-300 font-extrabold text-2xl font-['Cinzel',serif] tracking-wider">
+                  {leader.initials}
                 </div>
-                <span className="absolute top-3 right-3 px-2.5 py-0.5 bg-amber-500 text-slate-950 font-extrabold text-[10px] rounded uppercase">
+                <span className="absolute top-3 right-3 px-2.5 py-0.5 bg-amber-500 text-slate-950 font-extrabold text-[10px] rounded uppercase shadow-sm">
                   {leader.role}
                 </span>
               </div>
@@ -258,18 +267,35 @@ export const AboutPage: React.FC = () => {
                   <h3 className="text-base font-extrabold text-[#0F1E36] font-['Cinzel',serif]">
                     {leader.name}
                   </h3>
+                  <div className="text-[11px] text-amber-700 font-semibold mt-0.5">
+                    {leader.qualifications}
+                  </div>
                   <p className="text-xs text-slate-600 mt-3 leading-relaxed">{leader.biography}</p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 text-xs space-y-1">
+                <div className="pt-4 border-t border-slate-100 text-xs space-y-2">
                   <div className="flex items-center gap-2 text-slate-700">
-                    <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Direct Phone: <a href={`tel:${leader.phone}`} className="font-mono font-bold text-amber-700 hover:underline">{leader.phone}</a></span>
+                    <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>
+                      Direct Phone:{' '}
+                      <a href={`tel:${leader.phone}`} className="font-mono font-bold text-amber-700 hover:underline">
+                        {leader.phone}
+                      </a>
+                    </span>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-700">
-                    <Mail className="w-3.5 h-3.5 text-blue-600" />
-                    <span className="font-mono text-[11px] text-slate-600">{leader.email}</span>
-                  </div>
+                  {leader.isVitalice && (
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="https://wa.me/254746529712?text=Hello%20Teacher%20Vitalice,%20I%20am%20contacting%20you%20regarding%20Amani%20Junior%20Academy%20and%20JSS"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition shadow-xs"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                        <span>Chat on WhatsApp (+254746529712)</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -631,6 +631,25 @@ export const initialClasses: SchoolClass[] = [
 ];
 
 export const initialSubjects: Subject[] = [
+  // Pre-Primary (Early Years)
+  { id: 'sub-ey-math', name: 'Mathematical Activities', code: 'MTH-EY', level: 'Pre-Primary', department: 'Early Years' },
+  { id: 'sub-ey-lang', name: 'Language Activities', code: 'LANG-EY', level: 'Pre-Primary', department: 'Early Years' },
+  { id: 'sub-ey-env', name: 'Environmental Activities', code: 'ENV-EY', level: 'Pre-Primary', department: 'Early Years' },
+  { id: 'sub-ey-psy', name: 'Psychomotor & Creative Activities', code: 'PSY-EY', level: 'Pre-Primary', department: 'Early Years' },
+  { id: 'sub-ey-re', name: 'Religious Education Activities (CRE/IRE)', code: 'RE-EY', level: 'Pre-Primary', department: 'Early Years' },
+
+  // Primary (Grade 1 - Grade 6)
+  { id: 'sub-pri-math', name: 'Mathematics', code: 'MATH-PRI', level: 'Primary', department: 'Mathematics' },
+  { id: 'sub-pri-eng', name: 'English Language', code: 'ENG-PRI', level: 'Primary', department: 'Languages' },
+  { id: 'sub-pri-kisw', name: 'Kiswahili Language', code: 'KISW-PRI', level: 'Primary', department: 'Languages' },
+  { id: 'sub-pri-sci', name: 'Science & Technology', code: 'SCI-PRI', level: 'Primary', department: 'Pure Sciences' },
+  { id: 'sub-pri-agri', name: 'Agriculture & Nutrition', code: 'AGRI-PRI', level: 'Primary', department: 'Applied Sciences' },
+  { id: 'sub-pri-sst', name: 'Social Studies', code: 'SST-PRI', level: 'Primary', department: 'Humanities' },
+  { id: 'sub-pri-cre', name: 'Christian Religious Education (CRE)', code: 'CRE-PRI', level: 'Primary', department: 'Humanities' },
+  { id: 'sub-pri-arts', name: 'Creative Arts (Art, Craft & Music)', code: 'ARTS-PRI', level: 'Primary', department: 'Creative Arts' },
+  { id: 'sub-pri-phe', name: 'Physical & Health Education (PHE)', code: 'PHE-PRI', level: 'Primary', department: 'Creative Arts' },
+
+  // Junior Secondary (Grade 7 - Grade 9)
   { id: 'sub-math', name: 'Mathematics', code: 'MATH-JSS', level: 'Junior Secondary', department: 'Mathematics' },
   { id: 'sub-eng', name: 'English Language', code: 'ENG-JSS', level: 'Junior Secondary', department: 'Languages' },
   { id: 'sub-kisw', name: 'Kiswahili & Fasihi', code: 'KISW-JSS', level: 'Junior Secondary', department: 'Languages' },

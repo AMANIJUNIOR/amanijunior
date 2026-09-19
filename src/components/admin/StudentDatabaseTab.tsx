@@ -19,6 +19,7 @@ import {
   Shield,
   Filter,
   Trash2,
+  Edit2,
 } from 'lucide-react';
 
 interface Props {
@@ -31,8 +32,9 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedClassFilter, setSelectedClassFilter] = useState('');
 
-  // Modal State: Add Student
+  // Modal State: Add/Edit Student
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingStudentId, setEditingStudentId] = useState<string | null>(null);
   const [fullName, setFullName] = useState('');
   const [admissionNumber, setAdmissionNumber] = useState('');
   const [selectedClass, setSelectedClass] = useState('Grade 7A (JSS)');
@@ -77,11 +79,13 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
   };
 
   const handleOpenAddModal = () => {
+    setEditingStudentId(null);
     setFullName('');
     setAdmissionNumber('');
     setSelectedClass(classes[0]?.name || 'Grade 7A (JSS)');
     setGender('M');
     setDateOfBirth('2012-05-15');
+    setAcademicYear('2026');
     setGuardianName('');
     setGuardianPhone('');
     setGuardianEmail('');
@@ -90,8 +94,24 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
     setIsAddModalOpen(true);
   };
 
-  const handleCreateStudent = async (confirmDuplicate = false) => {
-    if (!fullName || !admissionNumber || !selectedClass) {
+  const handleOpenEditModal = (student: Student) => {
+    setEditingStudentId(student.id || student.studentId || student.admissionNumber);
+    setFullName(student.fullName);
+    setAdmissionNumber(student.admissionNumber);
+    setSelectedClass(student.class);
+    setGender(student.gender || 'M');
+    setDateOfBirth(student.dateOfBirth || '2012-05-15');
+    setAcademicYear(student.academicYear || '2026');
+    setGuardianName(student.guardianName || '');
+    setGuardianPhone(student.guardianPhone || '');
+    setGuardianEmail(student.guardianEmail || '');
+    setFormError(null);
+    setDuplicateWarning(null);
+    setIsAddModalOpen(true);
+  };
+
+  const handleSaveStudent = async (confirmDuplicate = false) => {
+    if (!fullName.trim() || !admissionNumber.trim() || !selectedClass) {
       setFormError('Please fill in Student Full Name, Admission Number, and Class.');
       return;
     }
@@ -101,20 +121,34 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
 
     try {
       const payload = {
-        fullName,
-        admissionNumber,
+        fullName: fullName.trim(),
+        admissionNumber: admissionNumber.trim(),
         class: selectedClass,
-        grade: selectedClass.split(' ')[0] || 'Grade 7',
+        grade: selectedClass.includes('Grade 7')
+          ? 'Grade 7'
+          : selectedClass.includes('Grade 8')
+          ? 'Grade 8'
+          : selectedClass.includes('Grade 9')
+          ? 'Grade 9'
+          : selectedClass.split(' ')[0] || 'Grade 7',
         gender,
         dateOfBirth,
-        guardianName,
-        guardianPhone,
-        guardianEmail,
+        guardianName: guardianName.trim(),
+        guardianPhone: guardianPhone.trim(),
+        guardianEmail: guardianEmail.trim(),
         academicYear,
         confirmDuplicate,
       };
 
-      const res = await api.createStudent(payload);
+      if (editingStudentId) {
+        await api.updateStudent(editingStudentId, payload);
+        if (selectedStudent && (selectedStudent.student.id === editingStudentId || selectedStudent.student.studentId === editingStudentId)) {
+          handleViewStudentProfile(editingStudentId);
+        }
+      } else {
+        await api.createStudent(payload);
+      }
+
       setIsAddModalOpen(false);
       setDuplicateWarning(null);
       await fetchStudents();
@@ -122,7 +156,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
       if (err.data && err.data.possibleDuplicate) {
         setDuplicateWarning(err.data);
       } else {
-        setFormError(err.message || 'Failed to register student.');
+        setFormError(err.message || 'Failed to save student record.');
       }
     } finally {
       setIsSubmitting(false);
@@ -142,11 +176,28 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
   };
 
   const handleDeleteStudent = async (student: Student) => {
+    if (!window.confirm(`Are you sure you want to permanently delete learner "${student.fullName}" (${student.studentId || student.admissionNumber}) from school records?`)) {
+      return;
+    }
+    const idToDelete = student.id || student.studentId || student.admissionNumber;
     try {
-      await api.deleteStudent(student.id);
-      fetchStudents();
+      setStudents((prev) =>
+        prev.filter(
+          (s) =>
+            s.id !== student.id &&
+            s.studentId !== student.studentId &&
+            s.admissionNumber !== student.admissionNumber
+        )
+      );
+      if (selectedStudent && (selectedStudent.student.id === student.id || selectedStudent.student.studentId === student.studentId)) {
+        setSelectedStudent(null);
+      }
+      await api.deleteStudent(idToDelete);
+      await fetchStudents();
     } catch (err: any) {
       console.error(err);
+      alert(err.message || 'Failed to delete student.');
+      fetchStudents();
     }
   };
 
@@ -273,6 +324,13 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
+                          onClick={() => handleOpenEditModal(student)}
+                          className="p-1.5 text-slate-600 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition"
+                          title="Edit Learner Profile"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
                           onClick={() => handleDeleteStudent(student)}
                           className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
                           title="Delete Student Record"
@@ -295,9 +353,13 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <UserPlus className="w-5 h-5 text-amber-600" />
+                {editingStudentId ? (
+                  <Edit2 className="w-5 h-5 text-amber-600" />
+                ) : (
+                  <UserPlus className="w-5 h-5 text-amber-600" />
+                )}
                 <h3 className="text-base font-bold text-[#0F1E36] font-['Cinzel',serif]">
-                  Register Student in Central Database
+                  {editingStudentId ? 'Edit Student Profile' : 'Register Student in Central Database'}
                 </h3>
               </div>
               <button
@@ -327,7 +389,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
                 <div className="pt-2 flex gap-2">
                   <button
                     type="button"
-                    onClick={() => handleCreateStudent(true)}
+                    onClick={() => handleSaveStudent(true)}
                     className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-xs"
                   >
                     Confirm & Register Anyway
@@ -346,7 +408,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                handleCreateStudent(false);
+                handleSaveStudent(false);
               }}
               className="space-y-3 text-xs"
             >
@@ -488,7 +550,7 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
                   className="px-4 py-2 bg-[#0F1E36] hover:bg-amber-600 disabled:opacity-50 text-white font-bold rounded-xl transition flex items-center gap-2"
                 >
                   <CheckCircle2 className="w-4 h-4 text-amber-400" />
-                  <span>{isSubmitting ? 'Registering...' : 'Register Student'}</span>
+                  <span>{isSubmitting ? 'Saving...' : editingStudentId ? 'Update Student Record' : 'Register Student'}</span>
                 </button>
               </div>
             </form>
@@ -623,8 +685,21 @@ export const StudentDatabaseTab: React.FC<Props> = ({ classes }) => {
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end">
+            <div className="pt-2 flex justify-between items-center border-t border-slate-100">
               <button
+                type="button"
+                onClick={() => {
+                  const stu = selectedStudent.student;
+                  setSelectedStudent(null);
+                  handleOpenEditModal(stu);
+                }}
+                className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs flex items-center gap-1.5 transition shadow"
+              >
+                <Edit2 className="w-3.5 h-3.5" />
+                <span>Edit Learner Details</span>
+              </button>
+              <button
+                type="button"
                 onClick={() => setSelectedStudent(null)}
                 className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl font-bold text-xs"
               >

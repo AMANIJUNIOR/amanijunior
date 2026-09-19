@@ -22,7 +22,10 @@ export const AcademicsPage: React.FC = () => {
   const filteredSubjects =
     selectedLevel === 'All'
       ? subjects
-      : subjects.filter((s) => s.curriculumLevel === selectedLevel);
+      : subjects.filter((s) => {
+          if (selectedLevel === 'Early Years') return s.level === 'Pre-Primary';
+          return s.level === selectedLevel;
+        });
 
   return (
     <div className="space-y-16 pb-16">
@@ -125,7 +128,100 @@ export const AcademicsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. Key Learning Areas & Subjects Filter */}
+      {/* 2. Class Streams & Educator Structure */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div>
+              <span className="text-xs font-extrabold text-amber-600 uppercase tracking-widest">
+                Academic Streams & Faculty
+              </span>
+              <h2 className="text-2xl font-extrabold text-[#0F1E36] font-['Cinzel',serif]">
+                Class Streams & Dedicated Class Teachers
+              </h2>
+              <p className="text-xs text-slate-500 mt-1">
+                Personalized instructional attention with small stream cohorts across Kilifi County.
+              </p>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs font-bold">
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span>Expanding to Grade 8 & 9 JSS</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Grade 1A */}
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-amber-400 transition space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-xs bg-blue-100 text-blue-900 px-2.5 py-0.5 rounded-full">
+                  Lower Primary
+                </span>
+                <span className="text-[10px] font-mono font-bold text-slate-500">Stream A</span>
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Grade 1A</h3>
+              <div className="text-xs text-slate-600">
+                Class Teacher: <strong className="text-[#0F1E36]">Madam Florence</strong>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Foundational literacy, early numeracy, and social-emotional development in small groups.
+              </p>
+            </div>
+
+            {/* Grade 1B */}
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-amber-400 transition space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-xs bg-blue-100 text-blue-900 px-2.5 py-0.5 rounded-full">
+                  Lower Primary
+                </span>
+                <span className="text-[10px] font-mono font-bold text-slate-500">Stream B</span>
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Grade 1B</h3>
+              <div className="text-xs text-slate-600">
+                Class Teacher: <strong className="text-[#0F1E36]">Madam Halima</strong>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Interactive phonics, creative arts, and environmental activities fostering joyful learning.
+              </p>
+            </div>
+
+            {/* Grade 7 JSS */}
+            <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-300 hover:border-amber-500 transition space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-xs bg-amber-200 text-amber-900 px-2.5 py-0.5 rounded-full">
+                  Junior Secondary
+                </span>
+                <span className="text-[10px] font-mono font-bold text-amber-800">Single Stream</span>
+              </div>
+              <h3 className="text-base font-bold text-[#0F1E36]">Grade 7 JSS</h3>
+              <div className="text-xs text-slate-700">
+                Class Teacher: <strong className="text-[#0F1E36]">Madam Rhoda</strong>
+              </div>
+              <p className="text-[11px] text-slate-600">
+                Integrated science laboratory sessions, pre-technical studies, computer science & sports.
+              </p>
+            </div>
+
+            {/* Grade 8 & Grade 9 Provision */}
+            <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-200 hover:border-indigo-400 transition space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-xs bg-indigo-200 text-indigo-900 px-2.5 py-0.5 rounded-full">
+                  JSS Expansion
+                </span>
+                <span className="text-[10px] font-mono font-bold text-indigo-700">Next Intake</span>
+              </div>
+              <h3 className="text-base font-bold text-[#0F1E36]">Grade 8 & Grade 9</h3>
+              <div className="text-xs text-indigo-900 font-semibold">
+                Provisioning active for next academic year
+              </div>
+              <p className="text-[11px] text-slate-600">
+                Full senior Junior Secondary curriculum continuity leading seamlessly towards Senior School pathways.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Key Learning Areas & Subjects Filter */}
       <section className="bg-slate-50 py-14 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -158,32 +254,40 @@ export const AcademicsPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredSubjects.map((sub) => (
-              <div
-                key={sub.id}
-                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-amber-400 transition space-y-2.5 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-[11px] mb-1">
-                    <span className="font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded">
-                      {sub.code}
+            {filteredSubjects.map((sub) => {
+              const anySub = sub as any;
+              return (
+                <div
+                  key={sub.id}
+                  className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-amber-400 transition space-y-2.5 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-[11px] mb-1">
+                      <span className="font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded">
+                        {sub.code}
+                      </span>
+                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 font-semibold rounded text-[10px]">
+                        {sub.level}
+                      </span>
+                    </div>
+                    <h4 className="text-base font-bold text-slate-900">{sub.name}</h4>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      {anySub.description ||
+                        `Official Kenyan Competency-Based Curriculum ${sub.name} learning area under the ${sub.department} department.`}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <span className="font-medium text-amber-800">
+                      Dept: {sub.department}
                     </span>
-                    <span className="px-2 py-0.5 bg-slate-100 text-slate-600 font-semibold rounded text-[10px]">
-                      {sub.curriculumLevel}
+                    <span className="font-semibold text-emerald-700">
+                      {anySub.weeklyPeriods ? `${anySub.weeklyPeriods} periods/wk` : 'CBC Core'}
                     </span>
                   </div>
-                  <h4 className="text-base font-bold text-slate-900">{sub.name}</h4>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">{sub.description}</p>
                 </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                  <span className="font-medium text-amber-800">
-                    Lead: {sub.leadTeacher.split(' ')[0]} {sub.leadTeacher.split(' ').pop()}
-                  </span>
-                  <span className="font-semibold text-emerald-700">{sub.weeklyPeriods} periods/wk</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

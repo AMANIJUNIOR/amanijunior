@@ -22,6 +22,7 @@ import {
   Lock,
   LogOut,
   Calendar,
+  Trash2,
 } from 'lucide-react';
 import { InfiniteCalendarModal } from '../components/common/InfiniteCalendarModal';
 
@@ -102,6 +103,39 @@ export const AdminPortalPage: React.FC = () => {
       setResponseText('');
     } catch (err) {
       alert('Failed to update enquiry status.');
+    }
+  };
+
+  const handleDeleteEnquiry = async (id: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to permanently delete the inquiry from ${name}?`)) {
+      return;
+    }
+    try {
+      setEnquiries((prev) => prev.filter((e) => e.id !== id));
+      await api.deleteEnquiry(id);
+    } catch (err) {
+      console.error('Failed to delete enquiry:', err);
+      alert('Failed to delete enquiry. Please try again.');
+      fetchEnquiries();
+    }
+  };
+
+  const handleClearExhausted = async () => {
+    const resolvedCount = enquiries.filter((e) => e.status === 'Resolved').length;
+    if (resolvedCount === 0) {
+      alert('There are no resolved or exhausted inquiries to clear.');
+      return;
+    }
+    if (!window.confirm(`Are you sure you want to clear ${resolvedCount} exhausted/resolved inquiries?`)) {
+      return;
+    }
+    try {
+      setEnquiries((prev) => prev.filter((e) => e.status !== 'Resolved'));
+      await api.clearExhaustedEnquiries();
+      await fetchEnquiries();
+    } catch (err) {
+      console.error('Failed to clear exhausted enquiries:', err);
+      alert('Failed to clear enquiries. Please try again.');
     }
   };
 
@@ -271,16 +305,28 @@ export const AdminPortalPage: React.FC = () => {
                   <span>Incoming Admissions & Public Inquiries</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Submissions captured through the website and AI Assistant ("Talk to Amani").
+                  Real parent enquiries and admission applications submitted via the school website contact forms.
                 </p>
               </div>
 
-              <button
-                onClick={fetchEnquiries}
-                className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition"
-              >
-                Refresh List
-              </button>
+              <div className="flex items-center gap-2">
+                {enquiries.some((e) => e.status === 'Resolved') && (
+                  <button
+                    onClick={handleClearExhausted}
+                    className="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5 border border-rose-200"
+                    title="Delete all inquiries marked as Resolved"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Clear Resolved ({enquiries.filter((e) => e.status === 'Resolved').length})</span>
+                  </button>
+                )}
+                <button
+                  onClick={fetchEnquiries}
+                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition"
+                >
+                  Refresh List
+                </button>
+              </div>
             </div>
 
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -334,7 +380,7 @@ export const AdminPortalPage: React.FC = () => {
                             <span
                               className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                                 enq.status === 'Resolved'
-                                  ? 'bg-emerald-100 text-emerald-800'
+                                   ? 'bg-emerald-100 text-emerald-800'
                                   : enq.status === 'In Progress'
                                   ? 'bg-blue-100 text-blue-800'
                                   : 'bg-amber-100 text-amber-800'
@@ -344,7 +390,7 @@ export const AdminPortalPage: React.FC = () => {
                             </span>
                           </td>
                           <td className="py-3 px-4 text-center">
-                            <div className="flex items-center justify-center gap-1">
+                            <div className="flex items-center justify-center gap-1.5">
                               {enq.status !== 'Resolved' && (
                                 <button
                                   onClick={() => handleUpdateEnquiryStatus(enq.id, 'Resolved')}
@@ -354,6 +400,13 @@ export const AdminPortalPage: React.FC = () => {
                                   Resolve
                                 </button>
                               )}
+                              <button
+                                onClick={() => handleDeleteEnquiry(enq.id, enq.fullName)}
+                                title="Delete Inquiry"
+                                className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
                             </div>
                           </td>
                         </tr>

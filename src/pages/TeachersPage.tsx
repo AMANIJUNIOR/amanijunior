@@ -18,6 +18,7 @@ import {
   X,
   School,
   BadgeCheck,
+  MessageCircle,
 } from 'lucide-react';
 
 export const TeachersPage: React.FC = () => {
@@ -558,13 +559,26 @@ export const TeachersPage: React.FC = () => {
                       Available for parental consultation, academic inquiries, and admissions.
                     </div>
                   </div>
-                  <a
-                    href={`tel:${activeModalTeacher.phone || (activeModalTeacher.id === 'tch-ict' ? '0746529712' : activeModalTeacher.id === 'tch-dir' ? '0718540922' : '0114623408')}`}
-                    className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-mono font-bold flex items-center gap-2 shadow-sm transition"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Call {activeModalTeacher.phone || (activeModalTeacher.id === 'tch-ict' ? '0746529712' : activeModalTeacher.id === 'tch-dir' ? '0718540922' : '0114623408')}</span>
-                  </a>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <a
+                      href={`tel:${activeModalTeacher.phone || (activeModalTeacher.id === 'tch-ict' ? '0746529712' : activeModalTeacher.id === 'tch-dir' ? '0718540922' : '0114623408')}`}
+                      className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-mono font-bold flex items-center gap-2 shadow-sm transition"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                      <span>Call {activeModalTeacher.phone || (activeModalTeacher.id === 'tch-ict' ? '0746529712' : activeModalTeacher.id === 'tch-dir' ? '0718540922' : '0114623408')}</span>
+                    </a>
+                    {(activeModalTeacher.id === 'tch-ict' || activeModalTeacher.fullName.toLowerCase().includes('vitalice')) && (
+                      <a
+                        href="https://wa.me/254746529712?text=Hello%20Teacher%20Vitalice,%20I%20am%20contacting%20you%20regarding%20Amani%20Junior%20Academy%20and%20JSS"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm transition"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                        <span>WhatsApp Vitalice (+254746529712)</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               )}
 

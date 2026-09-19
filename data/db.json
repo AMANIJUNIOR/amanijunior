@@ -3,7 +3,7 @@
     "schoolName": "AMANI JUNIOR ACADEMY AND JSS",
     "motto": "STRIVE TO ACHIEVE",
     "postalAddress": "P.O. BOX 93-80114, MAZERAS, KENYA",
-    "location": "Mazeras Commercial Town, Off Mombasa-Nairobi Highway, Kwale County, Kenya",
+    "location": "Mazeras Commercial Town, Off Mombasa-Nairobi Highway, Kilifi County, Kenya",
     "directorName": "CONSTANCE MWAKA POLE",
     "directorPhone": "0718540922",
     "headteacherName": "NADHIRI CHACHA SALIM",
@@ -875,102 +875,6 @@
   ],
   "classes": [
     {
-      "id": "cls-pp-1",
-      "name": "Pre-Primary 1 (PP1 - Little Angels)",
-      "level": "Pre-Primary",
-      "capacity": 30,
-      "enrolledCount": 26,
-      "classTeacherName": "Madam Sarah Bakari"
-    },
-    {
-      "id": "cls-pp-2",
-      "name": "Pre-Primary 2 (PP2 - Shining Stars)",
-      "level": "Pre-Primary",
-      "capacity": 30,
-      "enrolledCount": 28,
-      "classTeacherName": "Madam Janet Charo"
-    },
-    {
-      "id": "cls-pri-1",
-      "name": "Grade 1 Explorers",
-      "level": "Primary",
-      "capacity": 35,
-      "enrolledCount": 32,
-      "classTeacherName": "Madam Grace Kalume"
-    },
-    {
-      "id": "cls-pri-2",
-      "name": "Grade 2 Achievers",
-      "level": "Primary",
-      "capacity": 35,
-      "enrolledCount": 33,
-      "classTeacherName": "Mr. Samuel Kahindi"
-    },
-    {
-      "id": "cls-pri-3",
-      "name": "Grade 3 Pioneers",
-      "level": "Primary",
-      "capacity": 35,
-      "enrolledCount": 34,
-      "classTeacherName": "Madam Lucy Mbaji"
-    },
-    {
-      "id": "cls-pri-4",
-      "name": "Grade 4 Champions",
-      "level": "Primary",
-      "capacity": 35,
-      "enrolledCount": 31,
-      "classTeacherName": "Madam Mary Mkutano"
-    },
-    {
-      "id": "cls-pri-5",
-      "name": "Grade 5 Victors",
-      "level": "Primary",
-      "capacity": 35,
-      "enrolledCount": 33,
-      "classTeacherName": "Mr. Emmanuel Mwachiro"
-    },
-    {
-      "id": "cls-pri-6",
-      "name": "Grade 6 Leaders",
-      "level": "Primary",
-      "capacity": 35,
-      "enrolledCount": 35,
-      "classTeacherName": "Madam Faith Mwende"
-    },
-    {
-      "id": "cls-jss-7a",
-      "name": "Grade 7A (JSS)",
-      "level": "Junior Secondary",
-      "capacity": 40,
-      "enrolledCount": 38,
-      "classTeacherName": "Mr. Vitalice Odhiambo"
-    },
-    {
-      "id": "cls-jss-7b",
-      "name": "Grade 7B (JSS)",
-      "level": "Junior Secondary",
-      "capacity": 40,
-      "enrolledCount": 36,
-      "classTeacherName": "Madam Faith Mwende"
-    },
-    {
-      "id": "cls-jss-8",
-      "name": "Grade 8 Alpha (JSS)",
-      "level": "Junior Secondary",
-      "capacity": 40,
-      "enrolledCount": 37,
-      "classTeacherName": "Mr. Nadhiri Chacha Salim"
-    },
-    {
-      "id": "cls-jss-9",
-      "name": "Grade 9 Alpha (JSS)",
-      "level": "Junior Secondary",
-      "capacity": 40,
-      "enrolledCount": 34,
-      "classTeacherName": "Mr. Peter Juma Mwangi"
-    },
-    {
       "id": "cls-daycare",
       "name": "Daycare (Tender Hearts - Below 3 Years)",
       "level": "Pre-Primary",
@@ -985,9 +889,203 @@
       "capacity": 30,
       "enrolledCount": 24,
       "classTeacherName": "Madam Tatu & Madam Raheli Wali"
+    },
+    {
+      "id": "cls-pp-1",
+      "name": "Pre-Primary 1 (PP1 - Little Angels)",
+      "level": "Pre-Primary",
+      "capacity": 30,
+      "enrolledCount": 26,
+      "classTeacherName": "Madam Periz Inyangala & Madam Gladys"
+    },
+    {
+      "id": "cls-pp-2",
+      "name": "Pre-Primary 2 (PP2 - Shining Stars)",
+      "level": "Pre-Primary",
+      "capacity": 30,
+      "enrolledCount": 28,
+      "classTeacherName": "Emily Mwaka"
+    },
+    {
+      "id": "cls-pri-1a",
+      "name": "Grade 1A",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 28,
+      "classTeacherName": "Madam Florence"
+    },
+    {
+      "id": "cls-pri-1b",
+      "name": "Grade 1B",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 26,
+      "classTeacherName": "Madam Halima"
+    },
+    {
+      "id": "cls-pri-2",
+      "name": "Grade 2 Achievers",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 33,
+      "classTeacherName": "Mr. Elias"
+    },
+    {
+      "id": "cls-pri-3",
+      "name": "Grade 3 Pioneers",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 34,
+      "classTeacherName": "Madam Jessicah Chizi"
+    },
+    {
+      "id": "cls-pri-4",
+      "name": "Grade 4 Champions",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 31,
+      "classTeacherName": "Madam Nancy"
+    },
+    {
+      "id": "cls-pri-5",
+      "name": "Grade 5 Victors",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 33,
+      "classTeacherName": "Mr. Josephat Kobe"
+    },
+    {
+      "id": "cls-pri-6",
+      "name": "Grade 6 Leaders",
+      "level": "Primary",
+      "capacity": 35,
+      "enrolledCount": 35,
+      "classTeacherName": "Mr. Vitalice Odhiambo"
+    },
+    {
+      "id": "cls-jss-7",
+      "name": "Grade 7 (JSS)",
+      "level": "Junior Secondary",
+      "capacity": 45,
+      "enrolledCount": 38,
+      "classTeacherName": "Madam Rhoda Sikuku"
+    },
+    {
+      "id": "cls-jss-8",
+      "name": "Grade 8 (JSS) [Upcoming 2027 Provision]",
+      "level": "Junior Secondary",
+      "capacity": 45,
+      "enrolledCount": 0,
+      "classTeacherName": "Academic Provision (Upcoming Grade 8)"
+    },
+    {
+      "id": "cls-jss-9",
+      "name": "Grade 9 (JSS) [Upcoming Provision]",
+      "level": "Junior Secondary",
+      "capacity": 45,
+      "enrolledCount": 0,
+      "classTeacherName": "Academic Provision (Upcoming Grade 9)"
     }
   ],
   "subjects": [
+    {
+      "id": "sub-ey-math",
+      "name": "Mathematical Activities",
+      "code": "MTH-EY",
+      "level": "Pre-Primary",
+      "department": "Early Years"
+    },
+    {
+      "id": "sub-ey-lang",
+      "name": "Language Activities",
+      "code": "LANG-EY",
+      "level": "Pre-Primary",
+      "department": "Early Years"
+    },
+    {
+      "id": "sub-ey-env",
+      "name": "Environmental Activities",
+      "code": "ENV-EY",
+      "level": "Pre-Primary",
+      "department": "Early Years"
+    },
+    {
+      "id": "sub-ey-psy",
+      "name": "Psychomotor & Creative Activities",
+      "code": "PSY-EY",
+      "level": "Pre-Primary",
+      "department": "Early Years"
+    },
+    {
+      "id": "sub-ey-re",
+      "name": "Religious Education Activities (CRE/IRE)",
+      "code": "RE-EY",
+      "level": "Pre-Primary",
+      "department": "Early Years"
+    },
+    {
+      "id": "sub-pri-math",
+      "name": "Mathematics",
+      "code": "MATH-PRI",
+      "level": "Primary",
+      "department": "Mathematics"
+    },
+    {
+      "id": "sub-pri-eng",
+      "name": "English Language",
+      "code": "ENG-PRI",
+      "level": "Primary",
+      "department": "Languages"
+    },
+    {
+      "id": "sub-pri-kisw",
+      "name": "Kiswahili Language",
+      "code": "KISW-PRI",
+      "level": "Primary",
+      "department": "Languages"
+    },
+    {
+      "id": "sub-pri-sci",
+      "name": "Science & Technology",
+      "code": "SCI-PRI",
+      "level": "Primary",
+      "department": "Pure Sciences"
+    },
+    {
+      "id": "sub-pri-agri",
+      "name": "Agriculture & Nutrition",
+      "code": "AGRI-PRI",
+      "level": "Primary",
+      "department": "Applied Sciences"
+    },
+    {
+      "id": "sub-pri-sst",
+      "name": "Social Studies",
+      "code": "SST-PRI",
+      "level": "Primary",
+      "department": "Humanities"
+    },
+    {
+      "id": "sub-pri-cre",
+      "name": "Christian Religious Education (CRE)",
+      "code": "CRE-PRI",
+      "level": "Primary",
+      "department": "Humanities"
+    },
+    {
+      "id": "sub-pri-arts",
+      "name": "Creative Arts (Art, Craft & Music)",
+      "code": "ARTS-PRI",
+      "level": "Primary",
+      "department": "Creative Arts"
+    },
+    {
+      "id": "sub-pri-phe",
+      "name": "Physical & Health Education (PHE)",
+      "code": "PHE-PRI",
+      "level": "Primary",
+      "department": "Creative Arts"
+    },
     {
       "id": "sub-math",
       "name": "Mathematics",
@@ -1118,46 +1216,7 @@
     }
   ],
   "submissions": [],
-  "enquiries": [
-    {
-      "id": "enq-001",
-      "referenceNumber": "AMANI-ENQ-2026-0089",
-      "fullName": "Dr. Harrison Mwamburi",
-      "phone": "0722334455",
-      "email": "hmwamburi@health.go.ke",
-      "category": "Junior Secondary (JSS)",
-      "message": "I would like to enquire about vacancy in Grade 7 and Grade 8 JSS for my two children transferring from Mombasa. What are the admission requirements and fee guidelines?",
-      "status": "NEW",
-      "source": "Website Form",
-      "assignedStaff": "Constance Mwaka Pole (Director)",
-      "studentGradeInterest": "Grade 7 & 8 JSS",
-      "createdAt": "2026-09-10T05:20:00Z",
-      "replies": []
-    },
-    {
-      "id": "enq-002",
-      "referenceNumber": "AMANI-ENQ-2026-0088",
-      "fullName": "Fatuma Mbeyu Juma",
-      "phone": "0711998877",
-      "email": "fatuma.juma@gmail.com",
-      "category": "Admission",
-      "message": "Seeking admission for PP2 child. Can we arrange a campus tour this Friday morning around 10 AM?",
-      "status": "IN PROGRESS",
-      "source": "AI Chatbot Handoff",
-      "assignedStaff": "Nadhiri Chacha Salim (Headteacher)",
-      "studentGradeInterest": "Pre-Primary 2 (PP2)",
-      "createdAt": "2026-09-09T15:40:00Z",
-      "replies": [
-        {
-          "id": "rep-1",
-          "senderName": "Nadhiri Chacha Salim",
-          "senderRole": "HEADTEACHER",
-          "message": "Hello Madam Fatuma, our admissions office has reserved Friday 10:00 AM for your campus walkthrough. You are warmly welcome.",
-          "createdAt": "2026-09-09T16:15:00Z"
-        }
-      ]
-    }
-  ],
+  "enquiries": [],
   "chatbotKnowledge": [
     {
       "id": "kb-1",
@@ -1172,7 +1231,7 @@
         "direction",
         "place"
       ],
-      "answer": "Amani Junior Academy and JSS is located in Mazeras, Kwale County, Kenya (along the Mombasa-Nairobi corridor). Our official postal address is P.O. BOX 93-80114, MAZERAS, KENYA.",
+      "answer": "Amani Junior Academy and JSS is located in Mazeras, Kilifi County, Kenya (along the Mombasa-Nairobi corridor). Our official postal address is P.O. BOX 93-80114, MAZERAS, KENYA.",
       "lastUpdated": "2026-01-10",
       "helpfulCount": 42
     },

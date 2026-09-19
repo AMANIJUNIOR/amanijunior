@@ -87,7 +87,7 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
 
   const handleOpenAddModal = (student?: Student) => {
     if (student) {
-      setEditingStudentId(student.id);
+      setEditingStudentId(student.id || student.studentId || student.admissionNumber);
       setFullName(student.fullName);
       setAdmissionNumber(student.admissionNumber);
       setStudentClass(student.class);
@@ -184,15 +184,26 @@ export const TeacherStudentRegistrationTab: React.FC<Props> = ({
 
   const handleDeleteStudent = async () => {
     if (!studentToDelete) return;
+    const deleteId = studentToDelete.id || studentToDelete.studentId || studentToDelete.admissionNumber;
     setIsDeleting(true);
     try {
-      await api.deleteStudent(studentToDelete.id);
-      setSuccessBanner(`Student "${studentToDelete.fullName}" was removed from the database.`);
+      // Optimistically update list so the learner disappears immediately
+      setStudents((prev) =>
+        prev.filter(
+          (s) =>
+            s.id !== studentToDelete.id &&
+            s.studentId !== studentToDelete.studentId &&
+            s.admissionNumber !== studentToDelete.admissionNumber
+        )
+      );
+      await api.deleteStudent(deleteId);
+      setSuccessBanner(`Student "${studentToDelete.fullName}" was successfully removed from the database.`);
       setStudentToDelete(null);
-      fetchStudents();
+      await fetchStudents();
       setTimeout(() => setSuccessBanner(null), 5000);
     } catch (err: any) {
       alert(err.message || 'Failed to delete student.');
+      fetchStudents();
     } finally {
       setIsDeleting(false);
     }
